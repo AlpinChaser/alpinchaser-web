@@ -1,10 +1,14 @@
 "use client";
 
+import { useState } from "react";
+import Link from "next/link";
 import { Pass } from "@/types/pass";
 
 interface Props {
   pass: Pass;
   onClose: () => void;
+  isLocallyRidden: boolean;
+  onMarkRidden: (id: string) => void;
 }
 
 const FLAG: Record<string, string> = {
@@ -51,7 +55,15 @@ function AppCTAButton({ label, icon }: { label: string; icon: string }) {
   );
 }
 
-export default function PassInfoCard({ pass, onClose }: Props) {
+export default function PassInfoCard({ pass, onClose, isLocallyRidden, onMarkRidden }: Props) {
+  const [bursting, setBursting] = useState(false);
+
+  const handleMarkRidden = () => {
+    if (isLocallyRidden) return;
+    setBursting(true);
+    onMarkRidden(pass.id);
+    setTimeout(() => setBursting(false), 700);
+  };
   const passFlag = FLAG[pass.country] ?? "🏔️";
   const isRidden = pass.status === "gefahren";
   const score = parseFloat(pass.ride_score);
@@ -181,7 +193,63 @@ export default function PassInfoCard({ pass, onClose }: Props) {
 
         {/* Action buttons */}
         <div className="flex flex-wrap gap-2">
-          <AppCTAButton label="Als gefahren markieren" icon="✓" />
+          {/* Detail page link */}
+          <Link
+            href={`/pass/${pass.id}`}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-150"
+            style={{
+              background: "rgba(57,255,20,0.06)",
+              border: "1px solid rgba(57,255,20,0.2)",
+              color: "rgba(57,255,20,0.75)",
+            }}
+            onMouseOver={e => {
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(57,255,20,0.45)";
+              (e.currentTarget as HTMLElement).style.color = "#39FF14";
+            }}
+            onMouseOut={e => {
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(57,255,20,0.2)";
+              (e.currentTarget as HTMLElement).style.color = "rgba(57,255,20,0.75)";
+            }}
+          >
+            <span>Alle Details</span>
+            <span style={{ fontSize: 10 }}>→</span>
+          </Link>
+
+          {/* Functional "ridden" button */}
+          <button
+            onClick={handleMarkRidden}
+            disabled={isLocallyRidden}
+            className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${bursting ? "ac-gold-burst" : ""}`}
+            style={
+              isLocallyRidden
+                ? {
+                    background: "rgba(212,175,55,0.12)",
+                    border: "1px solid rgba(212,175,55,0.4)",
+                    color: "#D4AF37",
+                    cursor: "default",
+                  }
+                : {
+                    background: "rgba(212,175,55,0.07)",
+                    border: "1px solid rgba(212,175,55,0.25)",
+                    color: "rgba(212,175,55,0.7)",
+                  }
+            }
+            onMouseOver={e => {
+              if (!isLocallyRidden) {
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(212,175,55,0.55)";
+                (e.currentTarget as HTMLElement).style.color = "#D4AF37";
+              }
+            }}
+            onMouseOut={e => {
+              if (!isLocallyRidden) {
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(212,175,55,0.25)";
+                (e.currentTarget as HTMLElement).style.color = "rgba(212,175,55,0.7)";
+              }
+            }}
+          >
+            <span>{isLocallyRidden ? "✓" : "○"}</span>
+            <span>{isLocallyRidden ? "Gefahren!" : "Als gefahren markieren"}</span>
+          </button>
           <AppCTAButton label="Merken" icon="♥" />
           <AppCTAButton label="Route planen" icon="🗺️" />
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface Props {
   passCount: number;
@@ -20,14 +21,34 @@ export default function HeroSection({ passCount }: Props) {
       className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden"
       style={{ background: "#0A0A0B" }}
     >
-      {/* Ambient gradient background */}
+      {/* Hero background image */}
+      <Image
+        src="/images/hero_main.png"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        style={{ objectFit: "cover", objectPosition: "center 30%" }}
+      />
+
+      {/* Cinematic overlay — darker at edges, lighter in center */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background: [
-            "radial-gradient(ellipse 70% 50% at 50% 110%, rgba(57,255,20,0.05) 0%, transparent 70%)",
-            "radial-gradient(ellipse 50% 40% at 15% 60%, rgba(212,175,55,0.06) 0%, transparent 55%)",
-            "radial-gradient(ellipse 40% 30% at 85% 40%, rgba(57,255,20,0.03) 0%, transparent 50%)",
+            "linear-gradient(to bottom, rgba(10,10,11,0.55) 0%, rgba(10,10,11,0.2) 25%, rgba(10,10,11,0.4) 60%, rgba(10,10,11,0.95) 100%)",
+            "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(10,10,11,0.1) 0%, rgba(10,10,11,0.45) 100%)",
+          ].join(", "),
+        }}
+      />
+
+      {/* Subtle neon-gold color grade overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: [
+            "radial-gradient(ellipse 60% 40% at 50% 75%, rgba(212,175,55,0.08) 0%, transparent 70%)",
+            "radial-gradient(ellipse 40% 30% at 50% 50%, rgba(57,255,20,0.04) 0%, transparent 60%)",
           ].join(", "),
         }}
       />
@@ -88,7 +109,7 @@ export default function HeroSection({ passCount }: Props) {
               fontWeight: 900,
               letterSpacing: "-0.025em",
               color: "#D4AF37",
-              textShadow: "0 0 80px rgba(212,175,55,0.35)",
+              textShadow: "0 0 60px rgba(212,175,55,0.6), 0 2px 40px rgba(0,0,0,0.8)",
             }}
           >
             ALPIN
@@ -99,6 +120,7 @@ export default function HeroSection({ passCount }: Props) {
               fontWeight: 900,
               letterSpacing: "-0.025em",
               color: "#F0F0F5",
+              textShadow: "0 2px 40px rgba(0,0,0,0.9), 0 0 80px rgba(0,0,0,0.5)",
             }}
           >
             CHASER
@@ -110,7 +132,7 @@ export default function HeroSection({ passCount }: Props) {
           className={`text-xl md:text-2xl mb-10 transition-all duration-700 delay-300 ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
-          style={{ color: "#7a7a90", letterSpacing: "0.04em" }}
+          style={{ color: "rgba(255,255,255,0.72)", letterSpacing: "0.04em", textShadow: "0 2px 20px rgba(0,0,0,0.8)" }}
         >
           <span style={{ color: "#39FF14", fontWeight: 700 }}>{passCount} Alpenpässe.</span>{" "}
           Ein Abenteuer.

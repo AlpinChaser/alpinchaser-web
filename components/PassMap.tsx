@@ -37,30 +37,32 @@ function runArcAnimation(
   map: import("leaflet").Map,
   L: typeof import("leaflet"),
   points: [number, number][],
+  isRidden: boolean,
   onDone: () => void
 ): () => void {
   const n = points.length;
+  const accentColor = isRidden ? "#D4AF37" : "#39FF14";
   // Beam window: 18% of path, min 5 points
   const WINDOW = Math.max(5, Math.round(n * 0.18));
   // Head (front 30% of window): white, brighter
   const HEAD = Math.max(2, Math.round(WINDOW * 0.3));
 
-  // Tail: neon-green, semi-transparent
+  // Tail: accent color, semi-transparent
   const tail = L.polyline(points.slice(0, 2) as import("leaflet").LatLngExpression[], {
-    color: "#39FF14", weight: 3, opacity: 0.55,
+    color: accentColor, weight: 3, opacity: 0.55,
     interactive: false, smoothFactor: 1,
   }).addTo(map);
   (tail.getElement() as SVGPathElement | null)?.style.setProperty(
-    "filter", "drop-shadow(0 0 6px #39FF14)"
+    "filter", `drop-shadow(0 0 6px ${accentColor})`
   );
 
-  // Head: white, strong glow
+  // Head: white with accent glow
   const beam = L.polyline(points.slice(0, 2) as import("leaflet").LatLngExpression[], {
     color: "#ffffff", weight: 4, opacity: 1,
     interactive: false, smoothFactor: 1,
   }).addTo(map);
   (beam.getElement() as SVGPathElement | null)?.style.setProperty(
-    "filter", "drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 18px #39FF14)"
+    "filter", `drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 18px ${accentColor})`
   );
 
   const startTime = performance.now();
@@ -304,7 +306,7 @@ export default function PassMap({ passes, onSelectPass, selectedPass }: Props) {
       const makeDotIcon = (color: string, selected: boolean, sz: number) =>
         L.divIcon({
           className: "",
-          html: `<div class="ac-dot${selected ? " ac-dot--selected" : ""}" style="background:${color};width:${sz}px;height:${sz}px"></div>`,
+          html: `<div class="ac-dot${selected ? " ac-dot--selected" : ""}" style="background:${color};border-color:${color};width:${sz}px;height:${sz}px"></div>`,
           iconSize: [sz, sz],
           iconAnchor: [Math.round(sz / 2), Math.round(sz / 2)],
         });
@@ -318,11 +320,11 @@ export default function PassMap({ passes, onSelectPass, selectedPass }: Props) {
         L.divIcon({
           className: "",
           html: `<div class="ac-label-wrap">
-                   <div class="ac-label${selected ? " ac-label--selected" : ""}" style="--accent:${color}">
+                   <div class="ac-label${selected ? " ac-label--selected" : ""}" style="--accent:${color};--accent-50:${color}80;--accent-80:${color}CC;--accent-30:${color}4D">
                      <span class="ac-label-peak">${peakSvg(color)}</span>
                      <span class="ac-label-name">${name}</span>
                    </div>
-                   <div class="ac-label-dot" style="background:${color};width:${ds}px;height:${ds}px"></div>
+                   <div class="ac-label-dot" style="background:${color};border-color:${color};width:${ds}px;height:${ds}px"></div>
                  </div>`,
           iconSize: undefined,
           iconAnchor: [0, 0],
@@ -436,18 +438,18 @@ export default function PassMap({ passes, onSelectPass, selectedPass }: Props) {
             ? L.divIcon({
                 className: "",
                 html: `<div class="ac-label-wrap">
-                         <div class="ac-label${isSel ? " ac-label--selected" : ""}" style="--accent:${color}">
+                         <div class="ac-label${isSel ? " ac-label--selected" : ""}" style="--accent:${color};--accent-50:${color}80;--accent-80:${color}CC;--accent-30:${color}4D">
                            <span class="ac-label-peak"><svg width="18" height="14" viewBox="0 0 18 14" fill="none"><path d="M9 0L18 14H0L9 0Z" fill="${color}"/></svg></span>
                            <span class="ac-label-name">${pass.name}</span>
                          </div>
-                         <div class="ac-label-dot" style="background:${color};width:${dotSize(zoom)}px;height:${dotSize(zoom)}px"></div>
+                         <div class="ac-label-dot" style="background:${color};border-color:${color};width:${dotSize(zoom)}px;height:${dotSize(zoom)}px"></div>
                        </div>`,
                 iconSize: undefined,
                 iconAnchor: [0, 0],
               })
             : L.divIcon({
                 className: "",
-                html: `<div class="ac-dot${isSel ? " ac-dot--selected" : ""}" style="background:${color};width:${dotSize(zoom)}px;height:${dotSize(zoom)}px"></div>`,
+                html: `<div class="ac-dot${isSel ? " ac-dot--selected" : ""}" style="background:${color};border-color:${color};width:${dotSize(zoom)}px;height:${dotSize(zoom)}px"></div>`,
                 iconSize: [dotSize(zoom), dotSize(zoom)],
                 iconAnchor: [Math.round(dotSize(zoom) / 2), Math.round(dotSize(zoom) / 2)],
               })
@@ -461,13 +463,15 @@ export default function PassMap({ passes, onSelectPass, selectedPass }: Props) {
       const color = pass?.status === "gefahren" ? NEON_RIDDEN : NEON;
       const el = line.getElement() as SVGPathElement | null;
       if (id === selectedPass?.id) {
-        line.setStyle({ weight: 3, opacity: 1, color: "#50FF30" });
+        line.setStyle({ weight: 3, opacity: 1, color });
         line.bringToFront();
         // pulse starts only after arc finishes (onDone)
         el?.classList.remove("ac-polyline-pulse");
+        el?.classList.remove("ac-polyline-pulse--gold");
       } else {
         line.setStyle({ weight: 2, opacity: 0.5, color });
         el?.classList.remove("ac-polyline-pulse");
+        el?.classList.remove("ac-polyline-pulse--gold");
       }
     });
 
@@ -475,19 +479,20 @@ export default function PassMap({ passes, onSelectPass, selectedPass }: Props) {
     if (arcCleanupRef.current) { arcCleanupRef.current(); arcCleanupRef.current = null; }
     if (selectedPass) {
       const selId = selectedPass.id;
+      const selIsRidden = selectedPass.status === "gefahren";
       const pts = polylinePointsRef.current.get(selId);
       if (pts && pts.length >= 2) {
         import("leaflet").then((L) => {
           const m = leafletMapRef.current;
           if (!m) return;
-          arcCleanupRef.current = runArcAnimation(m, L, pts, () => {
+          arcCleanupRef.current = runArcAnimation(m, L, pts, selIsRidden, () => {
             arcCleanupRef.current = null;
             // Both pulse animations start simultaneously after the arc
             const polylineEl = polylinesRef.current.get(selId)?.getElement() as SVGPathElement | null;
-            polylineEl?.classList.add("ac-polyline-pulse");
+            polylineEl?.classList.add(selIsRidden ? "ac-polyline-pulse--gold" : "ac-polyline-pulse");
             const labelEl = markersRef.current.get(selId)?.getElement()
               ?.querySelector(".ac-label") as HTMLElement | null;
-            labelEl?.classList.add("ac-label--pulse");
+            labelEl?.classList.add(selIsRidden ? "ac-label--pulse--gold" : "ac-label--pulse");
           });
         });
       }

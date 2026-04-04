@@ -5,6 +5,8 @@ import { useState, useMemo, useCallback } from "react";
 import { Pass } from "@/types/pass";
 import PassInfoCard from "./PassInfoCard";
 import PassListPanel from "./PassListPanel";
+import SaveProgressModal from "./SaveProgressModal";
+import { useRiddenState } from "@/hooks/useRiddenState";
 
 const PassMap = dynamic(() => import("./PassMap"), {
   ssr: false,
@@ -31,20 +33,43 @@ interface Props {
 export default function MapView({ passes }: Props) {
   const [selectedPass, setSelectedPass] = useState<Pass | null>(null);
 
+  const {
+    riddenIds, markAsRidden, unsavedCount,
+    justMarkedId, showSaveModal, dismissSaveModal,
+  } = useRiddenState();
+
+  // Merge local ridden state into passes so PassMap shows correct colors
+  const passesWithLocal = useMemo(() =>
+    passes.map(p =>
+      riddenIds.has(p.id) && p.status !== "gefahren"
+        ? { ...p, status: "gefahren" as const }
+        : p
+    ),
+  [passes, riddenIds]);
+
   const stats = useMemo(() => ({
     total: passes.length,
-    ridden: passes.filter(p => p.status === "gefahren").length,
-  }), [passes]);
+    ridden: passes.filter(p => p.status === "gefahren").length + unsavedCount,
+  }), [passes, unsavedCount]);
+
+  const handleSelectPass = useCallback((pass: Pass | null) => setSelectedPass(pass), []);
+  const handleMarkRidden = useCallback((id: string) => markAsRidden(id), [markAsRidden]);
 
   return (
     <div className="relative w-full h-full overflow-hidden" style={{ background: "#0A0A0B" }}>
-      <PassMap passes={passes} selectedPass={selectedPass} onSelectPass={setSelectedPass} />
+      <PassMap
+        passes={passesWithLocal}
+        selectedPass={selectedPass}
+        onSelectPass={handleSelectPass}
+      />
 
       {/* ── Pass List Panel (left) ───────────────────────── */}
       <PassListPanel
-        passes={passes}
+        passes={passesWithLocal}
         selectedPass={selectedPass}
-        onSelectPass={setSelectedPass}
+        onSelectPass={handleSelectPass}
+        localRiddenIds={riddenIds}
+        justMarkedId={justMarkedId}
       />
 
       {/* ── Top-right stats ──────────────────────────────── */}
@@ -63,17 +88,25 @@ export default function MapView({ passes }: Props) {
           <span className="font-bold text-white">{stats.total}</span>
         </div>
         <div
-          className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-mono"
+          className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-mono transition-all duration-300"
           style={{
             background: "rgba(10,10,11,0.75)",
             backdropFilter: "blur(20px)",
             WebkitBackdropFilter: "blur(20px)",
-            border: "1px solid rgba(212,175,55,0.2)",
-            boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
+            border: `1px solid ${unsavedCount > 0 ? "rgba(212,175,55,0.45)" : "rgba(212,175,55,0.2)"}`,
+            boxShadow: unsavedCount > 0 ? "0 0 16px rgba(212,175,55,0.15)" : "0 4px 24px rgba(0,0,0,0.4)",
           }}
         >
           <span className="text-white/40 uppercase tracking-wider text-[10px]">Gefahren</span>
           <span className="font-bold" style={{ color: "#D4AF37" }}>{stats.ridden}</span>
+          {unsavedCount > 0 && (
+            <span
+              className="text-[9px] font-mono px-1.5 py-0.5 rounded-full"
+              style={{ background: "rgba(212,175,55,0.15)", color: "rgba(212,175,55,0.7)" }}
+            >
+              +{unsavedCount} lokal
+            </span>
+          )}
         </div>
       </div>
 
@@ -83,7 +116,12 @@ export default function MapView({ passes }: Props) {
           key={selectedPass.id}
           className="absolute bottom-6 right-5 z-[1000] w-[340px] pointer-events-auto ac-card-enter"
         >
-          <PassInfoCard pass={selectedPass} onClose={() => setSelectedPass(null)} />
+          <PassInfoCard
+            pass={selectedPass}
+            onClose={() => setSelectedPass(null)}
+            isLocallyRidden={riddenIds.has(selectedPass.id) || selectedPass.status === "gefahren"}
+            onMarkRidden={handleMarkRidden}
+          />
         </div>
       )}
 
@@ -106,6 +144,14 @@ export default function MapView({ passes }: Props) {
           Gefahren
         </div>
       </div>
+
+      {/* ── Save Progress Modal ──────────────────────────── */}
+      {showSaveModal && (
+        <SaveProgressModal
+          unsavedCount={unsavedCount}
+          onDismiss={dismissSaveModal}
+        />
+      )}
     </div>
   );
 }
