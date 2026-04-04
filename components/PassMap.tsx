@@ -134,7 +134,58 @@ export default function PassMap({ passes, onSelectPass, selectedPass }: Props) {
         zoom: 6,
         zoomControl: true,
         attributionControl: true,
+        scrollWheelZoom: false, // always off — Ctrl+scroll zooms instead
       });
+
+      // ── Ctrl+scroll to zoom, plain scroll passes through to page ─────────────
+      const container = map.getContainer();
+
+      // Hint overlay
+      const hint = document.createElement("div");
+      hint.style.cssText = [
+        "position:absolute", "top:50%", "left:50%",
+        "transform:translate(-50%,-50%)",
+        "background:rgba(10,10,11,0.88)",
+        "backdrop-filter:blur(16px)",
+        "-webkit-backdrop-filter:blur(16px)",
+        "border:1px solid rgba(255,255,255,0.12)",
+        "border-radius:12px",
+        "padding:10px 18px",
+        "color:rgba(255,255,255,0.75)",
+        "font-size:13px",
+        "font-family:Inter,system-ui,sans-serif",
+        "font-weight:500",
+        "letter-spacing:0.02em",
+        "pointer-events:none",
+        "z-index:9999",
+        "opacity:0",
+        "transition:opacity 0.2s ease",
+        "white-space:nowrap",
+      ].join(";");
+      hint.innerHTML =
+        '<span style="opacity:0.5;margin-right:8px">⌨</span>' +
+        '<kbd style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:4px;padding:1px 6px;font-size:11px;font-family:inherit">Strg</kbd>' +
+        '<span style="margin:0 6px;opacity:0.5">+</span>Scrollen zum Zoomen';
+      container.style.position = "relative";
+      container.appendChild(hint);
+
+      let hintTimer: ReturnType<typeof setTimeout> | null = null;
+      const showHint = () => {
+        hint.style.opacity = "1";
+        if (hintTimer) clearTimeout(hintTimer);
+        hintTimer = setTimeout(() => { hint.style.opacity = "0"; }, 1600);
+      };
+
+      container.addEventListener("wheel", (e: WheelEvent) => {
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault();
+          e.stopPropagation();
+          const delta = e.deltaY < 0 ? 1 : -1;
+          map.setZoom(map.getZoom() + delta, { animate: true });
+        } else {
+          showHint();
+        }
+      }, { passive: false });
 
       map.createPane("labelsPane");
       map.getPane("labelsPane")!.style.zIndex = "450";
