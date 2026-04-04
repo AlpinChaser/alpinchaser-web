@@ -100,9 +100,10 @@ html, body {
   border-color: rgba(57,255,20,0.8);
   box-shadow: 0 2px 14px rgba(57,255,20,0.3);
 }
-.ac-label--selected {
-  border-color: rgba(57,255,20,1) !important;
-  box-shadow: 0 0 18px rgba(57,255,20,0.5) !important;
+/* Two-class selector → higher specificity than :hover, no !important needed on border/shadow */
+.ac-label.ac-label--selected {
+  border-color: rgba(57,255,20,1);
+  box-shadow: 0 0 18px rgba(57,255,20,0.5);
   background: rgba(10,10,11,0.95) !important;
 }
 .ac-label-peak {
@@ -157,6 +158,38 @@ html, body {
 ::-webkit-scrollbar-track { background: #111114; }
 ::-webkit-scrollbar-thumb { background: #3A3A45; border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: #39FF14; }
+
+/* ── Polyline selected: pulsing glow ──────────────────────── */
+@keyframes ac-pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px #39FF14) drop-shadow(0 0 8px #39FF14);
+  }
+  50% {
+    opacity: 0.5;
+    filter: drop-shadow(0 0 20px #39FF14) drop-shadow(0 0 40px #50FF30) drop-shadow(0 0 60px #39FF1480);
+  }
+}
+.ac-polyline-pulse {
+  animation: ac-pulse-glow 2.5s infinite ease-in-out;
+}
+
+/* ── Label selected: pulsing border/glow (starts after arc) ── */
+@keyframes ac-label-pulse {
+  0%, 100% {
+    border-color: rgba(57, 255, 20, 0.4);
+    box-shadow: 0 0 4px rgba(57, 255, 20, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    border-color: rgba(57, 255, 20, 1);
+    box-shadow: 0 0 30px rgba(57, 255, 20, 0.9), 0 0 60px rgba(57, 255, 20, 0.5);
+    transform: scale(1.03);
+  }
+}
+.ac-label--pulse {
+  animation: ac-label-pulse 2.5s infinite ease-in-out !important;
+}
 
 /* Rating stars */
 .rating-dot {

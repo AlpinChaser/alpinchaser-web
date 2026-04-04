@@ -30,6 +30,70 @@ const BORDER_MIN_ZOOM = 9;  // borders only from zoom 9
 // px diameter of the dot marker depending on zoom
 const dotSize = (z: number) => z < 9 ? 5 : z < 11 ? 6 : 8;
 
+// ─── Arc animation: sliding polyline beam ────────────────────────────────────
+const ARC_DURATION = 3500; // ms
+
+function runArcAnimation(
+  map: import("leaflet").Map,
+  L: typeof import("leaflet"),
+  points: [number, number][],
+  onDone: () => void
+): () => void {
+  const n = points.length;
+  // Beam window: 18% of path, min 5 points
+  const WINDOW = Math.max(5, Math.round(n * 0.18));
+  // Head (front 30% of window): white, brighter
+  const HEAD = Math.max(2, Math.round(WINDOW * 0.3));
+
+  // Tail: neon-green, semi-transparent
+  const tail = L.polyline(points.slice(0, 2) as import("leaflet").LatLngExpression[], {
+    color: "#39FF14", weight: 3, opacity: 0.55,
+    interactive: false, smoothFactor: 1,
+  }).addTo(map);
+  (tail.getElement() as SVGPathElement | null)?.style.setProperty(
+    "filter", "drop-shadow(0 0 6px #39FF14)"
+  );
+
+  // Head: white, strong glow
+  const beam = L.polyline(points.slice(0, 2) as import("leaflet").LatLngExpression[], {
+    color: "#ffffff", weight: 4, opacity: 1,
+    interactive: false, smoothFactor: 1,
+  }).addTo(map);
+  (beam.getElement() as SVGPathElement | null)?.style.setProperty(
+    "filter", "drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 18px #39FF14)"
+  );
+
+  const startTime = performance.now();
+  let rafId: number;
+
+  const tick = (now: number) => {
+    const t = Math.min((now - startTime) / ARC_DURATION, 1);
+    const endIdx = Math.min(n - 1, Math.round(t * (n - 1)));
+    const winStart = Math.max(0, endIdx - WINDOW);
+    const headStart = Math.max(winStart, endIdx - HEAD);
+
+    if (endIdx > winStart)
+      tail.setLatLngs(points.slice(winStart, headStart + 1) as import("leaflet").LatLngExpression[]);
+    if (endIdx > headStart)
+      beam.setLatLngs(points.slice(headStart, endIdx + 1) as import("leaflet").LatLngExpression[]);
+
+    if (t < 1) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      tail.remove();
+      beam.remove();
+      onDone();
+    }
+  };
+
+  rafId = requestAnimationFrame(tick);
+  return () => {
+    cancelAnimationFrame(rafId);
+    tail.remove();
+    beam.remove();
+  };
+}
+
 // Zoom 9-10: only label "important" passes
 function shouldShowLabel(pass: Pass, zoom: number): boolean {
   if (zoom < LABEL_MIN_ZOOM) return false;
@@ -45,6 +109,8 @@ export default function PassMap({ passes, onSelectPass, selectedPass }: Props) {
   const bordersLoadedRef = useRef(false);
   const borderGroupRef = useRef<import("leaflet").LayerGroup | null>(null);
   const polylinesRef = useRef<Map<string, import("leaflet").Polyline>>(new Map());
+  const polylinePointsRef = useRef<Map<string, [number, number][]>>(new Map());
+  const arcCleanupRef = useRef<(() => void) | null>(null);
   const [mapReady, setMapReady] = useState(false);
 
   // ─── Init map ────────────────────────────────────────────────────────────────
@@ -262,6 +328,7 @@ export default function PassMap({ passes, onSelectPass, selectedPass }: Props) {
 
       polylinesRef.current.forEach((p) => p.remove());
       polylinesRef.current.clear();
+      polylinePointsRef.current.clear();
 
       await Promise.allSettled(
         passes.map(async (pass) => {
@@ -291,6 +358,7 @@ export default function PassMap({ passes, onSelectPass, selectedPass }: Props) {
             });
 
             polylinesRef.current.set(pass.id, line);
+            polylinePointsRef.current.set(pass.id, points.map((p) => [p.lat, p.lon] as [number, number]));
           } catch { /* no polyline for this pass */ }
         })
       );
@@ -333,19 +401,46 @@ export default function PassMap({ passes, onSelectPass, selectedPass }: Props) {
                 iconAnchor: [Math.round(dotSize(zoom) / 2), Math.round(dotSize(zoom) / 2)],
               })
         );
+        // pulse class is added later in onDone, after the arc finishes
       });
     });
 
     polylinesRef.current.forEach((line, id) => {
       const pass = passes.find((p) => p.id === id);
       const color = pass?.status === "gefahren" ? NEON_RIDDEN : NEON;
+      const el = line.getElement() as SVGPathElement | null;
       if (id === selectedPass?.id) {
-        line.setStyle({ weight: 4, opacity: 1, color });
+        line.setStyle({ weight: 3, opacity: 1, color: "#50FF30" });
         line.bringToFront();
+        // pulse starts only after arc finishes (onDone)
+        el?.classList.remove("ac-polyline-pulse");
       } else {
         line.setStyle({ weight: 2, opacity: 0.5, color });
+        el?.classList.remove("ac-polyline-pulse");
       }
     });
+
+    // Arc animation: cancel previous, start new
+    if (arcCleanupRef.current) { arcCleanupRef.current(); arcCleanupRef.current = null; }
+    if (selectedPass) {
+      const selId = selectedPass.id;
+      const pts = polylinePointsRef.current.get(selId);
+      if (pts && pts.length >= 2) {
+        import("leaflet").then((L) => {
+          const m = leafletMapRef.current;
+          if (!m) return;
+          arcCleanupRef.current = runArcAnimation(m, L, pts, () => {
+            arcCleanupRef.current = null;
+            // Both pulse animations start simultaneously after the arc
+            const polylineEl = polylinesRef.current.get(selId)?.getElement() as SVGPathElement | null;
+            polylineEl?.classList.add("ac-polyline-pulse");
+            const labelEl = markersRef.current.get(selId)?.getElement()
+              ?.querySelector(".ac-label") as HTMLElement | null;
+            labelEl?.classList.add("ac-label--pulse");
+          });
+        });
+      }
+    }
 
     if (selectedPass && leafletMapRef.current) {
       const currentZoom = leafletMapRef.current.getZoom();
