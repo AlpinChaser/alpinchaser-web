@@ -345,7 +345,11 @@ export default function PassMap({ passes, onSelectPass, selectedPass }: Props) {
 
         marker.on("click", (e) => {
           L.DomEvent.stopPropagation(e);
-          onSelectPass(pass);
+          if (selectedIdRef.current === pass.id) {
+            window.location.href = `/pass/${pass.id}`;
+          } else {
+            onSelectPass(pass);
+          }
         });
 
         markersRef.current.set(pass.id, marker);
@@ -402,7 +406,11 @@ export default function PassMap({ passes, onSelectPass, selectedPass }: Props) {
 
             line.on("click", (e) => {
               L.DomEvent.stopPropagation(e);
-              onSelectPass(pass);
+              if (selectedIdRef.current === pass.id) {
+                window.location.href = `/pass/${pass.id}`;
+              } else {
+                onSelectPass(pass);
+              }
             });
             line.on("mouseover", () => line.setStyle({ weight: 4, opacity: 1 }));
             line.on("mouseout", () => {

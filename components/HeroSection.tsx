@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import ComingSoonModal from "./ComingSoonModal";
 
 interface Props {
   passCount: number;
@@ -9,26 +10,32 @@ interface Props {
 
 export default function HeroSection({ passCount }: Props) {
   const [visible, setVisible] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 80);
     return () => clearTimeout(t);
   }, []);
 
+  const handleMapScroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    document.getElementById("map")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <section
       id="hero"
-      className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden"
-      style={{ background: "#0A0A0B" }}
+      className="relative w-full h-screen flex flex-col items-center justify-start overflow-hidden"
+      style={{ background: "#0A0A0B", paddingTop: "clamp(60px, 12vh, 120px)" }}
     >
       {/* Hero background image */}
       <Image
-        src="/images/hero_main.png"
+        src="/images/hero-background.png"
         alt=""
         fill
         priority
         sizes="100vw"
-        style={{ objectFit: "cover", objectPosition: "center 30%" }}
+        style={{ objectFit: "cover", objectPosition: "center 40%" }}
       />
 
       {/* Cinematic overlay — darker at edges, lighter in center */}
@@ -144,18 +151,18 @@ export default function HeroSection({ passCount }: Props) {
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <a href="#map" className="ac-btn-primary">
+          <a href="#map" onClick={handleMapScroll} className="ac-btn-primary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
               <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
             </svg>
             Karte erkunden
           </a>
-          <a href="#app" className="ac-btn-secondary">
+          <button onClick={() => setShowModal(true)} className="ac-btn-secondary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
               <path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/>
             </svg>
             App downloaden
-          </a>
+          </button>
         </div>
       </div>
 
@@ -183,6 +190,8 @@ export default function HeroSection({ passCount }: Props) {
           </svg>
         </div>
       </div>
+
+      {showModal && <ComingSoonModal onClose={() => setShowModal(false)} />}
     </section>
   );
 }
