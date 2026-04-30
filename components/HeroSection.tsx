@@ -92,7 +92,7 @@ export default function HeroSection({ passes }: Props) {
     return () => cancelAnimationFrame(t);
   }, []);
 
-  const featuresReveal = useIntersectionReveal<HTMLElement>();
+  const featuresReveal = useIntersectionReveal<HTMLDivElement>();
   const mapReveal = useIntersectionReveal<HTMLElement>();
   const statsReveal = useIntersectionReveal<HTMLElement>();
 
@@ -159,7 +159,7 @@ export default function HeroSection({ passes }: Props) {
       </header>
 
       {/* —— Hero —— */}
-      <section className="relative min-h-screen overflow-hidden bg-[#0A0A0B]">
+      <section className="relative min-h-[88svh] overflow-hidden bg-[#0A0A0B] md:min-h-screen">
         {/* Full-hero cinematic grade: readability + vignette + warm accent */}
         <div
           className="pointer-events-none absolute inset-0 z-[4]"
@@ -174,7 +174,7 @@ export default function HeroSection({ passes }: Props) {
         />
 
         {/* Hoodie — right column only */}
-        <div className="absolute bottom-0 right-0 top-0 z-0 w-[60%] min-w-0 py-16">
+        <div className="absolute bottom-0 right-0 top-0 z-0 w-[60%] min-w-0 py-10 md:py-16">
           <div className="relative h-full w-full min-h-0">
             <Image
               src="/images/hero-hoodie.jpg"
@@ -232,7 +232,7 @@ export default function HeroSection({ passes }: Props) {
         </div>
 
         {/* Copy + CTAs — left column */}
-        <div className="absolute bottom-0 left-0 top-0 z-10 flex w-1/2 flex-col justify-center pl-[8%] pr-8 pb-10 pt-[88px] text-left md:pr-12">
+        <div className="absolute bottom-0 left-0 top-0 z-10 flex w-1/2 flex-col justify-center pl-[8%] pr-8 pb-6 pt-[72px] text-left md:pb-10 md:pr-12 md:pt-[88px]">
           <div className="relative isolate max-w-xl">
             <Reveal show={heroMounted} delayMs={0}>
               <p className="mb-6 font-mono text-xs uppercase tracking-[0.35em] text-[#39FF14] [text-shadow:0_1px_14px_rgba(0,0,0,0.55)] md:text-sm">
@@ -245,8 +245,8 @@ export default function HeroSection({ passes }: Props) {
                 className="mb-2 font-black leading-[0.95] text-white [text-shadow:0_4px_48px_rgba(0,0,0,0.75),0_1px_0_rgba(0,0,0,0.4)]"
                 style={{ fontSize: "clamp(2.75rem, 9vw, 6.25rem)" }}
               >
-                Wie viele
-                <br />
+                Wie viele{" "}
+                <br className="md:hidden" />
                 <span className="whitespace-nowrap">Pässe hast du?</span>
               </h1>
             </Reveal>
@@ -272,7 +272,7 @@ export default function HeroSection({ passes }: Props) {
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={480}>
-              <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
+              <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-start md:gap-5">
                 <div className="flex min-w-0 flex-col gap-1.5">
                   <a
                     href={APP_STORE_URL}
@@ -299,7 +299,7 @@ export default function HeroSection({ passes }: Props) {
                 <a
                   href="#map"
                   onClick={scrollToMap}
-                  className="ac-hero-cta-secondary sm:mt-0.5"
+                  className="ac-hero-cta-secondary md:mt-0.5"
                 >
                   Karte erkunden
                 </a>
@@ -346,18 +346,18 @@ export default function HeroSection({ passes }: Props) {
 
         {/* Subtle proof — GS / touring pass completion */}
         <div
-          className="pointer-events-none absolute bottom-[calc(11%+14px)] right-[4%] z-[6] hidden w-[min(210px,calc(38vw-1rem))] rounded-xl border border-[rgba(212,175,55,0.34)] bg-[rgba(10,10,12,0.58)] px-4 py-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-md md:block"
+          className="pointer-events-none absolute bottom-[calc(5%+10px)] right-[3%] z-[6] block w-[min(168px,70vw)] origin-bottom-right scale-[0.88] rounded-xl border border-[rgba(212,175,55,0.34)] bg-[rgba(10,10,12,0.58)] px-3.5 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-md md:bottom-[calc(11%+14px)] md:right-[4%] md:w-[min(210px,calc(38vw-1rem))] md:scale-100 md:px-4 md:py-3.5"
           style={{ WebkitBackdropFilter: "blur(14px)" }}
         >
           <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0">
-            <span className="text-2xl font-black tabular-nums tracking-tight text-[#D4AF37] [text-shadow:0_1px_0_rgba(0,0,0,0.35)]">
+            <span className="text-xl font-black tabular-nums tracking-tight text-[#D4AF37] [text-shadow:0_1px_0_rgba(0,0,0,0.35)] md:text-2xl">
               97%
             </span>
-            <span className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-[rgba(255,255,255,0.58)]">
+            <span className="text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-[rgba(255,255,255,0.58)] md:text-[0.7rem]">
               Österreich
             </span>
           </div>
-          <p className="mt-2 text-[0.7rem] leading-snug text-[rgba(255,255,255,0.58)]">
+          <p className="mt-2 text-[0.62rem] leading-snug text-[rgba(255,255,255,0.58)] md:text-[0.7rem]">
             Noch 1 Pass bis zum Meister.
           </p>
           <div
