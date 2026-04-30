@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import MapView from "@/components/MapView";
+import ProductStepsSection from "@/components/ProductStepsSection";
 import type { Pass } from "@/types/pass";
 
 const APP_STORE_URL =
@@ -396,6 +397,8 @@ export default function HeroSection({ passes }: Props) {
           </div>
         </div>
       </section>
+
+      <ProductStepsSection />
 
       {/* —— Features —— */}
       <section
