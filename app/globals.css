@@ -439,13 +439,19 @@ html, body {
   background: rgba(255, 255, 255, 0.045);
   backdrop-filter: blur(10px);
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.22);
-  opacity: 0.66;
+  opacity: 1;
   transition:
     opacity 0.3s ease,
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.25s ease,
     background 0.25s ease,
     box-shadow 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .ac-hero-cta-secondary {
+    opacity: 0.66;
+  }
 }
 
 .ac-hero-cta-secondary:hover {
@@ -456,6 +462,36 @@ html, body {
   box-shadow:
     0 4px 18px rgba(0, 0, 0, 0.28),
     0 0 18px rgba(212, 175, 55, 0.08);
+}
+
+/* Hero: map CTA is desktop-only (.ac-hero-cta-secondary sets display and wins over Tailwind `hidden`) */
+@media (max-width: 767px) {
+  a.ac-hero-cta-secondary.ac-hero-cta-secondary--desktop-only {
+    display: none !important;
+  }
+}
+
+/* Hero CTAs: full-width on small screens; slimmer, premium proportions */
+@media (max-width: 767px) {
+  .ac-hero-cta-primary--mobile {
+    padding: 0.82rem 1.25rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.055em;
+    border-radius: 13px;
+  }
+
+  .ac-hero-cta-secondary--mobile {
+    padding: 0.52rem 1.1rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.085em;
+    border-radius: 12px;
+    border-color: rgba(212, 175, 55, 0.4);
+    background: rgba(255, 255, 255, 0.065);
+    box-shadow:
+      0 3px 18px rgba(0, 0, 0, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
 }
 
 /* Secondary CTA button */

@@ -108,8 +108,8 @@ export default function HeroSection({ passes }: Props) {
         className="fixed inset-x-0 top-0 z-50 border-b border-[rgba(212,175,55,0.22)] bg-[rgba(5,5,7,0.58)] pt-[env(safe-area-inset-top,0px)] backdrop-blur-xl backdrop-saturate-150"
         style={{ WebkitBackdropFilter: "blur(18px) saturate(1.12)" }}
       >
-        <div className="mx-auto flex h-14 max-w-7xl flex-nowrap items-center justify-between gap-y-0 overflow-hidden px-4 md:h-[58px] md:gap-x-2 md:overflow-visible md:px-8">
-          <Link href="/" className="flex shrink-0 items-center gap-2 md:gap-3">
+        <div className="mx-auto flex h-[52px] max-w-7xl flex-nowrap items-center justify-between gap-y-0 overflow-hidden px-4 md:h-[58px] md:gap-x-2 md:overflow-visible md:px-8">
+          <Link href="/" className="flex shrink-0 items-center gap-1.5 md:gap-3">
             <span
               className="inline-flex shrink-0 rounded-md ring-1 ring-white/[0.06]"
               style={{
@@ -122,11 +122,11 @@ export default function HeroSection({ passes }: Props) {
                 alt="AlpinChaser"
                 width={56}
                 height={56}
-                className="h-10 w-10 object-contain md:h-14 md:w-14"
+                className="h-9 w-9 object-contain md:h-14 md:w-14"
                 priority
               />
             </span>
-            <span className="text-[0.65rem] font-bold tracking-[0.32em] text-[#D4AF37] md:text-xs md:tracking-[0.35em]">
+            <span className="text-[0.6rem] font-bold tracking-[0.3em] text-[#D4AF37] md:text-xs md:tracking-[0.35em]">
               ALPINCHASER
             </span>
           </Link>
@@ -159,10 +159,10 @@ export default function HeroSection({ passes }: Props) {
       </header>
 
       {/* —— Hero —— */}
-      <section className="relative flex h-[100svh] flex-col overflow-hidden bg-[#0A0A0B] md:min-h-screen">
-        {/* Full-hero cinematic grade: readability + vignette + warm accent */}
+      <section className="relative flex flex-col overflow-x-hidden bg-[#0A0A0B] max-md:min-h-[max(780px,100svh)] md:h-[100svh] md:min-h-screen">
+        {/* Full-hero cinematic grade: readability + vignette + warm accent (desktop) */}
         <div
-          className="pointer-events-none absolute inset-0 z-[4] hidden md:block"
+          className="pointer-events-none absolute inset-0 z-10 hidden md:block"
           style={{
             background: [
               "linear-gradient(to bottom, rgba(10,10,11,0.9) 0%, rgba(10,10,11,0.5) 30%, rgba(10,10,11,0.7) 70%, rgba(10,10,11,0.95) 100%)",
@@ -174,37 +174,19 @@ export default function HeroSection({ passes }: Props) {
           aria-hidden
         />
 
-        {/* Hoodie — top band mobile, right column md+ */}
-        <div className="absolute left-0 right-0 top-0 z-0 h-[55%] w-full md:inset-0 md:h-full md:w-[60%] md:py-16">
+        {/* Hoodie image only — z-0; gradients live in sibling layers so copy stays on top */}
+        <div className="absolute left-0 right-0 top-0 z-0 h-[62%] w-full sm:h-[64%] md:inset-0 md:h-full md:w-[60%] md:py-16">
           <div className="relative h-full w-full min-h-0">
             <Image
               src="/images/hero-hoodie.jpg"
               alt=""
               fill
               priority
-              className="object-contain object-center md:object-cover md:object-center"
+              className="object-cover object-[center_18%] md:object-cover md:object-center"
               style={{
                 filter: "brightness(1.11) contrast(1.085) saturate(1.02)",
               }}
               sizes="(max-width: 767px) 100vw, 60vw"
-            />
-            {/* Mobile: top vignette */}
-            <div
-              className="pointer-events-none absolute inset-0 z-[2] md:hidden"
-              style={{
-                background:
-                  "linear-gradient(to bottom, rgba(10,10,11,0.3) 0%, transparent 30%)",
-              }}
-              aria-hidden
-            />
-            {/* Mobile: bottom cinematic grade into copy */}
-            <div
-              className="pointer-events-none absolute inset-0 z-[2] md:hidden"
-              style={{
-                background:
-                  "linear-gradient(to top, #0A0A0B 0%, rgba(10,10,11,0.9) 15%, transparent 40%)",
-              }}
-              aria-hidden
             />
             {/* Local lifts: upper-right silhouette + broader center/right read */}
             <div
@@ -248,23 +230,42 @@ export default function HeroSection({ passes }: Props) {
           </div>
         </div>
 
+        {/* Mobile: full-bleed cinematic overlays above image, below copy (z-10) */}
+        <div
+          className="pointer-events-none absolute inset-0 z-10 md:hidden"
+          style={{
+            background: [
+              "linear-gradient(to bottom, rgba(10,10,11,0.52) 0%, rgba(10,10,11,0.12) 28%, transparent 42%)",
+              "radial-gradient(ellipse 120% 85% at 50% -5%, rgba(0,0,0,0.42) 0%, transparent 52%)",
+              "radial-gradient(ellipse 95% 70% at 88% 28%, rgba(212,175,55,0.06) 0%, transparent 55%)",
+              "radial-gradient(ellipse 72% 58% at 50% 36%, rgba(5,5,7,0.42) 0%, rgba(10,10,11,0.14) 48%, transparent 72%)",
+            ].join(", "),
+          }}
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-0 z-10 md:hidden"
+          style={{
+            background:
+              "linear-gradient(to top, #0A0A0B 0%, #0A0A0B 8%, rgba(10,10,11,0.92) 18%, rgba(10,10,11,0.55) 38%, transparent 58%)",
+          }}
+          aria-hidden
+        />
+
         {/* Copy + CTAs — left column */}
-        <div className="relative z-10 flex h-full min-h-0 w-full flex-col justify-end px-6 pb-8 text-left md:w-1/2 md:justify-center md:px-0 md:pb-10 md:pl-[8%] md:pr-12 md:pt-[88px]">
-          <div className="relative isolate max-w-xl pb-4 md:pb-0">
+        <div className="relative z-20 flex min-h-0 w-full flex-1 flex-col justify-end px-4 pb-8 pt-[calc(52px+env(safe-area-inset-top,0px)+0.5rem)] text-left sm:px-5 max-md:pt-[calc(52px+env(safe-area-inset-top,0px)+1.35rem)] md:h-full md:w-1/2 md:justify-center md:px-0 md:pb-10 md:pl-[8%] md:pr-12 md:pt-[88px]">
+          <div className="relative isolate mx-auto w-full max-w-[430px] pb-2 md:mx-0 md:max-w-xl md:pb-0">
             <Reveal show={heroMounted} delayMs={0}>
-              <p className="mb-4 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-[#39FF14] [text-shadow:0_1px_14px_rgba(0,0,0,0.55)] md:mb-6 md:text-sm md:tracking-[0.35em]">
+              <p className="mb-2.5 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-[#39FF14] [text-shadow:0_1px_14px_rgba(0,0,0,0.55)] max-md:mb-3 md:mb-6 md:text-sm md:tracking-[0.35em]">
                 — ALPEN-PASSBUCH —
               </p>
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={120}>
               <h1
-                className="mb-1 font-black leading-[0.98] text-white [text-shadow:0_4px_48px_rgba(0,0,0,0.75),0_1px_0_rgba(0,0,0,0.4)] text-[clamp(1.45rem,5.2vw,2.05rem)] md:mb-2 md:leading-[0.95] md:text-[clamp(2.75rem,9vw,6.25rem)]"
+                className="mb-0 font-black leading-[1.02] text-white [text-shadow:0_4px_48px_rgba(0,0,0,0.75),0_1px_0_rgba(0,0,0,0.4)] text-[clamp(1.52rem,5.25vw,2.15rem)] max-md:tracking-[-0.02em] md:mb-2 md:leading-[0.95] md:text-[clamp(2.75rem,9vw,6.25rem)] md:tracking-normal"
               >
-                <span className="flex flex-col md:hidden">
-                  <span>Wie viele</span>
-                  <span>Pässe hast du?</span>
-                </span>
+                <span className="block md:hidden">Wie viele Pässe hast du?</span>
                 <span className="hidden md:contents">
                   <span>Wie viele </span>
                   <span className="whitespace-nowrap">Pässe hast du?</span>
@@ -273,20 +274,16 @@ export default function HeroSection({ passes }: Props) {
             </Reveal>
             <Reveal show={heroMounted} delayMs={240}>
               <h1
-                className="mb-4 font-black leading-[0.98] text-[#D4AF37] [text-shadow:0_0_1px_rgba(0,0,0,0.45),0_1px_0_rgba(0,0,0,0.4),0_3px_14px_rgba(0,0,0,0.42)] text-[clamp(1.45rem,5.2vw,2.05rem)] md:mb-6 md:leading-[0.95] md:text-[clamp(2.75rem,9vw,6.25rem)]"
+                className="mt-1.5 mb-3 font-black leading-[1.02] text-[#D4AF37] [text-shadow:0_0_1px_rgba(0,0,0,0.45),0_1px_0_rgba(0,0,0,0.4),0_3px_14px_rgba(0,0,0,0.42)] text-[clamp(1.52rem,5.25vw,2.15rem)] max-md:tracking-[-0.02em] md:mb-6 md:mt-0 md:leading-[0.95] md:text-[clamp(2.75rem,9vw,6.25rem)] md:tracking-normal"
               >
-                <span className="flex flex-col md:hidden">
-                  <span>Sammle</span>
-                  <span>deine</span>
-                  <span>Alpen.</span>
-                </span>
+                <span className="block md:hidden">Sammle deine Alpen.</span>
                 <span className="hidden md:inline">Sammle deine Alpen.</span>
               </h1>
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={360}>
               <p
-                className="mb-5 max-w-lg text-sm leading-relaxed [text-shadow:0_2px_20px_rgba(0,0,0,0.45)] md:mb-8 md:text-lg"
+                className="mb-6 max-w-lg text-[0.9375rem] leading-relaxed [text-shadow:0_2px_20px_rgba(0,0,0,0.45)] max-md:mb-10 md:mb-8 md:text-lg"
                 style={{ color: "rgba(255,255,255,0.6)" }}
               >
                 650+ Alpenpässe in 7 Ländern. Sieh, was du gefahren bist.{" "}
@@ -297,37 +294,39 @@ export default function HeroSection({ passes }: Props) {
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={480}>
-              <div className="mb-6 flex flex-col gap-3 md:mb-10 md:flex-row md:items-start md:gap-5">
-                <div className="flex min-w-0 flex-col gap-0 md:gap-1.5">
-                  <a
-                    href={APP_STORE_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="ac-hero-cta-primary w-fit"
-                  >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="shrink-0"
-                      aria-hidden
+              <div className="mb-3 flex w-full flex-col gap-0 md:mb-10 md:w-auto md:flex-row md:items-start md:gap-5">
+                <div className="flex min-w-0 w-full flex-col gap-0 md:w-auto md:gap-1.5">
+                  <div className="max-md:rounded-[18px] max-md:bg-[rgba(0,0,0,0.14)] max-md:px-3.5 max-md:py-3.5 max-md:ring-1 max-md:ring-white/[0.05] md:contents">
+                    <a
+                      href={APP_STORE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ac-hero-cta-primary ac-hero-cta-primary--mobile w-full max-w-full justify-center md:w-fit md:max-w-none md:justify-center"
                     >
-                      <path d={APPLE_PATH} />
-                    </svg>
-                    App downloaden
-                  </a>
-                  <p className="mt-3 max-w-[240px] text-[11px] font-medium leading-snug tracking-wide text-[rgba(255,255,255,0.72)] md:hidden">
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="shrink-0"
+                        aria-hidden
+                      >
+                        <path d={APPLE_PATH} />
+                      </svg>
+                      App downloaden
+                    </a>
+                  </div>
+                  <p className="mt-1.5 max-w-none text-[11px] font-medium leading-snug tracking-wide text-[rgba(255,255,255,0.72)] md:mt-3 md:max-w-[240px] md:hidden">
                     Du fährst sie sowieso. Jetzt zählen sie.
                   </p>
-                  <p className="mt-1.5 max-w-[240px] text-[11px] font-medium leading-snug tracking-wide text-[rgba(255,255,255,0.34)] md:mt-0">
+                  <p className="mt-0.5 max-w-none text-[11px] font-medium leading-snug tracking-wide text-[rgba(255,255,255,0.34)] md:mt-1.5 md:max-w-[240px] md:text-left">
                     Sammle deine ersten Pässe.
                   </p>
                 </div>
                 <a
                   href="#map"
                   onClick={scrollToMap}
-                  className="hidden md:inline-flex ac-hero-cta-secondary md:mt-0.5"
+                  className="ac-hero-cta-secondary ac-hero-cta-secondary--desktop-only md:mt-0.5 md:inline-flex md:w-auto md:max-w-none md:shrink-0"
                 >
                   Karte erkunden
                 </a>
@@ -335,31 +334,33 @@ export default function HeroSection({ passes }: Props) {
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={620}>
-              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 text-sm sm:gap-x-9 md:gap-x-5 md:gap-y-3">
+              <div className="flex flex-wrap items-baseline gap-x-3.5 gap-y-1.5 border-t border-[rgba(212,175,55,0.14)] pt-2.5 text-sm max-md:-mt-1 max-md:gap-x-3 sm:gap-x-9 md:mt-0 md:gap-x-5 md:gap-y-3 md:border-t-0 md:pt-0">
                 <div>
                   <p className="text-2xl font-bold tabular-nums text-[#D4AF37] md:text-3xl">
                     650+
                   </p>
-                  <p className="text-xs uppercase tracking-wider text-[rgba(255,255,255,0.6)]">
+                  <p className="text-[0.65rem] uppercase tracking-wider text-[rgba(255,255,255,0.6)] md:text-xs">
                     Pässe
                   </p>
                 </div>
-                <span className="select-none text-lg text-[#D4AF37]/25" aria-hidden>
+                <span className="select-none text-base text-[#D4AF37]/25 md:text-lg max-md:text-sm" aria-hidden>
                   ·
                 </span>
                 <div>
                   <p className="text-2xl font-bold tabular-nums text-[#D4AF37] md:text-3xl">
                     7
                   </p>
-                  <p className="text-xs uppercase tracking-wider text-[rgba(255,255,255,0.6)]">
+                  <p className="text-[0.65rem] uppercase tracking-wider text-[rgba(255,255,255,0.6)] md:text-xs">
                     Länder
                   </p>
                 </div>
-                <span className="select-none text-lg text-[#D4AF37]/25" aria-hidden>
+                <span className="select-none text-base text-[#D4AF37]/25 md:text-lg max-md:text-sm" aria-hidden>
                   ·
                 </span>
                 <div>
-                  <p className="text-2xl font-bold text-[#D4AF37] md:text-3xl">Sammlung</p>
+                  <p className="text-lg font-semibold leading-none text-[#D4AF37] max-md:tracking-tight md:text-3xl md:font-bold md:tracking-normal">
+                    Sammlung
+                  </p>
                   <p
                     className="text-[0.65rem] font-medium tracking-wide text-[rgba(255,255,255,0)] md:text-xs"
                     aria-hidden
@@ -374,7 +375,7 @@ export default function HeroSection({ passes }: Props) {
 
         {/* Subtle proof — GS / touring pass completion */}
         <div
-          className="pointer-events-none absolute bottom-[calc(11%+14px)] right-[4%] z-[6] hidden w-[min(210px,calc(38vw-1rem))] rounded-xl border border-[rgba(212,175,55,0.34)] bg-[rgba(10,10,12,0.58)] px-4 py-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-md md:block"
+          className="pointer-events-none absolute bottom-[calc(11%+14px)] right-[4%] z-30 hidden w-[min(210px,calc(38vw-1rem))] rounded-xl border border-[rgba(212,175,55,0.34)] bg-[rgba(10,10,12,0.58)] px-4 py-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-md md:block"
           style={{ WebkitBackdropFilter: "blur(14px)" }}
         >
           <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0">
@@ -409,10 +410,14 @@ export default function HeroSection({ passes }: Props) {
         <ScreenshotShowcaseSection visible={featuresReveal.visible} />
       </div>
 
-      {/* —— Map —— */}
-      <section id="map" ref={mapReveal.ref} className="scroll-mt-24 bg-[#0A0A0B]">
+      {/* —— Map (desktop only: no in-browser map promo on mobile) —— */}
+      <section
+        id="map"
+        ref={mapReveal.ref}
+        className="hidden scroll-mt-24 bg-[#0A0A0B] md:block"
+      >
         <div
-          className={`mx-auto max-w-6xl px-5 pb-6 pt-16 text-center transition-all duration-700 md:pt-20 ${
+          className={`mx-auto max-w-[430px] px-4 pb-5 pt-12 text-center transition-all duration-700 sm:px-5 md:max-w-6xl md:px-5 md:pb-6 md:pt-20 ${
             mapReveal.visible
               ? "translate-y-0 opacity-100"
               : "translate-y-8 opacity-0"
@@ -438,11 +443,11 @@ export default function HeroSection({ passes }: Props) {
       <section
         id="stats"
         ref={statsReveal.ref}
-        className="scroll-mt-24 border-t border-[rgba(212,175,55,0.12)] bg-[#050506] px-5 py-20 md:py-28"
+        className="scroll-mt-24 border-t border-[rgba(212,175,55,0.12)] bg-[#050506] px-4 py-14 sm:px-5 md:py-28"
       >
-        <div className="mx-auto flex max-w-5xl flex-col items-stretch justify-center gap-10 sm:flex-row sm:items-center sm:gap-0">
+        <div className="mx-auto flex max-w-[430px] flex-col divide-y divide-[rgba(212,175,55,0.14)] sm:max-w-5xl sm:flex-row sm:items-center sm:divide-y-0 sm:gap-0">
           <div
-            className={`flex flex-1 flex-col items-center text-center transition-all duration-700 ease-out ${
+            className={`flex flex-1 flex-col items-center py-5 text-center transition-all duration-700 ease-out sm:py-0 ${
               statsReveal.visible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-8 opacity-0"
@@ -463,7 +468,7 @@ export default function HeroSection({ passes }: Props) {
             aria-hidden
           />
           <div
-            className={`flex flex-1 flex-col items-center text-center transition-all duration-700 ease-out ${
+            className={`flex flex-1 flex-col items-center py-5 text-center transition-all duration-700 ease-out sm:py-0 ${
               statsReveal.visible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-8 opacity-0"
@@ -485,7 +490,7 @@ export default function HeroSection({ passes }: Props) {
             aria-hidden
           />
           <div
-            className={`flex flex-1 flex-col items-center text-center transition-all duration-700 ease-out ${
+            className={`flex flex-1 flex-col items-center py-5 text-center transition-all duration-700 ease-out sm:py-0 ${
               statsReveal.visible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-8 opacity-0"
