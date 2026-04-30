@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { createPortal } from "react-dom";
 import { useEffect, useRef, useState } from "react";
 import MapView from "@/components/MapView";
 import ProductStepsSection from "@/components/ProductStepsSection";
@@ -10,9 +11,6 @@ import type { Pass } from "@/types/pass";
 
 const APP_STORE_URL =
   "https://apps.apple.com/at/app/alpinchaser/id6761077147";
-
-const GOOGLE_PLAY_URL =
-  "https://play.google.com/store/apps/details?id=com.alpinchaser.app";
 
 const APPLE_PATH =
   "M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z";
@@ -90,6 +88,97 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   );
 }
 
+export function AndroidWaitlistModal({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
+  const [email, setEmail] = useState("");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) setEmail("");
+  }, [isOpen]);
+
+  if (!mounted || !isOpen) return null;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = email.trim();
+    const body = `Email: ${trimmed || "(leer)"}`;
+    const mailto = `mailto:support@alpinchaser.com?subject=${encodeURIComponent("Android Warteliste")}&body=${encodeURIComponent(body)}`;
+    window.open(mailto, "_blank", "noopener,noreferrer");
+    onClose();
+  };
+
+  const modal = (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="android-waitlist-title"
+    >
+      <button
+        type="button"
+        className="absolute inset-0 cursor-default"
+        aria-label="Schließen"
+        onClick={onClose}
+      />
+      <div
+        className="relative z-10 w-full max-w-sm rounded-2xl border border-[#D4AF37]/45 bg-[#0F0F12] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.65)]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-lg text-lg leading-none text-[rgba(255,255,255,0.45)] transition-colors hover:bg-white/5 hover:text-white"
+          aria-label="Schließen"
+        >
+          ×
+        </button>
+        <div className="mb-4 flex justify-center text-4xl" aria-hidden>
+          🤖
+        </div>
+        <h2
+          id="android-waitlist-title"
+          className="mb-3 text-center text-lg font-bold text-white"
+        >
+          Android – Bald verfügbar 🤖
+        </h2>
+        <p className="mb-6 text-center text-sm leading-relaxed text-[rgba(255,255,255,0.55)]">
+          AlpinChaser für Android ist fast fertig. Trag deine E-Mail ein – wir
+          melden uns sobald es losgeht.
+        </p>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <input
+            type="email"
+            name="email"
+            autoComplete="email"
+            placeholder="deine@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full rounded-lg border border-[rgba(212,175,55,0.25)] bg-[#0A0A0B] px-3.5 py-2.5 text-sm text-white outline-none transition-[border-color,box-shadow] placeholder:text-[rgba(255,255,255,0.28)] focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]"
+          />
+          <button
+            type="submit"
+            className="w-full rounded-lg bg-gradient-to-br from-[#e8d088] via-[#d4af37] to-[#8a7022] py-3 text-sm font-bold uppercase tracking-widest text-[#0a0a0b] shadow-[0_4px_20px_rgba(212,175,55,0.25)] transition-[filter,transform] hover:brightness-105 active:scale-[0.99]"
+          >
+            Auf die Warteliste
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+
+  return createPortal(modal, document.body);
+}
+
 export default function HeroSection({ passes }: Props) {
   const countryCount = 7;
 
@@ -104,6 +193,7 @@ export default function HeroSection({ passes }: Props) {
   const statsReveal = useIntersectionReveal<HTMLElement>();
 
   const [showPlatforms, setShowPlatforms] = useState(false);
+  const [showAndroidModal, setShowAndroidModal] = useState(false);
   const platformDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -364,12 +454,14 @@ export default function HeroSection({ passes }: Props) {
                                 aria-hidden
                               />
                               <a
-                                href={GOOGLE_PLAY_URL}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                href="#"
                                 role="menuitem"
                                 className="group flex items-center gap-3.5 px-4 py-4 text-left transition-[background-color,box-shadow] duration-200 ease-out hover:bg-[rgba(255,255,255,0.045)] active:bg-[rgba(255,255,255,0.07)] max-md:gap-3 max-md:px-3.5 max-md:py-2 md:py-3.5"
-                                onClick={() => setShowPlatforms(false)}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setShowPlatforms(false);
+                                  setShowAndroidModal(true);
+                                }}
                               >
                                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.625rem] bg-[rgba(255,255,255,0.035)] ring-1 ring-[rgba(255,255,255,0.06)] transition-[background-color,box-shadow] duration-200 group-hover:bg-[rgba(255,255,255,0.055)] group-hover:ring-[rgba(212,175,55,0.12)] max-md:h-8 max-md:w-8">
                                   <svg
@@ -628,6 +720,10 @@ export default function HeroSection({ passes }: Props) {
           </div>
         </div>
       </section>
+      <AndroidWaitlistModal
+        isOpen={showAndroidModal}
+        onClose={() => setShowAndroidModal(false)}
+      />
     </div>
   );
 }
