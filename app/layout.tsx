@@ -71,7 +71,7 @@ export default function RootLayout({
                 </p>
                 <nav className="flex flex-col gap-2.5 text-sm">
                   <a
-                    href="https://apps.apple.com"
+                    href="https://apps.apple.com/at/app/alpinchaser/id6761077147"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-fit text-neutral-300 transition-colors hover:text-[#D4AF37]"
