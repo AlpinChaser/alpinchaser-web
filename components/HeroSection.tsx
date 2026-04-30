@@ -159,10 +159,10 @@ export default function HeroSection({ passes }: Props) {
       </header>
 
       {/* —— Hero —— */}
-      <section className="relative h-[100svh] overflow-hidden bg-[#0A0A0B] md:min-h-screen">
+      <section className="relative flex h-[100svh] flex-col overflow-hidden bg-[#0A0A0B] md:min-h-screen">
         {/* Full-hero cinematic grade: readability + vignette + warm accent */}
         <div
-          className="pointer-events-none absolute inset-0 z-[4]"
+          className="pointer-events-none absolute inset-0 z-[4] hidden md:block"
           style={{
             background: [
               "linear-gradient(to bottom, rgba(10,10,11,0.9) 0%, rgba(10,10,11,0.5) 30%, rgba(10,10,11,0.7) 70%, rgba(10,10,11,0.95) 100%)",
@@ -174,25 +174,41 @@ export default function HeroSection({ passes }: Props) {
           aria-hidden
         />
 
-        {/* Hoodie — right column only */}
-        <div className="absolute bottom-0 right-0 top-0 z-0 w-full min-w-0 opacity-40 py-10 md:w-[60%] md:opacity-100 md:py-16">
+        {/* Hoodie — top band mobile, right column md+ */}
+        <div className="absolute left-0 right-0 top-0 z-0 h-[55%] w-full md:inset-0 md:h-full md:w-[60%] md:py-16">
           <div className="relative h-full w-full min-h-0">
             <Image
               src="/images/hero-hoodie.jpg"
               alt=""
               fill
               priority
-              className="object-cover"
+              className="object-contain object-center md:object-cover md:object-center"
               style={{
-                objectFit: "cover",
-                objectPosition: "40% center",
                 filter: "brightness(1.11) contrast(1.085) saturate(1.02)",
               }}
               sizes="(max-width: 767px) 100vw, 60vw"
             />
+            {/* Mobile: top vignette */}
+            <div
+              className="pointer-events-none absolute inset-0 z-[2] md:hidden"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(10,10,11,0.3) 0%, transparent 30%)",
+              }}
+              aria-hidden
+            />
+            {/* Mobile: bottom cinematic grade into copy */}
+            <div
+              className="pointer-events-none absolute inset-0 z-[2] md:hidden"
+              style={{
+                background:
+                  "linear-gradient(to top, #0A0A0B 0%, rgba(10,10,11,0.9) 15%, transparent 40%)",
+              }}
+              aria-hidden
+            />
             {/* Local lifts: upper-right silhouette + broader center/right read */}
             <div
-              className="pointer-events-none absolute inset-0 z-[1] mix-blend-soft-light"
+              className="pointer-events-none absolute inset-0 z-[1] hidden mix-blend-soft-light md:block"
               style={{
                 background: [
                   "radial-gradient(ellipse 50% 38% at 87% 25%, rgba(255,253,248,0.155) 0%, rgba(255,250,245,0.045) 36%, transparent 54%)",
@@ -202,28 +218,28 @@ export default function HeroSection({ passes }: Props) {
             />
             {/* Micro contrast along diagonal (road / leading line) */}
             <div
-              className="pointer-events-none absolute inset-0 z-[2] mix-blend-overlay opacity-[0.29]"
+              className="pointer-events-none absolute inset-0 z-[2] hidden mix-blend-overlay opacity-[0.29] md:block"
               style={{
                 background:
                   "linear-gradient(118deg, transparent 0%, transparent 39%, rgba(255,255,255,0.048) 49%, rgba(0,0,0,0.058) 54%, transparent 62%, transparent 100%)",
               }}
             />
             <div
-              className="pointer-events-none absolute inset-0 z-[3]"
+              className="pointer-events-none absolute inset-0 z-[3] hidden md:block"
               style={{
                 background:
                   "linear-gradient(to right, #0A0A0B 0%, rgba(10,10,11,0.95) 15%, rgba(10,10,11,0.7) 35%, rgba(10,10,11,0.2) 60%, transparent 80%)",
               }}
             />
             <div
-              className="pointer-events-none absolute inset-0 z-[4]"
+              className="pointer-events-none absolute inset-0 z-[4] hidden md:block"
               style={{
                 background:
                   "linear-gradient(to bottom, #0A0A0B 0%, rgba(10,10,11,0.6) 15%, transparent 40%)",
               }}
             />
             <div
-              className="pointer-events-none absolute inset-0 z-[5]"
+              className="pointer-events-none absolute inset-0 z-[5] hidden md:block"
               style={{
                 background:
                   "linear-gradient(to top, #0A0A0B 0%, rgba(10,10,11,0.6) 15%, transparent 40%)",
@@ -233,7 +249,7 @@ export default function HeroSection({ passes }: Props) {
         </div>
 
         {/* Copy + CTAs — left column */}
-        <div className="absolute bottom-0 left-0 top-0 z-10 flex h-full min-h-0 w-full flex-col justify-start px-6 pt-[calc(env(safe-area-inset-top,0px)+3.5rem+1.25rem)] text-left md:w-1/2 md:justify-center md:px-0 md:pb-10 md:pl-[8%] md:pr-12 md:pt-[88px]">
+        <div className="relative z-10 flex h-full min-h-0 w-full flex-col justify-end px-6 pb-8 text-left md:w-1/2 md:justify-center md:px-0 md:pb-10 md:pl-[8%] md:pr-12 md:pt-[88px]">
           <div className="relative isolate max-w-xl pb-4 md:pb-0">
             <Reveal show={heroMounted} delayMs={0}>
               <p className="mb-4 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-[#39FF14] [text-shadow:0_1px_14px_rgba(0,0,0,0.55)] md:mb-6 md:text-sm md:tracking-[0.35em]">
@@ -311,7 +327,7 @@ export default function HeroSection({ passes }: Props) {
                 <a
                   href="#map"
                   onClick={scrollToMap}
-                  className="ac-hero-cta-secondary hidden sm:inline-flex md:mt-0.5"
+                  className="hidden md:inline-flex ac-hero-cta-secondary md:mt-0.5"
                 >
                   Karte erkunden
                 </a>
