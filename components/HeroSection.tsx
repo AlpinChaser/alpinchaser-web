@@ -159,12 +159,13 @@ export default function HeroSection({ passes }: Props) {
       </header>
 
       {/* —— Hero —— */}
-      <section className="relative min-h-[72svh] overflow-hidden bg-[#0A0A0B] md:min-h-screen">
+      <section className="relative h-[100svh] overflow-hidden bg-[#0A0A0B] md:min-h-screen">
         {/* Full-hero cinematic grade: readability + vignette + warm accent */}
         <div
           className="pointer-events-none absolute inset-0 z-[4]"
           style={{
             background: [
+              "linear-gradient(to bottom, rgba(10,10,11,0.9) 0%, rgba(10,10,11,0.5) 30%, rgba(10,10,11,0.7) 70%, rgba(10,10,11,0.95) 100%)",
               "radial-gradient(ellipse 40% 46% at 86% 34%, rgba(212,175,55,0.075) 0%, transparent 64%)",
               "radial-gradient(ellipse 105% 92% at 50% 50%, transparent 48%, rgba(0,0,0,0.48) 100%)",
               "linear-gradient(to right, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.14) 44%, transparent 72%)",
@@ -174,7 +175,7 @@ export default function HeroSection({ passes }: Props) {
         />
 
         {/* Hoodie — right column only */}
-        <div className="absolute bottom-0 right-0 top-0 z-0 w-[60%] min-w-0 py-10 md:py-16">
+        <div className="absolute bottom-0 right-0 top-0 z-0 w-full min-w-0 opacity-40 py-10 md:w-[60%] md:opacity-100 md:py-16">
           <div className="relative h-full w-full min-h-0">
             <Image
               src="/images/hero-hoodie.jpg"
@@ -187,7 +188,7 @@ export default function HeroSection({ passes }: Props) {
                 objectPosition: "40% center",
                 filter: "brightness(1.11) contrast(1.085) saturate(1.02)",
               }}
-              sizes="60vw"
+              sizes="(max-width: 767px) 100vw, 60vw"
             />
             {/* Local lifts: upper-right silhouette + broader center/right read */}
             <div
@@ -232,7 +233,7 @@ export default function HeroSection({ passes }: Props) {
         </div>
 
         {/* Copy + CTAs — left column */}
-        <div className="absolute bottom-0 left-0 top-0 z-10 flex w-1/2 flex-col justify-start pl-[8%] pr-8 pt-[calc(env(safe-area-inset-top,0px)+3.5rem+1.25rem)] text-left md:justify-center md:pb-10 md:pr-12 md:pt-[88px]">
+        <div className="absolute bottom-0 left-0 top-0 z-10 flex h-full min-h-0 w-full flex-col justify-start px-6 pt-[calc(env(safe-area-inset-top,0px)+3.5rem+1.25rem)] text-left md:w-1/2 md:justify-center md:px-0 md:pb-10 md:pl-[8%] md:pr-12 md:pt-[88px]">
           <div className="relative isolate max-w-xl pb-4 md:pb-0">
             <Reveal show={heroMounted} delayMs={0}>
               <p className="mb-4 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-[#39FF14] [text-shadow:0_1px_14px_rgba(0,0,0,0.55)] md:mb-6 md:text-sm md:tracking-[0.35em]">
@@ -310,7 +311,7 @@ export default function HeroSection({ passes }: Props) {
                 <a
                   href="#map"
                   onClick={scrollToMap}
-                  className="ac-hero-cta-secondary md:mt-0.5"
+                  className="ac-hero-cta-secondary hidden sm:inline-flex md:mt-0.5"
                 >
                   Karte erkunden
                 </a>
