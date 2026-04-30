@@ -122,7 +122,7 @@ export default function HeroSection({ passes }: Props) {
                 alt="AlpinChaser"
                 width={56}
                 height={56}
-                className="h-9 w-9 object-contain md:h-14 md:w-14"
+                className="h-10 w-10 object-contain md:h-14 md:w-14"
                 priority
               />
             </span>
@@ -253,8 +253,8 @@ export default function HeroSection({ passes }: Props) {
         />
 
         {/* Copy + CTAs — left column */}
-        <div className="relative z-20 flex min-h-0 w-full flex-1 flex-col justify-end px-4 pb-8 pt-[calc(52px+env(safe-area-inset-top,0px)+0.5rem)] text-left sm:px-5 max-md:pt-[calc(52px+env(safe-area-inset-top,0px)+1.35rem)] md:h-full md:w-1/2 md:justify-center md:px-0 md:pb-10 md:pl-[8%] md:pr-12 md:pt-[88px]">
-          <div className="relative isolate mx-auto w-full max-w-[430px] pb-2 md:mx-0 md:max-w-xl md:pb-0">
+        <div className="relative z-20 flex min-h-0 w-full flex-1 flex-col justify-end px-4 pb-8 pt-[calc(52px+env(safe-area-inset-top,0px)+0.5rem)] text-left sm:px-5 max-md:pb-5 max-md:pt-[calc(52px+env(safe-area-inset-top,0px)+1.35rem)] md:h-full md:w-1/2 md:justify-center md:px-0 md:pb-10 md:pl-[8%] md:pr-12 md:pt-[88px]">
+          <div className="relative isolate mx-auto w-full max-w-[430px] pb-2 max-md:pb-1 md:mx-0 md:max-w-xl md:pb-0">
             <Reveal show={heroMounted} delayMs={0}>
               <p className="mb-2.5 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-[#39FF14] [text-shadow:0_1px_14px_rgba(0,0,0,0.55)] max-md:mb-3 md:mb-6 md:text-sm md:tracking-[0.35em]">
                 — ALPEN-PASSBUCH —
@@ -263,7 +263,7 @@ export default function HeroSection({ passes }: Props) {
 
             <Reveal show={heroMounted} delayMs={120}>
               <h1
-                className="mb-0 font-black leading-[1.02] text-white [text-shadow:0_4px_48px_rgba(0,0,0,0.75),0_1px_0_rgba(0,0,0,0.4)] text-[clamp(1.52rem,5.25vw,2.15rem)] max-md:tracking-[-0.02em] md:mb-2 md:leading-[0.95] md:text-[clamp(2.75rem,9vw,6.25rem)] md:tracking-normal"
+                className="mb-0 font-black text-white [text-shadow:0_4px_48px_rgba(0,0,0,0.75),0_1px_0_rgba(0,0,0,0.4)] max-md:leading-[0.94] max-md:tracking-[-0.02em] max-md:text-[clamp(1.58rem,5.35vw,2.2rem)] md:mb-2 md:leading-[0.95] md:text-[clamp(2.75rem,9vw,6.25rem)] md:tracking-normal"
               >
                 <span className="block md:hidden">Wie viele Pässe hast du?</span>
                 <span className="hidden md:contents">
@@ -274,7 +274,7 @@ export default function HeroSection({ passes }: Props) {
             </Reveal>
             <Reveal show={heroMounted} delayMs={240}>
               <h1
-                className="mt-1.5 mb-3 font-black leading-[1.02] text-[#D4AF37] [text-shadow:0_0_1px_rgba(0,0,0,0.45),0_1px_0_rgba(0,0,0,0.4),0_3px_14px_rgba(0,0,0,0.42)] text-[clamp(1.52rem,5.25vw,2.15rem)] max-md:tracking-[-0.02em] md:mb-6 md:mt-0 md:leading-[0.95] md:text-[clamp(2.75rem,9vw,6.25rem)] md:tracking-normal"
+                className="mt-1 mb-3 font-black text-[#D4AF37] [text-shadow:0_0_1px_rgba(0,0,0,0.45),0_1px_0_rgba(0,0,0,0.4),0_3px_14px_rgba(0,0,0,0.42)] max-md:mb-2 max-md:font-extrabold max-md:leading-[0.96] max-md:tracking-[-0.02em] max-md:text-[clamp(1.5rem,5.1vw,2.06rem)] md:mb-6 md:mt-0 md:font-black md:leading-[0.95] md:text-[clamp(2.75rem,9vw,6.25rem)] md:tracking-normal"
               >
                 <span className="block md:hidden">Sammle deine Alpen.</span>
                 <span className="hidden md:inline">Sammle deine Alpen.</span>
@@ -283,7 +283,7 @@ export default function HeroSection({ passes }: Props) {
 
             <Reveal show={heroMounted} delayMs={360}>
               <p
-                className="mb-6 max-w-lg text-[0.9375rem] leading-relaxed [text-shadow:0_2px_20px_rgba(0,0,0,0.45)] max-md:mb-10 md:mb-8 md:text-lg"
+                className="mb-6 max-w-lg text-[0.9375rem] leading-relaxed [text-shadow:0_2px_20px_rgba(0,0,0,0.45)] max-md:mb-6 max-md:leading-snug md:mb-8 md:text-lg"
                 style={{ color: "rgba(255,255,255,0.6)" }}
               >
                 650+ Alpenpässe in 7 Ländern. Sieh, was du gefahren bist.{" "}
@@ -294,9 +294,9 @@ export default function HeroSection({ passes }: Props) {
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={480}>
-              <div className="mb-3 flex w-full flex-col gap-0 md:mb-10 md:w-auto md:flex-row md:items-start md:gap-5">
+              <div className="mb-3 flex w-full flex-col gap-0 max-md:mb-3 md:mb-10 md:w-auto md:flex-row md:items-start md:gap-5">
                 <div className="flex min-w-0 w-full flex-col gap-0 md:w-auto md:gap-1.5">
-                  <div className="max-md:rounded-[18px] max-md:bg-[rgba(0,0,0,0.14)] max-md:px-3.5 max-md:py-3.5 max-md:ring-1 max-md:ring-white/[0.05] md:contents">
+                  <div className="max-md:rounded-[18px] max-md:bg-[rgba(0,0,0,0.14)] max-md:px-3.5 max-md:py-3 max-md:ring-1 max-md:ring-white/[0.05] md:contents">
                     <a
                       href={APP_STORE_URL}
                       target="_blank"
@@ -316,10 +316,10 @@ export default function HeroSection({ passes }: Props) {
                       App downloaden
                     </a>
                   </div>
-                  <p className="mt-1.5 max-w-none text-[11px] font-medium leading-snug tracking-wide text-[rgba(255,255,255,0.72)] md:mt-3 md:max-w-[240px] md:hidden">
+                  <p className="mt-1.5 max-w-none text-[11px] font-medium leading-snug tracking-wide text-[rgba(255,255,255,0.72)] max-md:mt-3.5 max-md:text-[10px] max-md:text-[rgba(255,255,255,0.48)] md:mt-3 md:max-w-[240px] md:hidden">
                     Du fährst sie sowieso. Jetzt zählen sie.
                   </p>
-                  <p className="mt-0.5 max-w-none text-[11px] font-medium leading-snug tracking-wide text-[rgba(255,255,255,0.34)] md:mt-1.5 md:max-w-[240px] md:text-left">
+                  <p className="mt-0.5 max-w-none text-[11px] font-medium leading-snug tracking-wide text-[rgba(255,255,255,0.34)] max-md:mt-1 max-md:mb-2 max-md:text-[10px] max-md:text-[rgba(255,255,255,0.28)] md:mb-0 md:mt-1.5 md:max-w-[240px] md:text-left">
                     Sammle deine ersten Pässe.
                   </p>
                 </div>
@@ -334,27 +334,27 @@ export default function HeroSection({ passes }: Props) {
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={620}>
-              <div className="flex flex-wrap items-baseline gap-x-3.5 gap-y-1.5 border-t border-[rgba(212,175,55,0.14)] pt-2.5 text-sm max-md:-mt-1 max-md:gap-x-3 sm:gap-x-9 md:mt-0 md:gap-x-5 md:gap-y-3 md:border-t-0 md:pt-0">
+              <div className="flex flex-wrap items-baseline gap-x-3.5 gap-y-1.5 border-t border-[rgba(212,175,55,0.14)] pt-2.5 text-sm max-md:mt-3 max-md:gap-x-2.5 max-md:pt-3 sm:gap-x-9 md:mt-0 md:gap-x-5 md:gap-y-3 md:border-t-0 md:pt-0">
                 <div>
                   <p className="text-2xl font-bold tabular-nums text-[#D4AF37] md:text-3xl">
                     650+
                   </p>
-                  <p className="text-[0.65rem] uppercase tracking-wider text-[rgba(255,255,255,0.6)] md:text-xs">
+                  <p className="text-xs uppercase tracking-wider text-[rgba(255,255,255,0.6)] max-md:text-[0.58rem] max-md:tracking-wide">
                     Pässe
                   </p>
                 </div>
-                <span className="select-none text-base text-[#D4AF37]/25 md:text-lg max-md:text-sm" aria-hidden>
+                <span className="select-none text-base text-[#D4AF37]/25 md:text-lg max-md:text-xs" aria-hidden>
                   ·
                 </span>
                 <div>
                   <p className="text-2xl font-bold tabular-nums text-[#D4AF37] md:text-3xl">
                     7
                   </p>
-                  <p className="text-[0.65rem] uppercase tracking-wider text-[rgba(255,255,255,0.6)] md:text-xs">
+                  <p className="text-xs uppercase tracking-wider text-[rgba(255,255,255,0.6)] max-md:text-[0.58rem] max-md:tracking-wide">
                     Länder
                   </p>
                 </div>
-                <span className="select-none text-base text-[#D4AF37]/25 md:text-lg max-md:text-sm" aria-hidden>
+                <span className="select-none text-base text-[#D4AF37]/25 md:text-lg max-md:text-xs" aria-hidden>
                   ·
                 </span>
                 <div>

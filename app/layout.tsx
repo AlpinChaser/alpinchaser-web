@@ -18,17 +18,25 @@ export default function RootLayout({
       <body className="antialiased overflow-x-hidden">
         {children}
         <footer className="border-t border-[#D4AF37]/20 bg-[#050506] text-neutral-300">
-          <div className="mx-auto max-w-6xl px-5 py-12 md:py-16">
-            <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-10 lg:gap-14">
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <Image
-                    src="/images/logo-glow.jpg"
-                    alt="AlpinChaser"
-                    width={48}
-                    height={48}
-                    className="h-12 w-12 shrink-0 rounded-md object-cover"
-                  />
+          <div className="mx-auto max-w-6xl px-5 py-11 md:py-16">
+            <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-10 lg:gap-14">
+              <div className="space-y-3.5 md:space-y-3">
+                <div className="flex items-center gap-2.5 md:gap-3">
+                  <span
+                    className="inline-flex shrink-0 rounded-md ring-1 ring-white/[0.06]"
+                    style={{
+                      filter:
+                        "drop-shadow(0 0 14px rgba(212,175,55,0.18)) drop-shadow(0 2px 8px rgba(0,0,0,0.65))",
+                    }}
+                  >
+                    <Image
+                      src="/images/logo-transparent.png"
+                      alt="AlpinChaser"
+                      width={56}
+                      height={56}
+                      className="h-10 w-10 shrink-0 object-contain md:h-14 md:w-14"
+                    />
+                  </span>
                   <p className="text-xs font-bold tracking-[0.35em] text-[#D4AF37]">
                     ALPINCHASER
                   </p>

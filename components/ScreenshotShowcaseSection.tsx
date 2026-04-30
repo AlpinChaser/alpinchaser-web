@@ -59,14 +59,14 @@ export default function ScreenshotShowcaseSection({ visible }: Props) {
             key={card.title}
             className="group flex flex-col overflow-hidden rounded-2xl border border-[rgba(212,175,55,0.22)] bg-[#121214] shadow-[0_12px_44px_rgba(0,0,0,0.48),inset_0_1px_0_rgba(255,255,255,0.04)] transition-[box-shadow,border-color,transform] duration-500 ease-out hover:-translate-y-1.5 hover:border-[rgba(212,175,55,0.38)] hover:shadow-[0_22px_64px_rgba(0,0,0,0.5),0_0_0_1px_rgba(212,175,55,0.08)] md:bg-[rgba(10,10,12,0.92)]"
           >
-            <div className="relative h-[min(92vw,400px)] w-full shrink-0 overflow-hidden bg-[#050506] sm:h-[min(90vw,420px)] md:aspect-[10/18] md:h-auto md:bg-[#0A0A0B]">
+            <div className="relative flex h-[min(92vw,400px)] w-full shrink-0 items-center justify-center overflow-hidden bg-[#050506] px-2 sm:h-[min(90vw,420px)] sm:px-2.5 md:block md:aspect-[10/18] md:h-auto md:bg-[#0A0A0B] md:px-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={card.image}
                 alt=""
                 loading={i < 3 ? "eager" : "lazy"}
                 decoding="async"
-                className="absolute inset-0 h-full w-full object-contain object-center md:object-cover md:object-top"
+                className="max-h-full max-w-full object-contain object-center md:absolute md:inset-0 md:h-full md:w-full md:object-cover md:object-top"
               />
             </div>
             <div
