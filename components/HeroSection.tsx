@@ -197,14 +197,14 @@ export default function HeroSection({ passes }: Props) {
         />
 
         {/* Hoodie image only — z-0; gradients live in sibling layers so copy stays on top */}
-        <div className="absolute left-0 right-0 top-0 z-0 h-[62%] w-full sm:h-[64%] md:inset-0 md:h-full md:w-[60%] md:py-16">
+        <div className="absolute left-0 right-0 top-0 z-0 h-[62%] w-full md:absolute md:right-0 md:top-0 md:bottom-0 md:left-auto md:w-[60%] md:h-full md:py-16">
           <div className="relative h-full w-full min-h-0">
             <Image
               src="/images/hero-hoodie.jpg"
               alt=""
               fill
               priority
-              className="object-[center_18%] md:object-[75%_center] object-cover md:object-cover"
+              className="object-cover object-[center_18%] md:object-[85%_center]"
               style={{
                 filter: "brightness(1.11) contrast(1.085) saturate(1.02)",
               }}
