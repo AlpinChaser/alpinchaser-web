@@ -1,11 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Pass } from "@/types/pass";
 
 const APP_STORE_URL =
   "https://apps.apple.com/at/app/alpinchaser/id6761077147";
+const GOOGLE_PLAY_URL =
+  "https://play.google.com/store/apps/details?id=com.alpinchaser.app";
+
+const APPLE_PATH =
+  "M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z";
+
+const ANDROID_ICON_PATH =
+  "M10 3h4l1 2H9l1-2zm8.6 7.48 1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24a11.4 11.4 0 0 0-8.94 0L5.65 6.67c-.18-.28-.54-.37-.83-.22-.3.16-.42.54-.26.85l1.84 3.18A9.45 9.45 0 0 0 4.5 15.5h15a9.45 9.45 0 0 0-1.9-5.02zM8 17h1.5v3H8v-3zm6.5 0H16v3h-1.5v-3z";
 
 interface Props {
   pass: Pass;
@@ -63,6 +71,20 @@ function AppCTAButton({ label, icon }: { label: string; icon: string }) {
 
 export default function PassInfoCard({ pass, onClose, isLocallyRidden, onMarkRidden }: Props) {
   const [bursting, setBursting] = useState(false);
+  const [showPlatforms, setShowPlatforms] = useState(false);
+  const platformDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!showPlatforms) return;
+    const onDocMouseDown = (e: MouseEvent) => {
+      const el = platformDropdownRef.current;
+      if (el && !el.contains(e.target as Node)) {
+        setShowPlatforms(false);
+      }
+    };
+    document.addEventListener("mousedown", onDocMouseDown);
+    return () => document.removeEventListener("mousedown", onDocMouseDown);
+  }, [showPlatforms]);
 
   const handleMarkRidden = () => {
     if (isLocallyRidden) return;
@@ -153,11 +175,11 @@ export default function PassInfoCard({ pass, onClose, isLocallyRidden, onMarkRid
 
         {/* ── Locked content teaser ── */}
         <div
-          className="rounded-xl overflow-hidden"
+          className="rounded-xl overflow-visible"
           style={{ border: "1px solid rgba(255,255,255,0.09)" }}
         >
           {/* Blurred preview rows */}
-          <div className="px-3 pt-3 pb-2 flex flex-col gap-2.5" style={{ background: "rgba(255,255,255,0.025)" }}>
+          <div className="overflow-hidden rounded-t-xl px-3 pt-3 pb-2 flex flex-col gap-2.5" style={{ background: "rgba(255,255,255,0.025)" }}>
             {[
               [14, 60], [22, 45], [18, 55], [12, 70], [20, 40],
             ].map(([w, flex], i) => (
@@ -170,7 +192,7 @@ export default function PassInfoCard({ pass, onClose, isLocallyRidden, onMarkRid
 
           {/* CTA */}
           <div
-            className="px-3 py-3 flex flex-col gap-3"
+            className="relative overflow-visible rounded-b-xl px-3 py-3 flex flex-col gap-3"
             style={{ borderTop: "1px solid rgba(255,255,255,0.07)", background: "rgba(8,8,11,0.7)" }}
           >
             <div className="flex items-center gap-2.5">
@@ -182,20 +204,73 @@ export default function PassInfoCard({ pass, onClose, isLocallyRidden, onMarkRid
                 </div>
               </div>
             </div>
-            <a
-              href={APP_STORE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ac-app-cta-btn flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-200"
-              style={{
-                background: "linear-gradient(135deg, rgba(212,175,55,0.18), rgba(212,175,55,0.08))",
-                border: "1px solid rgba(212,175,55,0.45)",
-                color: "#D4AF37",
-              }}
-            >
-              <span className="text-sm">📱</span>
-              In der App ansehen
-            </a>
+            <div ref={platformDropdownRef} className="relative w-full">
+              {showPlatforms ? (
+                <div
+                  className="absolute bottom-full left-0 right-0 z-[100] mb-2 overflow-hidden rounded-xl border border-[rgba(212,175,55,0.42)] bg-[rgba(15,15,18,0.98)] shadow-[0_-12px_32px_rgba(0,0,0,0.55)] backdrop-blur-md"
+                  role="menu"
+                  aria-label="App herunterladen"
+                >
+                  <a
+                    href={APP_STORE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    role="menuitem"
+                    className="flex items-center gap-2.5 px-3 py-2.5 text-left text-xs font-semibold text-[#F0F0F5] transition-colors hover:bg-white/5"
+                    onClick={() => setShowPlatforms(false)}
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="shrink-0 text-[#D4AF37]"
+                      aria-hidden
+                    >
+                      <path d={APPLE_PATH} />
+                    </svg>
+                    iOS – App Store
+                  </a>
+                  <div className="h-px bg-[rgba(212,175,55,0.28)]" aria-hidden />
+                  <a
+                    href={GOOGLE_PLAY_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    role="menuitem"
+                    className="flex items-center gap-2.5 px-3 py-2.5 text-left text-xs font-semibold text-[#F0F0F5] transition-colors hover:bg-white/5"
+                    onClick={() => setShowPlatforms(false)}
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="shrink-0 text-[#D4AF37]"
+                      aria-hidden
+                    >
+                      <path d={ANDROID_ICON_PATH} />
+                    </svg>
+                    Android – Google Play
+                  </a>
+                </div>
+              ) : null}
+              <button
+                type="button"
+                aria-expanded={showPlatforms}
+                aria-haspopup="menu"
+                onClick={() => setShowPlatforms((v) => !v)}
+                className="ac-app-cta-btn flex w-full cursor-pointer items-center justify-center gap-2 border-0 py-3 font-[inherit] text-xs font-bold uppercase tracking-widest transition-all duration-200"
+                style={{
+                  background: "linear-gradient(135deg, rgba(212,175,55,0.18), rgba(212,175,55,0.08))",
+                  border: "1px solid rgba(212,175,55,0.45)",
+                  color: "#D4AF37",
+                  borderRadius: 12,
+                }}
+              >
+                <span className="text-sm">📱</span>
+                In der App ansehen
+              </button>
+            </div>
           </div>
         </div>
 
