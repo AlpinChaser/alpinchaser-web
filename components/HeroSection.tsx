@@ -443,11 +443,11 @@ export default function HeroSection({ passes }: Props) {
       <section
         id="stats"
         ref={statsReveal.ref}
-        className="scroll-mt-24 border-t border-[rgba(212,175,55,0.12)] bg-[#050506] px-4 py-14 sm:px-5 md:py-28"
+        className="scroll-mt-24 border-t border-[rgba(212,175,55,0.12)] bg-[#050506] px-4 py-14 max-md:py-10 sm:px-5 md:py-28"
       >
         <div className="mx-auto flex max-w-[430px] flex-col divide-y divide-[rgba(212,175,55,0.14)] sm:max-w-5xl sm:flex-row sm:items-center sm:divide-y-0 sm:gap-0">
           <div
-            className={`flex flex-1 flex-col items-center py-5 text-center transition-all duration-700 ease-out sm:py-0 ${
+            className={`flex flex-1 flex-col items-center py-5 text-center transition-all duration-700 ease-out max-md:py-3 sm:py-0 ${
               statsReveal.visible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-8 opacity-0"
@@ -459,7 +459,7 @@ export default function HeroSection({ passes }: Props) {
             >
               650+
             </p>
-            <p className="mt-3 text-sm uppercase tracking-widest text-[#F0F0F5] md:text-base">
+            <p className="mt-3 text-sm uppercase tracking-widest text-[#F0F0F5] max-md:mt-2 md:text-base">
               Pässe
             </p>
           </div>
@@ -468,7 +468,7 @@ export default function HeroSection({ passes }: Props) {
             aria-hidden
           />
           <div
-            className={`flex flex-1 flex-col items-center py-5 text-center transition-all duration-700 ease-out sm:py-0 ${
+            className={`flex flex-1 flex-col items-center py-5 text-center transition-all duration-700 ease-out max-md:py-3 sm:py-0 ${
               statsReveal.visible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-8 opacity-0"
@@ -481,7 +481,7 @@ export default function HeroSection({ passes }: Props) {
             >
               {countryCount}
             </p>
-            <p className="mt-3 text-sm uppercase tracking-widest text-[#F0F0F5] md:text-base">
+            <p className="mt-3 text-sm uppercase tracking-widest text-[#F0F0F5] max-md:mt-2 md:text-base">
               Länder
             </p>
           </div>
@@ -490,7 +490,7 @@ export default function HeroSection({ passes }: Props) {
             aria-hidden
           />
           <div
-            className={`flex flex-1 flex-col items-center py-5 text-center transition-all duration-700 ease-out sm:py-0 ${
+            className={`flex flex-1 flex-col items-center py-5 text-center transition-all duration-700 ease-out max-md:py-3 sm:py-0 ${
               statsReveal.visible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-8 opacity-0"
@@ -503,7 +503,7 @@ export default function HeroSection({ passes }: Props) {
             >
               Passbuch
             </p>
-            <p className="mt-3 text-sm uppercase tracking-widest text-[#F0F0F5] md:text-base">
+            <p className="mt-3 text-sm uppercase tracking-widest text-[#F0F0F5] max-md:mt-2 md:text-base">
               Digital
             </p>
           </div>
