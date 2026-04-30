@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+const APP_STORE_URL =
+  "https://apps.apple.com/at/app/alpinchaser/id6761077147";
+
 interface Props {
   unsavedCount: number;
   onDismiss: () => void;
@@ -78,8 +81,11 @@ export default function SaveProgressModal({ unsavedCount, onDismiss }: Props) {
 
         {/* Buttons */}
         <div className="flex gap-2.5">
-          <button
-            className="flex-1 py-3 rounded-xl text-[13px] font-bold transition-all duration-150"
+          <a
+            href={APP_STORE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-1 items-center justify-center py-3 rounded-xl text-[13px] font-bold transition-all duration-150 text-center"
             style={{
               background: "linear-gradient(135deg, rgba(212,175,55,0.22), rgba(212,175,55,0.1))",
               border: "1px solid rgba(212,175,55,0.5)",
@@ -89,9 +95,12 @@ export default function SaveProgressModal({ unsavedCount, onDismiss }: Props) {
             onMouseOut={e => ((e.currentTarget as HTMLElement).style.boxShadow = "none")}
           >
             Anmelden
-          </button>
-          <button
-            className="flex-1 py-3 rounded-xl text-[13px] font-bold transition-all duration-150"
+          </a>
+          <a
+            href={APP_STORE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-1 items-center justify-center py-3 rounded-xl text-[13px] font-bold transition-all duration-150 text-center"
             style={{
               background: "rgba(57,255,20,0.07)",
               border: "1px solid rgba(57,255,20,0.28)",
@@ -101,7 +110,7 @@ export default function SaveProgressModal({ unsavedCount, onDismiss }: Props) {
             onMouseOut={e => ((e.currentTarget as HTMLElement).style.boxShadow = "none")}
           >
             App laden
-          </button>
+          </a>
           <button
             onClick={handleDismiss}
             className="px-4 py-3 rounded-xl text-[12px] transition-colors"

@@ -4,6 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { Pass } from "@/types/pass";
 
+const APP_STORE_URL =
+  "https://apps.apple.com/at/app/alpinchaser/id6761077147";
+
 interface Props {
   pass: Pass;
   onClose: () => void;
@@ -20,7 +23,10 @@ const FLAG: Record<string, string> = {
 function AppCTAButton({ label, icon }: { label: string; icon: string }) {
   return (
     <div className="relative group">
-      <button
+      <a
+        href={APP_STORE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
         className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-150"
         style={{
           background: "rgba(255,255,255,0.04)",
@@ -38,7 +44,7 @@ function AppCTAButton({ label, icon }: { label: string; icon: string }) {
       >
         <span>{icon}</span>
         <span>{label}</span>
-      </button>
+      </a>
       {/* Tooltip */}
       <div
         className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5 rounded-lg text-[10px] font-mono whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150"
@@ -177,7 +183,9 @@ export default function PassInfoCard({ pass, onClose, isLocallyRidden, onMarkRid
               </div>
             </div>
             <a
-              href="#"
+              href={APP_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="ac-app-cta-btn flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-200"
               style={{
                 background: "linear-gradient(135deg, rgba(212,175,55,0.18), rgba(212,175,55,0.08))",
