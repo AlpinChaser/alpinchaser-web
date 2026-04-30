@@ -187,28 +187,25 @@ export default function HeroSection({ passes }: Props) {
           className="pointer-events-none absolute inset-0 z-10 hidden md:block"
           style={{
             background: [
-              "linear-gradient(to bottom, rgba(10,10,11,0.9) 0%, rgba(10,10,11,0.5) 30%, rgba(10,10,11,0.7) 70%, rgba(10,10,11,0.95) 100%)",
-              "radial-gradient(ellipse 40% 46% at 86% 34%, rgba(212,175,55,0.075) 0%, transparent 64%)",
-              "radial-gradient(ellipse 105% 92% at 50% 50%, transparent 48%, rgba(0,0,0,0.48) 100%)",
-              "linear-gradient(to right, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.14) 44%, transparent 72%)",
+              "linear-gradient(to right, rgba(0,0,0,0.76) 0%, rgba(0,0,0,0.48) 16%, rgba(0,0,0,0.22) 38%, rgba(0,0,0,0.08) 58%, rgba(0,0,0,0.02) 78%, transparent 100%)",
+              "linear-gradient(to bottom, rgba(10,10,11,0.82) 0%, rgba(10,10,11,0.48) 24%, rgba(10,10,11,0.58) 52%, rgba(10,10,11,0.88) 100%)",
+              "radial-gradient(ellipse 42% 48% at 84% 36%, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.025) 52%, transparent 78%)",
+              "radial-gradient(ellipse 130% 105% at 50% 50%, transparent 40%, rgba(0,0,0,0.46) 100%)",
             ].join(", "),
           }}
           aria-hidden
         />
 
-        {/* Hoodie image only — z-0; gradients live in sibling layers so copy stays on top */}
-        <div className="absolute left-0 right-0 top-0 z-0 h-[62%] w-full md:absolute md:right-0 md:top-0 md:bottom-0 md:left-auto md:w-[60%] md:h-full md:py-16">
+        {/* Hoodie image — z-0; desktop full-bleed behind copy + right; grades on sibling z-10 + local layers */}
+        <div className="absolute left-0 right-0 top-0 z-0 h-[62%] w-full md:inset-0 md:h-full md:w-full">
           <div className="relative h-full w-full min-h-0">
             <Image
               src="/images/hero-hoodie.jpg"
               alt=""
               fill
               priority
-              className="object-cover object-[center_18%] md:object-[85%_center]"
-              style={{
-                filter: "brightness(1.11) contrast(1.085) saturate(1.02)",
-              }}
-              sizes="(max-width: 767px) 100vw, 60vw"
+              className="object-cover object-[center_18%] md:object-[54%_center] max-md:[filter:brightness(1.11)_contrast(1.085)_saturate(1.02)] md:[filter:brightness(1.15)_contrast(1.1)_saturate(1.03)]"
+              sizes="(max-width: 767px) 100vw, 100vw"
             />
             {/* Local lifts: upper-right silhouette + broader center/right read */}
             <div
@@ -217,6 +214,7 @@ export default function HeroSection({ passes }: Props) {
                 background: [
                   "radial-gradient(ellipse 50% 38% at 87% 25%, rgba(255,253,248,0.155) 0%, rgba(255,250,245,0.045) 36%, transparent 54%)",
                   "radial-gradient(ellipse 95% 88% at 72% 46%, rgba(255,252,245,0.14) 0%, rgba(255,250,240,0.04) 42%, transparent 62%)",
+                  "radial-gradient(ellipse 78% 72% at 22% 56%, rgba(255,252,248,0.048) 0%, rgba(255,250,245,0.014) 36%, transparent 58%)",
                 ].join(", "),
               }}
             />
@@ -225,28 +223,28 @@ export default function HeroSection({ passes }: Props) {
               className="pointer-events-none absolute inset-0 z-[2] hidden mix-blend-overlay opacity-[0.29] md:block"
               style={{
                 background:
-                  "linear-gradient(118deg, transparent 0%, transparent 39%, rgba(255,255,255,0.048) 49%, rgba(0,0,0,0.058) 54%, transparent 62%, transparent 100%)",
+                  "linear-gradient(118deg, transparent 0%, transparent 32%, rgba(255,255,255,0.042) 46%, rgba(0,0,0,0.045) 56%, transparent 70%, transparent 100%)",
               }}
             />
             <div
               className="pointer-events-none absolute inset-0 z-[3] hidden md:block"
               style={{
                 background:
-                  "linear-gradient(to right, #0A0A0B 0%, rgba(10,10,11,0.95) 15%, rgba(10,10,11,0.7) 35%, rgba(10,10,11,0.2) 60%, transparent 80%)",
+                  "radial-gradient(ellipse 110% 120% at 14% 50%, rgba(10,10,11,0.28) 0%, rgba(10,10,11,0.09) 36%, transparent 68%)",
               }}
             />
             <div
               className="pointer-events-none absolute inset-0 z-[4] hidden md:block"
               style={{
                 background:
-                  "linear-gradient(to bottom, #0A0A0B 0%, rgba(10,10,11,0.6) 15%, transparent 40%)",
+                  "linear-gradient(to bottom, rgba(10,10,11,0.88) 0%, rgba(10,10,11,0.42) 20%, rgba(10,10,11,0.12) 38%, transparent 48%)",
               }}
             />
             <div
               className="pointer-events-none absolute inset-0 z-[5] hidden md:block"
               style={{
                 background:
-                  "linear-gradient(to top, #0A0A0B 0%, rgba(10,10,11,0.6) 15%, transparent 40%)",
+                  "linear-gradient(to top, rgba(10,10,11,0.88) 0%, rgba(10,10,11,0.42) 20%, rgba(10,10,11,0.12) 38%, transparent 48%)",
               }}
             />
           </div>
