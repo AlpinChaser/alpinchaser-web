@@ -281,7 +281,7 @@ export default function HeroSection({ passes }: Props) {
 
             <Reveal show={heroMounted} delayMs={480}>
               <div className="mb-6 flex flex-col gap-3 md:mb-10 md:flex-row md:items-start md:gap-5">
-                <div className="flex min-w-0 flex-col gap-1.5">
+                <div className="flex min-w-0 flex-col gap-0 md:gap-1.5">
                   <a
                     href={APP_STORE_URL}
                     target="_blank"
@@ -300,7 +300,10 @@ export default function HeroSection({ passes }: Props) {
                     </svg>
                     App downloaden
                   </a>
-                  <p className="max-w-[240px] text-[11px] font-medium leading-snug tracking-wide text-[rgba(255,255,255,0.34)]">
+                  <p className="mt-3 max-w-[240px] text-[11px] font-medium leading-snug tracking-wide text-[rgba(255,255,255,0.72)] md:hidden">
+                    Du fährst sie sowieso. Jetzt zählen sie.
+                  </p>
+                  <p className="mt-1.5 max-w-[240px] text-[11px] font-medium leading-snug tracking-wide text-[rgba(255,255,255,0.34)] md:mt-0">
                     Sammle deine ersten Pässe.
                   </p>
                 </div>

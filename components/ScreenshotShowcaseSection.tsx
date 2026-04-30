@@ -53,35 +53,35 @@ export default function ScreenshotShowcaseSection({ visible }: Props) {
       id="features"
       className="scroll-mt-24 border-t border-[rgba(212,175,55,0.08)] bg-[#080809] px-5 py-10 md:px-10 md:py-28"
     >
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-5 md:grid-cols-2 md:gap-10">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 md:grid-cols-2 md:gap-10">
         {CARDS.map((card, i) => (
           <article
             key={card.title}
-            className="group flex flex-col overflow-hidden rounded-2xl border border-[rgba(212,175,55,0.2)] bg-[rgba(10,10,12,0.92)] shadow-[0_10px_48px_rgba(0,0,0,0.42)] transition-[box-shadow,border-color,transform] duration-500 ease-out hover:-translate-y-1.5 hover:border-[rgba(212,175,55,0.38)] hover:shadow-[0_22px_64px_rgba(0,0,0,0.5),0_0_0_1px_rgba(212,175,55,0.08)]"
+            className="group flex flex-col overflow-hidden rounded-2xl border border-[rgba(212,175,55,0.2)] bg-[#121214] shadow-[0_10px_48px_rgba(0,0,0,0.42)] transition-[box-shadow,border-color,transform] duration-500 ease-out hover:-translate-y-1.5 hover:border-[rgba(212,175,55,0.38)] hover:shadow-[0_22px_64px_rgba(0,0,0,0.5),0_0_0_1px_rgba(212,175,55,0.08)] md:bg-[rgba(10,10,12,0.92)]"
           >
-            <div className="relative h-[min(58vw,268px)] w-full shrink-0 overflow-hidden bg-[#0A0A0B] md:aspect-[10/18] md:h-auto">
+            <div className="relative h-[min(68vw,300px)] w-full shrink-0 overflow-hidden bg-transparent md:aspect-[10/18] md:h-auto md:bg-[#0A0A0B]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={card.image}
                 alt=""
                 loading={i < 3 ? "eager" : "lazy"}
                 decoding="async"
-                className="absolute inset-0 h-full w-full object-cover object-[center_12%] md:object-top"
+                className="absolute inset-0 h-full w-full object-cover object-center md:object-top"
               />
             </div>
             <div
-              className={`flex flex-1 flex-col gap-2.5 border-t border-[rgba(212,175,55,0.1)] p-4 transition-[opacity,transform] duration-500 ease-out md:gap-3 md:p-8 ${
+              className={`flex flex-1 flex-col gap-1.5 border-t border-[rgba(212,175,55,0.1)] px-4 pb-4 pt-3 transition-[opacity,transform] duration-500 ease-out md:gap-3 md:p-8 ${
                 visible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
               }`}
               style={{
                 transitionDelay: visible ? `${80 + i * 70}ms` : "0ms",
               }}
             >
-              <h3 className="text-lg font-bold leading-snug tracking-tight text-[#F0F0F5] md:text-xl">
+              <h3 className="text-xl font-bold leading-snug tracking-tight text-[#F0F0F5]">
                 {card.title}
               </h3>
               <p
-                className="text-sm leading-relaxed md:text-[0.95rem]"
+                className="text-sm leading-snug md:text-[0.95rem] md:leading-relaxed"
                 style={{ color: "rgba(255,255,255,0.58)" }}
               >
                 {card.text}

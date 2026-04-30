@@ -20,7 +20,7 @@ export default function ProductStepsSection() {
   return (
     <section
       aria-labelledby="emotional-lead-heading"
-      className="border-t border-[rgba(212,175,55,0.1)] bg-[#0A0A0B] px-5 py-12 md:px-10 md:py-32"
+      className="border-t border-[rgba(212,175,55,0.1)] bg-[#0A0A0B] px-5 py-10 md:px-10 md:py-32"
     >
       <div className="mx-auto max-w-6xl">
         <h2
@@ -36,7 +36,7 @@ export default function ProductStepsSection() {
           Du fährst sie sowieso. Jetzt zählen sie.
         </p>
 
-        <ol className="mt-8 grid list-none gap-8 md:mt-24 md:grid-cols-3 md:gap-0 md:gap-x-10 lg:gap-x-16">
+        <ol className="mt-8 grid list-none gap-6 md:mt-24 md:grid-cols-3 md:gap-0 md:gap-x-10 lg:gap-x-16">
           {STEPS.map((step, index) => (
             <li
               key={step.num}
@@ -47,12 +47,11 @@ export default function ProductStepsSection() {
                   {step.num}
                 </p>
                 <div className="space-y-2">
-                  <h3 className="text-lg font-bold tracking-tight text-[#F0F0F5] md:text-xl">
+                  <h3 className="text-xl font-bold tracking-tight text-[#F0F0F5]">
                     {step.title}
                   </h3>
                   <p
-                    className="max-w-[22rem] text-sm leading-relaxed md:text-[0.95rem]"
-                    style={{ color: "rgba(255,255,255,0.52)" }}
+                    className="max-w-[22rem] text-sm leading-relaxed text-[rgba(255,255,255,0.6)] md:text-[0.95rem] md:text-[rgba(255,255,255,0.52)]"
                   >
                     {step.text}
                   </p>
