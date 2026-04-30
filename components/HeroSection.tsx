@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import MapView from "@/components/MapView";
 import ProductStepsSection from "@/components/ProductStepsSection";
+import ScreenshotShowcaseSection from "@/components/ScreenshotShowcaseSection";
 import type { Pass } from "@/types/pass";
 
 const APP_STORE_URL =
@@ -70,29 +71,6 @@ function Reveal({
     </div>
   );
 }
-
-const FEATURES = [
-  {
-    image: "/images/screen5.png",
-    title: "Pässe sammeln & markieren",
-    text: "Hak ab was du gefahren hast. Bau deine Sammlung auf. Werde zur Legende.",
-  },
-  {
-    image: "/images/screen2.png",
-    title: "Touren planen",
-    text: "Kombiniere Pässe zu deiner perfekten Route. Starte direkt in Google Maps.",
-  },
-  {
-    image: "/images/screen10.png",
-    title: "Freunde herausfordern",
-    text: "Wer hat mehr Pässe? Der Vergleich zeigt wer wirklich die Alpen kennt.",
-  },
-  {
-    image: "/images/screen1.png",
-    title: "Missionen & Rangsystem",
-    text: "Vom Entdecker zum Meister. Jede Mission bringt dich näher an den Gipfel.",
-  },
-] as const;
 
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
@@ -398,66 +376,10 @@ export default function HeroSection({ passes }: Props) {
         </div>
       </section>
 
-      <ProductStepsSection />
-
-      {/* —— Features —— */}
-      <section
-        id="features"
-        ref={featuresReveal.ref}
-        className="scroll-mt-24 border-t border-[rgba(212,175,55,0.08)] bg-[#0A0A0B] px-5 py-20 md:py-28"
-      >
-        <div
-          className={`mx-auto max-w-6xl text-center transition-all duration-700 ${
-            featuresReveal.visible
-              ? "translate-y-0 opacity-100"
-              : "translate-y-8 opacity-0"
-          }`}
-        >
-          <h2 className="mb-4 text-2xl font-black uppercase tracking-[0.2em] text-[#D4AF37] md:text-3xl">
-            Alles in einer App
-          </h2>
-          <p
-            className="mx-auto max-w-2xl text-base md:text-lg"
-            style={{ color: "rgba(255,255,255,0.6)" }}
-          >
-            Nicht nur ein Navi. Ein Begleiter für jeden Kilometer.
-          </p>
-        </div>
-
-        <div className="mx-auto mt-14 flex max-w-6xl snap-x snap-mandatory gap-6 overflow-x-auto pb-3 md:grid md:grid-cols-2 md:gap-10 md:overflow-visible md:pb-0">
-          {FEATURES.map((f, i) => (
-            <article
-              key={f.title}
-              className={`group flex min-w-[min(100%,340px)] shrink-0 snap-center flex-col overflow-hidden rounded-2xl border-t-2 border-[#D4AF37] bg-[rgba(255,255,255,0.04)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_12px_48px_rgba(212,175,55,0.18)] md:min-w-0 md:w-full ${
-                featuresReveal.visible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-10 opacity-0"
-              }`}
-              style={{
-                transitionDelay: featuresReveal.visible ? `${120 + i * 100}ms` : "0ms",
-              }}
-            >
-              <div className="relative aspect-[16/10] w-full overflow-hidden">
-                <Image
-                  src={f.image}
-                  alt=""
-                  fill
-                  className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-              <div className="flex flex-1 flex-col gap-3 p-6 md:p-7">
-                <h3 className="text-lg font-bold text-[#F0F0F5] md:text-xl">
-                  {f.title}
-                </h3>
-                <p className="text-sm leading-relaxed md:text-base" style={{ color: "rgba(255,255,255,0.6)" }}>
-                  {f.text}
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+      <div ref={featuresReveal.ref}>
+        <ProductStepsSection />
+        <ScreenshotShowcaseSection visible={featuresReveal.visible} />
+      </div>
 
       {/* —— Map —— */}
       <section id="map" ref={mapReveal.ref} className="scroll-mt-24 bg-[#0A0A0B]">
