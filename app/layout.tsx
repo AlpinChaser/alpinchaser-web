@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import "./globals.css";
 
@@ -20,11 +21,20 @@ export default function RootLayout({
           <div className="mx-auto max-w-6xl px-5 py-12 md:py-16">
             <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-10 lg:gap-14">
               <div className="space-y-3">
-                <p className="text-lg font-semibold tracking-tight text-[#D4AF37]">
-                  AlpinChaser
-                </p>
+                <div className="flex items-center gap-3">
+                  <Image
+                    src="/images/logo-glow.jpg"
+                    alt="AlpinChaser"
+                    width={48}
+                    height={48}
+                    className="h-12 w-12 shrink-0 rounded-md object-cover"
+                  />
+                  <p className="text-xs font-bold tracking-[0.35em] text-[#D4AF37]">
+                    ALPINCHASER
+                  </p>
+                </div>
                 <p className="max-w-xs text-sm leading-relaxed text-neutral-400">
-                  660+ Alpenpässe. Deine Sammlung.
+                  658+ Alpenpässe. Deine Sammlung.
                 </p>
               </div>
 
