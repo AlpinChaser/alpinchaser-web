@@ -20,7 +20,7 @@ export default function ProductStepsSection() {
   return (
     <section
       aria-labelledby="emotional-lead-heading"
-      className="border-t border-[rgba(212,175,55,0.1)] bg-[#0A0A0B] px-5 py-24 md:px-10 md:py-32"
+      className="border-t border-[rgba(212,175,55,0.1)] bg-[#0A0A0B] px-5 py-12 md:px-10 md:py-32"
     >
       <div className="mx-auto max-w-6xl">
         <h2
@@ -30,13 +30,13 @@ export default function ProductStepsSection() {
           Wie viele hast du schon?
         </h2>
         <p
-          className="mt-5 max-w-2xl text-lg font-medium leading-relaxed md:text-xl"
+          className="mt-3 max-w-2xl text-base font-medium leading-relaxed md:mt-5 md:text-xl"
           style={{ color: "rgba(255,255,255,0.58)" }}
         >
           Du fährst sie sowieso. Jetzt zählen sie.
         </p>
 
-        <ol className="mt-16 grid list-none gap-12 md:mt-24 md:grid-cols-3 md:gap-0 md:gap-x-10 lg:gap-x-16">
+        <ol className="mt-8 grid list-none gap-8 md:mt-24 md:grid-cols-3 md:gap-0 md:gap-x-10 lg:gap-x-16">
           {STEPS.map((step, index) => (
             <li
               key={step.num}

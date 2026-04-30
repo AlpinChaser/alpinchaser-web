@@ -105,11 +105,11 @@ export default function HeroSection({ passes }: Props) {
     <div className="min-h-screen bg-[#0A0A0B] text-[#F0F0F5]">
       {/* —— Navbar —— */}
       <header
-        className="fixed inset-x-0 top-0 z-50 border-b border-[rgba(212,175,55,0.22)] bg-[rgba(5,5,7,0.58)] backdrop-blur-xl backdrop-saturate-150"
+        className="fixed inset-x-0 top-0 z-50 border-b border-[rgba(212,175,55,0.22)] bg-[rgba(5,5,7,0.58)] pt-[env(safe-area-inset-top,0px)] backdrop-blur-xl backdrop-saturate-150"
         style={{ WebkitBackdropFilter: "blur(18px) saturate(1.12)" }}
       >
-        <div className="mx-auto flex h-[58px] max-w-7xl flex-wrap items-center justify-between gap-y-2 px-5 md:flex-nowrap md:gap-x-2 md:px-8">
-          <Link href="/" className="flex shrink-0 items-center gap-3">
+        <div className="mx-auto flex h-14 max-w-7xl flex-nowrap items-center justify-between gap-y-0 overflow-hidden px-4 md:h-[58px] md:gap-x-2 md:overflow-visible md:px-8">
+          <Link href="/" className="flex shrink-0 items-center gap-2 md:gap-3">
             <span
               className="inline-flex shrink-0 rounded-md ring-1 ring-white/[0.06]"
               style={{
@@ -122,16 +122,16 @@ export default function HeroSection({ passes }: Props) {
                 alt="AlpinChaser"
                 width={56}
                 height={56}
-                className="h-14 w-14 object-contain"
+                className="h-10 w-10 object-contain md:h-14 md:w-14"
                 priority
               />
             </span>
-            <span className="text-xs font-bold tracking-[0.35em] text-[#D4AF37]">
+            <span className="text-[0.65rem] font-bold tracking-[0.32em] text-[#D4AF37] md:text-xs md:tracking-[0.35em]">
               ALPINCHASER
             </span>
           </Link>
 
-          <nav className="order-3 flex w-full flex-wrap items-center justify-center gap-x-3 gap-y-1 py-0.5 text-sm md:order-none md:w-auto md:flex-nowrap md:gap-x-5 md:py-0">
+          <nav className="hidden flex-1 flex-nowrap items-center justify-center gap-x-3 py-0 text-sm md:flex md:w-auto md:gap-x-5 md:py-0">
             <NavLink href="#map">Pässe</NavLink>
             <span className="text-[#D4AF37]/50" aria-hidden>
               ·
@@ -151,7 +151,7 @@ export default function HeroSection({ passes }: Props) {
             href={APP_STORE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center justify-center rounded-lg border border-[rgba(212,175,55,0.42)] bg-white/[0.03] px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#D4AF37] shadow-[0_2px_16px_rgba(0,0,0,0.35)] transition-all duration-200 hover:border-[rgba(212,175,55,0.58)] hover:bg-[rgba(212,175,55,0.1)] hover:shadow-[0_4px_22px_rgba(0,0,0,0.4)] md:text-[13px]"
+            className="hidden shrink-0 items-center justify-center rounded-lg border border-[rgba(212,175,55,0.42)] bg-white/[0.03] px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#D4AF37] shadow-[0_2px_16px_rgba(0,0,0,0.35)] transition-all duration-200 hover:border-[rgba(212,175,55,0.58)] hover:bg-[rgba(212,175,55,0.1)] hover:shadow-[0_4px_22px_rgba(0,0,0,0.4)] md:inline-flex md:text-[13px]"
           >
             App downloaden
           </a>
@@ -159,7 +159,7 @@ export default function HeroSection({ passes }: Props) {
       </header>
 
       {/* —— Hero —— */}
-      <section className="relative min-h-[88svh] overflow-hidden bg-[#0A0A0B] md:min-h-screen">
+      <section className="relative min-h-[72svh] overflow-hidden bg-[#0A0A0B] md:min-h-screen">
         {/* Full-hero cinematic grade: readability + vignette + warm accent */}
         <div
           className="pointer-events-none absolute inset-0 z-[4]"
@@ -232,36 +232,44 @@ export default function HeroSection({ passes }: Props) {
         </div>
 
         {/* Copy + CTAs — left column */}
-        <div className="absolute bottom-0 left-0 top-0 z-10 flex w-1/2 flex-col justify-center pl-[8%] pr-8 pb-6 pt-[72px] text-left md:pb-10 md:pr-12 md:pt-[88px]">
-          <div className="relative isolate max-w-xl">
+        <div className="absolute bottom-0 left-0 top-0 z-10 flex w-1/2 flex-col justify-start pl-[8%] pr-8 pt-[calc(env(safe-area-inset-top,0px)+3.5rem+1.25rem)] text-left md:justify-center md:pb-10 md:pr-12 md:pt-[88px]">
+          <div className="relative isolate max-w-xl pb-4 md:pb-0">
             <Reveal show={heroMounted} delayMs={0}>
-              <p className="mb-6 font-mono text-xs uppercase tracking-[0.35em] text-[#39FF14] [text-shadow:0_1px_14px_rgba(0,0,0,0.55)] md:text-sm">
+              <p className="mb-4 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-[#39FF14] [text-shadow:0_1px_14px_rgba(0,0,0,0.55)] md:mb-6 md:text-sm md:tracking-[0.35em]">
                 — ALPEN-PASSBUCH —
               </p>
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={120}>
               <h1
-                className="mb-2 font-black leading-[0.95] text-white [text-shadow:0_4px_48px_rgba(0,0,0,0.75),0_1px_0_rgba(0,0,0,0.4)]"
-                style={{ fontSize: "clamp(2.75rem, 9vw, 6.25rem)" }}
+                className="mb-1 font-black leading-[0.98] text-white [text-shadow:0_4px_48px_rgba(0,0,0,0.75),0_1px_0_rgba(0,0,0,0.4)] text-[clamp(1.45rem,5.2vw,2.05rem)] md:mb-2 md:leading-[0.95] md:text-[clamp(2.75rem,9vw,6.25rem)]"
               >
-                Wie viele{" "}
-                <br className="md:hidden" />
-                <span className="whitespace-nowrap">Pässe hast du?</span>
+                <span className="flex flex-col md:hidden">
+                  <span>Wie viele</span>
+                  <span>Pässe hast du?</span>
+                </span>
+                <span className="hidden md:contents">
+                  <span>Wie viele </span>
+                  <span className="whitespace-nowrap">Pässe hast du?</span>
+                </span>
               </h1>
             </Reveal>
             <Reveal show={heroMounted} delayMs={240}>
               <h1
-                className="mb-6 font-black leading-[0.95] text-[#D4AF37] [text-shadow:0_0_1px_rgba(0,0,0,0.45),0_1px_0_rgba(0,0,0,0.4),0_3px_14px_rgba(0,0,0,0.42)]"
-                style={{ fontSize: "clamp(2.75rem, 9vw, 6.25rem)" }}
+                className="mb-4 font-black leading-[0.98] text-[#D4AF37] [text-shadow:0_0_1px_rgba(0,0,0,0.45),0_1px_0_rgba(0,0,0,0.4),0_3px_14px_rgba(0,0,0,0.42)] text-[clamp(1.45rem,5.2vw,2.05rem)] md:mb-6 md:leading-[0.95] md:text-[clamp(2.75rem,9vw,6.25rem)]"
               >
-                Sammle deine Alpen.
+                <span className="flex flex-col md:hidden">
+                  <span>Sammle</span>
+                  <span>deine</span>
+                  <span>Alpen.</span>
+                </span>
+                <span className="hidden md:inline">Sammle deine Alpen.</span>
               </h1>
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={360}>
               <p
-                className="mb-8 max-w-lg text-base leading-relaxed [text-shadow:0_2px_20px_rgba(0,0,0,0.45)] md:text-lg"
+                className="mb-5 max-w-lg text-sm leading-relaxed [text-shadow:0_2px_20px_rgba(0,0,0,0.45)] md:mb-8 md:text-lg"
                 style={{ color: "rgba(255,255,255,0.6)" }}
               >
                 650+ Alpenpässe in 7 Ländern. Sieh, was du gefahren bist.{" "}
@@ -272,7 +280,7 @@ export default function HeroSection({ passes }: Props) {
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={480}>
-              <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-start md:gap-5">
+              <div className="mb-6 flex flex-col gap-3 md:mb-10 md:flex-row md:items-start md:gap-5">
                 <div className="flex min-w-0 flex-col gap-1.5">
                   <a
                     href={APP_STORE_URL}
@@ -307,7 +315,7 @@ export default function HeroSection({ passes }: Props) {
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={620}>
-              <div className="flex flex-wrap items-baseline gap-x-5 gap-y-3 text-sm sm:gap-x-9">
+              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 text-sm sm:gap-x-9 md:gap-x-5 md:gap-y-3">
                 <div>
                   <p className="text-2xl font-bold tabular-nums text-[#D4AF37] md:text-3xl">
                     650+
@@ -346,18 +354,18 @@ export default function HeroSection({ passes }: Props) {
 
         {/* Subtle proof — GS / touring pass completion */}
         <div
-          className="pointer-events-none absolute bottom-[calc(5%+10px)] right-[3%] z-[6] block w-[min(168px,70vw)] origin-bottom-right scale-[0.88] rounded-xl border border-[rgba(212,175,55,0.34)] bg-[rgba(10,10,12,0.58)] px-3.5 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-md md:bottom-[calc(11%+14px)] md:right-[4%] md:w-[min(210px,calc(38vw-1rem))] md:scale-100 md:px-4 md:py-3.5"
+          className="pointer-events-none absolute bottom-[calc(11%+14px)] right-[4%] z-[6] hidden w-[min(210px,calc(38vw-1rem))] rounded-xl border border-[rgba(212,175,55,0.34)] bg-[rgba(10,10,12,0.58)] px-4 py-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-md md:block"
           style={{ WebkitBackdropFilter: "blur(14px)" }}
         >
           <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0">
-            <span className="text-xl font-black tabular-nums tracking-tight text-[#D4AF37] [text-shadow:0_1px_0_rgba(0,0,0,0.35)] md:text-2xl">
+            <span className="text-2xl font-black tabular-nums tracking-tight text-[#D4AF37] [text-shadow:0_1px_0_rgba(0,0,0,0.35)]">
               97%
             </span>
-            <span className="text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-[rgba(255,255,255,0.58)] md:text-[0.7rem]">
+            <span className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-[rgba(255,255,255,0.58)]">
               Österreich
             </span>
           </div>
-          <p className="mt-2 text-[0.62rem] leading-snug text-[rgba(255,255,255,0.58)] md:text-[0.7rem]">
+          <p className="mt-2 text-[0.7rem] leading-snug text-[rgba(255,255,255,0.58)]">
             Noch 1 Pass bis zum Meister.
           </p>
           <div
