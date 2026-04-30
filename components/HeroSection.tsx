@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import ComingSoonModal from "./ComingSoonModal";
 
 interface Props {
   passCount: number;
@@ -10,7 +9,6 @@ interface Props {
 
 export default function HeroSection({ passCount }: Props) {
   const [visible, setVisible] = useState(false);
-  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 80);
@@ -157,12 +155,17 @@ export default function HeroSection({ passCount }: Props) {
             </svg>
             Karte erkunden
           </a>
-          <button onClick={() => setShowModal(true)} className="ac-btn-secondary">
+          <a
+            href="https://apps.apple.com/at/app/alpinchaser/id6761077147"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ac-btn-secondary"
+          >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
               <path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/>
             </svg>
             App downloaden
-          </button>
+          </a>
         </div>
       </div>
 
@@ -191,7 +194,6 @@ export default function HeroSection({ passCount }: Props) {
         </div>
       </div>
 
-      {showModal && <ComingSoonModal onClose={() => setShowModal(false)} />}
     </section>
   );
 }
