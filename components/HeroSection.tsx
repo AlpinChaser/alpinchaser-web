@@ -204,7 +204,7 @@ export default function HeroSection({ passes }: Props) {
               alt=""
               fill
               priority
-              className="object-cover object-[center_18%] md:object-cover md:object-center"
+              className="object-[center_18%] md:object-[75%_center] object-cover md:object-cover"
               style={{
                 filter: "brightness(1.11) contrast(1.085) saturate(1.02)",
               }}
@@ -325,80 +325,82 @@ export default function HeroSection({ passes }: Props) {
                     >
                       {showPlatforms ? (
                         <div
-                          className="absolute bottom-full left-0 right-0 z-[60] flex flex-col items-center max-md:mb-1 max-md:translate-y-2 md:left-auto md:right-0 md:mb-4 md:min-w-[18.25rem] md:translate-y-0"
+                          className="absolute bottom-full left-0 right-0 z-[60] max-md:mb-2.5 max-md:translate-y-3 md:left-auto md:right-0 md:mb-4 md:min-w-[18.25rem] md:translate-y-0"
                           role="presentation"
                         >
-                          <div
-                            className="w-full max-w-[18.25rem] overflow-hidden rounded-[1.125rem] border border-[rgba(212,175,55,0.16)] bg-[rgba(7,7,9,0.94)] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06),0_-20px_56px_rgba(0,0,0,0.55),0_0_40px_-10px_rgba(212,175,55,0.17)] backdrop-blur-xl backdrop-saturate-150 max-md:mx-auto md:max-w-none md:min-w-[18.25rem]"
-                            role="menu"
-                            aria-label="App herunterladen"
-                          >
-                            <p className="border-b border-[rgba(255,255,255,0.06)] px-4 pb-2.5 pt-3.5 text-[0.625rem] font-semibold uppercase tracking-[0.2em] text-[rgba(196,164,74,0.72)] max-md:px-3.5 max-md:pb-2 max-md:pt-2.5">
-                              Download wählen
-                            </p>
-                            <a
-                              href={APP_STORE_URL}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              role="menuitem"
-                              className="group flex items-center gap-3.5 px-4 py-4 text-left transition-[background-color,box-shadow] duration-200 ease-out hover:bg-[rgba(255,255,255,0.045)] active:bg-[rgba(255,255,255,0.07)] max-md:gap-3 max-md:px-3.5 max-md:py-2.5 md:py-3.5"
-                              onClick={() => setShowPlatforms(false)}
-                            >
-                              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.625rem] bg-[rgba(255,255,255,0.035)] ring-1 ring-[rgba(255,255,255,0.06)] transition-[background-color,box-shadow] duration-200 group-hover:bg-[rgba(255,255,255,0.055)] group-hover:ring-[rgba(212,175,55,0.12)] max-md:h-9 max-md:w-9">
-                                <svg
-                                  width="22"
-                                  height="22"
-                                  viewBox="0 0 24 24"
-                                  fill="currentColor"
-                                  className="h-[22px] w-[22px] text-[#D4AF37] max-md:h-[18px] max-md:w-[18px]"
-                                  aria-hidden
-                                >
-                                  <path d={APPLE_PATH} />
-                                </svg>
-                              </span>
-                              <span className="min-w-0 flex-1 text-[0.9375rem] font-semibold leading-snug tracking-tight text-[#F2F2F8] max-md:text-[0.875rem]">
-                                iOS – App Store
-                              </span>
-                            </a>
+                          <div className="ac-hero-platform-dropdown-enter flex w-full flex-col items-center">
                             <div
-                              className="mx-4 h-px bg-gradient-to-r from-transparent via-[rgba(212,175,55,0.22)] to-transparent max-md:mx-3.5"
-                              aria-hidden
-                            />
-                            <a
-                              href={GOOGLE_PLAY_URL}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              role="menuitem"
-                              className="group flex items-center gap-3.5 px-4 py-4 text-left transition-[background-color,box-shadow] duration-200 ease-out hover:bg-[rgba(255,255,255,0.045)] active:bg-[rgba(255,255,255,0.07)] max-md:gap-3 max-md:px-3.5 max-md:py-2.5 md:py-3.5"
-                              onClick={() => setShowPlatforms(false)}
+                              className="w-full max-w-[18.25rem] overflow-hidden rounded-[1.125rem] border border-[rgba(212,175,55,0.16)] bg-[rgba(7,7,9,0.94)] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06),0_-20px_56px_rgba(0,0,0,0.55),0_0_40px_-10px_rgba(212,175,55,0.17)] backdrop-blur-xl backdrop-saturate-150 max-md:mx-auto md:max-w-none md:min-w-[18.25rem]"
+                              role="menu"
+                              aria-label="App herunterladen"
                             >
-                              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.625rem] bg-[rgba(255,255,255,0.035)] ring-1 ring-[rgba(255,255,255,0.06)] transition-[background-color,box-shadow] duration-200 group-hover:bg-[rgba(255,255,255,0.055)] group-hover:ring-[rgba(212,175,55,0.12)] max-md:h-9 max-md:w-9">
-                                <svg
-                                  width="22"
-                                  height="22"
-                                  viewBox="0 0 24 24"
-                                  fill="currentColor"
-                                  className="h-[22px] w-[22px] text-[#D4AF37] max-md:h-[18px] max-md:w-[18px]"
-                                  aria-hidden
-                                >
-                                  <path d={ANDROID_ICON_PATH} />
-                                </svg>
-                              </span>
-                              <span className="min-w-0 flex-1 text-[0.9375rem] font-semibold leading-snug tracking-tight text-[#F2F2F8] max-md:text-[0.875rem]">
-                                Android – Google Play
-                              </span>
-                            </a>
+                              <p className="border-b border-[rgba(255,255,255,0.06)] px-4 pb-2.5 pt-3.5 text-[0.625rem] font-semibold uppercase tracking-[0.2em] text-[rgba(196,164,74,0.72)] max-md:px-3.5 max-md:pb-1.5 max-md:pt-2">
+                                Download wählen
+                              </p>
+                              <a
+                                href={APP_STORE_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                role="menuitem"
+                                className="group flex items-center gap-3.5 px-4 py-4 text-left transition-[background-color,box-shadow] duration-200 ease-out hover:bg-[rgba(255,255,255,0.045)] active:bg-[rgba(255,255,255,0.07)] max-md:gap-3 max-md:px-3.5 max-md:py-2 md:py-3.5"
+                                onClick={() => setShowPlatforms(false)}
+                              >
+                                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.625rem] bg-[rgba(255,255,255,0.035)] ring-1 ring-[rgba(255,255,255,0.06)] transition-[background-color,box-shadow] duration-200 group-hover:bg-[rgba(255,255,255,0.055)] group-hover:ring-[rgba(212,175,55,0.12)] max-md:h-8 max-md:w-8">
+                                  <svg
+                                    width="22"
+                                    height="22"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    className="h-[22px] w-[22px] text-[#D4AF37] max-md:h-4 max-md:w-4"
+                                    aria-hidden
+                                  >
+                                    <path d={APPLE_PATH} />
+                                  </svg>
+                                </span>
+                                <span className="min-w-0 flex-1 text-[0.9375rem] font-semibold leading-snug tracking-tight text-[#F2F2F8] max-md:text-[0.875rem]">
+                                  iOS – App Store
+                                </span>
+                              </a>
+                              <div
+                                className="mx-4 h-px bg-gradient-to-r from-transparent via-[rgba(212,175,55,0.22)] to-transparent max-md:mx-3.5"
+                                aria-hidden
+                              />
+                              <a
+                                href={GOOGLE_PLAY_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                role="menuitem"
+                                className="group flex items-center gap-3.5 px-4 py-4 text-left transition-[background-color,box-shadow] duration-200 ease-out hover:bg-[rgba(255,255,255,0.045)] active:bg-[rgba(255,255,255,0.07)] max-md:gap-3 max-md:px-3.5 max-md:py-2 md:py-3.5"
+                                onClick={() => setShowPlatforms(false)}
+                              >
+                                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.625rem] bg-[rgba(255,255,255,0.035)] ring-1 ring-[rgba(255,255,255,0.06)] transition-[background-color,box-shadow] duration-200 group-hover:bg-[rgba(255,255,255,0.055)] group-hover:ring-[rgba(212,175,55,0.12)] max-md:h-8 max-md:w-8">
+                                  <svg
+                                    width="22"
+                                    height="22"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    className="h-[22px] w-[22px] text-[#D4AF37] max-md:h-4 max-md:w-4"
+                                    aria-hidden
+                                  >
+                                    <path d={ANDROID_ICON_PATH} />
+                                  </svg>
+                                </span>
+                                <span className="min-w-0 flex-1 text-[0.9375rem] font-semibold leading-snug tracking-tight text-[#F2F2F8] max-md:text-[0.875rem]">
+                                  Android – Google Play
+                                </span>
+                              </a>
+                            </div>
+                            <svg
+                              className="-mt-px h-[7px] w-[14px] shrink-0 text-[rgba(180,150,65,0.55)]"
+                              viewBox="0 0 14 7"
+                              aria-hidden
+                            >
+                              <path
+                                d="M0 0 L7 7 L14 0 Z"
+                                fill="currentColor"
+                              />
+                            </svg>
                           </div>
-                          <svg
-                            className="-mt-px h-[7px] w-[14px] shrink-0 text-[rgba(180,150,65,0.55)]"
-                            viewBox="0 0 14 7"
-                            aria-hidden
-                          >
-                            <path
-                              d="M0 0 L7 7 L14 0 Z"
-                              fill="currentColor"
-                            />
-                          </svg>
                         </div>
                       ) : null}
                       <button
