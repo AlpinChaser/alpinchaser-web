@@ -97,7 +97,7 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   return (
     <a
       href={href}
-      className="whitespace-nowrap text-sm text-[rgba(255,255,255,0.75)] transition-colors hover:text-[#D4AF37]"
+      className="whitespace-nowrap text-sm tracking-[0.06em] text-[rgba(255,255,255,0.68)] transition-colors duration-200 hover:text-[#D4AF37]"
     >
       {children}
     </a>
@@ -105,7 +105,6 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
 }
 
 export default function HeroSection({ passes }: Props) {
-  const passCount = passes.length;
   const countryCount = 7;
 
   const [heroMounted, setHeroMounted] = useState(false);
@@ -127,25 +126,33 @@ export default function HeroSection({ passes }: Props) {
     <div className="min-h-screen bg-[#0A0A0B] text-[#F0F0F5]">
       {/* —— Navbar —— */}
       <header
-        className="fixed inset-x-0 top-0 z-50 border-b border-[rgba(212,175,55,0.15)] bg-[rgba(10,10,11,0.85)] backdrop-blur-md"
-        style={{ WebkitBackdropFilter: "blur(12px)" }}
+        className="fixed inset-x-0 top-0 z-50 border-b border-[rgba(212,175,55,0.22)] bg-[rgba(5,5,7,0.58)] backdrop-blur-xl backdrop-saturate-150"
+        style={{ WebkitBackdropFilter: "blur(18px) saturate(1.12)" }}
       >
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-y-2 px-4 py-3 md:flex-nowrap">
-          <Link href="/" className="flex shrink-0 items-center gap-2.5">
-            <Image
-              src="/images/logo-transparent.png"
-              alt="AlpinChaser"
-              width={56}
-              height={56}
-              className="h-14 w-14 shrink-0 object-contain"
-              priority
-            />
+        <div className="mx-auto flex h-[58px] max-w-7xl flex-wrap items-center justify-between gap-y-2 px-5 md:flex-nowrap md:gap-x-2 md:px-8">
+          <Link href="/" className="flex shrink-0 items-center gap-3">
+            <span
+              className="inline-flex shrink-0 rounded-md ring-1 ring-white/[0.06]"
+              style={{
+                filter:
+                  "drop-shadow(0 0 14px rgba(212,175,55,0.18)) drop-shadow(0 2px 8px rgba(0,0,0,0.65))",
+              }}
+            >
+              <Image
+                src="/images/logo-transparent.png"
+                alt="AlpinChaser"
+                width={56}
+                height={56}
+                className="h-14 w-14 object-contain"
+                priority
+              />
+            </span>
             <span className="text-xs font-bold tracking-[0.35em] text-[#D4AF37]">
               ALPINCHASER
             </span>
           </Link>
 
-          <nav className="order-3 flex w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 py-1 text-sm md:order-none md:w-auto md:flex-nowrap md:gap-x-3 md:py-0">
+          <nav className="order-3 flex w-full flex-wrap items-center justify-center gap-x-3 gap-y-1 py-0.5 text-sm md:order-none md:w-auto md:flex-nowrap md:gap-x-5 md:py-0">
             <NavLink href="#map">Pässe</NavLink>
             <span className="text-[#D4AF37]/50" aria-hidden>
               ·
@@ -165,7 +172,7 @@ export default function HeroSection({ passes }: Props) {
             href={APP_STORE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center justify-center rounded-lg border border-[#D4AF37] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#D4AF37] transition-colors hover:bg-[rgba(212,175,55,0.12)] md:text-[13px]"
+            className="inline-flex shrink-0 items-center justify-center rounded-lg border border-[rgba(212,175,55,0.42)] bg-white/[0.03] px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#D4AF37] shadow-[0_2px_16px_rgba(0,0,0,0.35)] transition-all duration-200 hover:border-[rgba(212,175,55,0.58)] hover:bg-[rgba(212,175,55,0.1)] hover:shadow-[0_4px_22px_rgba(0,0,0,0.4)] md:text-[13px]"
           >
             App downloaden
           </a>
@@ -173,95 +180,147 @@ export default function HeroSection({ passes }: Props) {
       </header>
 
       {/* —— Hero —— */}
-      <section
-        className="relative flex min-h-screen flex-col overflow-hidden pt-[76px] lg:min-h-screen"
-        style={{ background: "#0A0A0B" }}
-      >
-        <div className="absolute inset-0">
-          <Image
-            src="/images/hero-hoodie.jpg"
-            alt=""
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="100vw"
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to top, rgba(5,5,6,0.96) 0%, rgba(10,10,11,0.75) 35%, rgba(10,10,11,0.35) 65%, rgba(10,10,11,0.55) 100%)",
-            }}
-          />
+      <section className="relative min-h-screen overflow-hidden bg-[#0A0A0B]">
+        {/* Full-hero cinematic grade: readability + vignette + warm accent */}
+        <div
+          className="pointer-events-none absolute inset-0 z-[4]"
+          style={{
+            background: [
+              "radial-gradient(ellipse 40% 46% at 86% 34%, rgba(212,175,55,0.075) 0%, transparent 64%)",
+              "radial-gradient(ellipse 105% 92% at 50% 50%, transparent 48%, rgba(0,0,0,0.48) 100%)",
+              "linear-gradient(to right, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.14) 44%, transparent 72%)",
+            ].join(", "),
+          }}
+          aria-hidden
+        />
+
+        {/* Hoodie — right column only */}
+        <div className="absolute bottom-0 right-0 top-0 z-0 w-[60%] min-w-0 py-16">
+          <div className="relative h-full w-full min-h-0">
+            <Image
+              src="/images/hero-hoodie.jpg"
+              alt=""
+              fill
+              priority
+              className="object-cover"
+              style={{
+                objectFit: "cover",
+                objectPosition: "40% center",
+                filter: "brightness(1.11) contrast(1.085) saturate(1.02)",
+              }}
+              sizes="60vw"
+            />
+            {/* Local lifts: upper-right silhouette + broader center/right read */}
+            <div
+              className="pointer-events-none absolute inset-0 z-[1] mix-blend-soft-light"
+              style={{
+                background: [
+                  "radial-gradient(ellipse 50% 38% at 87% 25%, rgba(255,253,248,0.155) 0%, rgba(255,250,245,0.045) 36%, transparent 54%)",
+                  "radial-gradient(ellipse 95% 88% at 72% 46%, rgba(255,252,245,0.14) 0%, rgba(255,250,240,0.04) 42%, transparent 62%)",
+                ].join(", "),
+              }}
+            />
+            {/* Micro contrast along diagonal (road / leading line) */}
+            <div
+              className="pointer-events-none absolute inset-0 z-[2] mix-blend-overlay opacity-[0.29]"
+              style={{
+                background:
+                  "linear-gradient(118deg, transparent 0%, transparent 39%, rgba(255,255,255,0.048) 49%, rgba(0,0,0,0.058) 54%, transparent 62%, transparent 100%)",
+              }}
+            />
+            <div
+              className="pointer-events-none absolute inset-0 z-[3]"
+              style={{
+                background:
+                  "linear-gradient(to right, #0A0A0B 0%, rgba(10,10,11,0.95) 15%, rgba(10,10,11,0.7) 35%, rgba(10,10,11,0.2) 60%, transparent 80%)",
+              }}
+            />
+            <div
+              className="pointer-events-none absolute inset-0 z-[4]"
+              style={{
+                background:
+                  "linear-gradient(to bottom, #0A0A0B 0%, rgba(10,10,11,0.6) 15%, transparent 40%)",
+              }}
+            />
+            <div
+              className="pointer-events-none absolute inset-0 z-[5]"
+              style={{
+                background:
+                  "linear-gradient(to top, #0A0A0B 0%, rgba(10,10,11,0.6) 15%, transparent 40%)",
+              }}
+            />
+          </div>
         </div>
 
-        <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-12 px-5 pb-16 pt-10 lg:flex-row lg:items-center lg:gap-16 lg:pb-24 lg:pt-8">
-          <div className="flex max-w-xl flex-1 flex-col lg:max-w-[50%]">
+        {/* Copy + CTAs — left column */}
+        <div className="absolute bottom-0 left-0 top-0 z-10 flex w-1/2 flex-col justify-center pl-[8%] pr-8 pb-10 pt-[88px] text-left md:pr-12">
+          <div className="relative isolate max-w-xl">
             <Reveal show={heroMounted} delayMs={0}>
-              <p className="mb-6 font-mono text-xs uppercase tracking-[0.35em] text-[#39FF14] md:text-sm">
-                — ALPINE PASS TRACKING —
+              <p className="mb-6 font-mono text-xs uppercase tracking-[0.35em] text-[#39FF14] [text-shadow:0_1px_14px_rgba(0,0,0,0.55)] md:text-sm">
+                — ALPEN-PASSBUCH —
               </p>
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={120}>
               <h1
-                className="mb-2 font-black leading-[0.95] text-white"
+                className="mb-2 font-black leading-[0.95] text-white [text-shadow:0_4px_48px_rgba(0,0,0,0.75),0_1px_0_rgba(0,0,0,0.4)]"
                 style={{ fontSize: "clamp(2.75rem, 9vw, 6.25rem)" }}
               >
-                JEDER PASS.
+                Wie viele
+                <br />
+                <span className="whitespace-nowrap">Pässe hast du?</span>
               </h1>
             </Reveal>
             <Reveal show={heroMounted} delayMs={240}>
               <h1
-                className="mb-6 font-black leading-[0.95] text-[#D4AF37]"
+                className="mb-6 font-black leading-[0.95] text-[#D4AF37] [text-shadow:0_0_1px_rgba(0,0,0,0.45),0_1px_0_rgba(0,0,0,0.4),0_3px_14px_rgba(0,0,0,0.42)]"
                 style={{ fontSize: "clamp(2.75rem, 9vw, 6.25rem)" }}
               >
-                DEINE GESCHICHTE.
+                Sammle deine Alpen.
               </h1>
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={360}>
               <p
-                className="mb-8 max-w-lg text-base leading-relaxed md:text-lg"
+                className="mb-8 max-w-lg text-base leading-relaxed [text-shadow:0_2px_20px_rgba(0,0,0,0.45)] md:text-lg"
                 style={{ color: "rgba(255,255,255,0.6)" }}
               >
-                658 Alpenpässe in {countryCount} Ländern. Sammle, bewerte,
-                vergleiche — und beweise, dass du die Alpen wirklich kennst.
+                650+ Alpenpässe in 7 Ländern. Sieh, was du gefahren bist.{" "}
+                <span className="text-[1.07em] font-medium text-[rgba(255,255,255,0.82)]">
+                  Und was dir noch fehlt.
+                </span>
               </p>
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={480}>
-              <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-                <a
-                  href={APP_STORE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-[#0A0A0B]"
-                  style={{
-                    background: "#D4AF37",
-                    animationName: "appBtnPulseGold",
-                    animationDuration: "1.5s",
-                    animationTimingFunction: "ease-in-out",
-                    animationIterationCount: "infinite",
-                  }}
-                >
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="shrink-0"
-                    aria-hidden
+              <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
+                <div className="flex min-w-0 flex-col gap-1.5">
+                  <a
+                    href={APP_STORE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ac-hero-cta-primary w-fit"
                   >
-                    <path d={APPLE_PATH} />
-                  </svg>
-                  App downloaden
-                </a>
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="shrink-0"
+                      aria-hidden
+                    >
+                      <path d={APPLE_PATH} />
+                    </svg>
+                    App downloaden
+                  </a>
+                  <p className="max-w-[240px] text-[11px] font-medium leading-snug tracking-wide text-[rgba(255,255,255,0.34)]">
+                    Sammle deine ersten Pässe.
+                  </p>
+                </div>
                 <a
                   href="#map"
                   onClick={scrollToMap}
-                  className="inline-flex items-center justify-center rounded-xl border-2 border-[#D4AF37] bg-transparent px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-[#D4AF37] transition-colors hover:bg-[rgba(212,175,55,0.08)]"
-                  style={{ opacity: 0.6 }}
+                  className="ac-hero-cta-secondary sm:mt-0.5"
                 >
                   Karte erkunden
                 </a>
@@ -269,69 +328,72 @@ export default function HeroSection({ passes }: Props) {
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={620}>
-              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-3 text-sm sm:gap-x-5">
+              <div className="flex flex-wrap items-baseline gap-x-5 gap-y-3 text-sm sm:gap-x-9">
                 <div>
                   <p className="text-2xl font-bold tabular-nums text-[#D4AF37] md:text-3xl">
-                    {passCount}
+                    650+
                   </p>
                   <p className="text-xs uppercase tracking-wider text-[rgba(255,255,255,0.6)]">
                     Pässe
                   </p>
                 </div>
-                <span className="select-none text-lg text-[#D4AF37]/45" aria-hidden>
+                <span className="select-none text-lg text-[#D4AF37]/25" aria-hidden>
                   ·
                 </span>
                 <div>
                   <p className="text-2xl font-bold tabular-nums text-[#D4AF37] md:text-3xl">
-                    {countryCount}
+                    7
                   </p>
                   <p className="text-xs uppercase tracking-wider text-[rgba(255,255,255,0.6)]">
                     Länder
                   </p>
                 </div>
-                <span className="select-none text-lg text-[#D4AF37]/45" aria-hidden>
+                <span className="select-none text-lg text-[#D4AF37]/25" aria-hidden>
                   ·
                 </span>
                 <div>
-                  <p className="text-2xl font-bold text-[#D4AF37] md:text-3xl">∞</p>
-                  <p className="text-xs uppercase tracking-wider text-[rgba(255,255,255,0.6)]">
-                    Abenteuer
+                  <p className="text-2xl font-bold text-[#D4AF37] md:text-3xl">Sammlung</p>
+                  <p
+                    className="text-[0.65rem] font-medium tracking-wide text-[rgba(255,255,255,0)] md:text-xs"
+                    aria-hidden
+                  >
+                    &nbsp;
                   </p>
                 </div>
               </div>
             </Reveal>
           </div>
+        </div>
 
-          <Reveal
-            show={heroMounted}
-            delayMs={400}
-            className="relative flex flex-1 justify-center lg:justify-end"
+        {/* Subtle proof — GS / touring pass completion */}
+        <div
+          className="pointer-events-none absolute bottom-[calc(11%+14px)] right-[4%] z-[6] hidden w-[min(210px,calc(38vw-1rem))] rounded-xl border border-[rgba(212,175,55,0.34)] bg-[rgba(10,10,12,0.58)] px-4 py-3.5 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-md md:block"
+          style={{ WebkitBackdropFilter: "blur(14px)" }}
+        >
+          <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0">
+            <span className="text-2xl font-black tabular-nums tracking-tight text-[#D4AF37] [text-shadow:0_1px_0_rgba(0,0,0,0.35)]">
+              97%
+            </span>
+            <span className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-[rgba(255,255,255,0.58)]">
+              Österreich
+            </span>
+          </div>
+          <p className="mt-2 text-[0.7rem] leading-snug text-[rgba(255,255,255,0.58)]">
+            Noch 1 Pass bis zum Meister.
+          </p>
+          <div
+            className="mt-2.5 h-[3px] w-full overflow-hidden rounded-full"
+            style={{ background: "rgba(255,255,255,0.06)" }}
           >
             <div
-              className="relative shrink-0"
+              className="h-full rounded-full bg-[#39FF14]"
               style={{
-                filter:
-                  "drop-shadow(0 0 28px rgba(212,175,55,0.45)) drop-shadow(0 24px 48px rgba(0,0,0,0.65))",
+                width: "97%",
+                opacity: 0.72,
+                boxShadow: "0 0 10px rgba(57,255,20,0.2)",
               }}
-            >
-              <div
-                className="relative w-[min(100%,300px)] overflow-hidden rounded-[2.25rem] border border-[rgba(212,175,55,0.35)]"
-                style={{
-                  aspectRatio: "9 / 19",
-                  transform: "rotate(-3deg)",
-                }}
-              >
-                <Image
-                  src="/images/screen2.png"
-                  alt="AlpinChaser App Screenshot"
-                  fill
-                  className="object-cover object-top"
-                  sizes="(max-width: 1024px) 280px, 320px"
-                  priority
-                />
-              </div>
-            </div>
-          </Reveal>
+            />
+          </div>
         </div>
       </section>
 
@@ -404,7 +466,7 @@ export default function HeroSection({ passes }: Props) {
           }`}
         >
           <h2 className="mb-4 text-2xl font-black uppercase tracking-[0.18em] text-[#D4AF37] md:text-3xl">
-            {passCount} Pässe. Eine Karte.
+            650+ Pässe. Eine Karte.
           </h2>
           <p
             className="mx-auto max-w-2xl text-base md:text-lg"
@@ -437,10 +499,10 @@ export default function HeroSection({ passes }: Props) {
               className="font-black tabular-nums leading-none text-[#D4AF37]"
               style={{ fontSize: "clamp(3rem, 10vw, 5rem)" }}
             >
-              {passCount}+
+              650+
             </p>
             <p className="mt-3 text-sm uppercase tracking-widest text-[#F0F0F5] md:text-base">
-              Alpenpässe
+              Pässe
             </p>
           </div>
           <div
@@ -481,10 +543,10 @@ export default function HeroSection({ passes }: Props) {
               className="font-black leading-none text-[#D4AF37]"
               style={{ fontSize: "clamp(2.25rem, 7vw, 5rem)" }}
             >
-              5 Sterne
+              Passbuch
             </p>
             <p className="mt-3 text-sm uppercase tracking-widest text-[#F0F0F5] md:text-base">
-              App Store Bewertung
+              Digital
             </p>
           </div>
         </div>

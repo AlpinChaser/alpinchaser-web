@@ -348,6 +348,109 @@ html, body {
   }
 }
 
+/* ── Hero landing: premium CTAs (visual only) ───────────────── */
+@keyframes ac-hero-gold-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 4px 22px rgba(0, 0, 0, 0.58),
+      0 0 0 1px rgba(212, 175, 55, 0.14),
+      0 0 30px rgba(212, 175, 55, 0.26),
+      inset 0 1px 0 rgba(255, 255, 255, 0.32),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 5px 26px rgba(0, 0, 0, 0.52),
+      0 0 0 1px rgba(212, 175, 55, 0.22),
+      0 0 40px rgba(212, 175, 55, 0.32),
+      inset 0 1px 0 rgba(255, 255, 255, 0.34),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.22);
+  }
+}
+
+.ac-hero-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.75rem;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0a0a0b;
+  text-decoration: none;
+  white-space: nowrap;
+  background: linear-gradient(
+    165deg,
+    #e8d088 0%,
+    #d4af37 22%,
+    #b8962e 52%,
+    #8a7022 100%
+  );
+  box-shadow:
+    0 4px 22px rgba(0, 0, 0, 0.58),
+    0 0 0 1px rgba(212, 175, 55, 0.14),
+    0 0 30px rgba(212, 175, 55, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.2);
+  animation: ac-hero-gold-pulse 2.4s ease-in-out infinite;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.ac-hero-cta-primary:hover {
+  animation-play-state: paused;
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.48),
+    0 0 0 1px rgba(212, 175, 55, 0.32),
+    0 0 48px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.24);
+}
+
+.ac-hero-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.75rem;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #d4af37;
+  text-decoration: none;
+  white-space: nowrap;
+  border: 1px solid rgba(212, 175, 55, 0.52);
+  background: rgba(255, 255, 255, 0.055);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.28);
+  opacity: 0.78;
+  transition:
+    opacity 0.3s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.3s ease;
+}
+
+.ac-hero-cta-secondary:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  border-color: rgba(212, 175, 55, 0.58);
+  background: rgba(212, 175, 55, 0.07);
+  box-shadow:
+    0 6px 24px rgba(0, 0, 0, 0.32),
+    0 0 24px rgba(212, 175, 55, 0.12);
+}
+
 /* Secondary CTA button */
 .ac-btn-secondary {
   display: inline-flex;
