@@ -28,6 +28,10 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# Firebase Admin (never commit credentials)
+service-account.json
+alpinchasse-firebase-adminsdk-fbsvc-77f1f5d260.json
+
 # vercel
 .vercel
 
