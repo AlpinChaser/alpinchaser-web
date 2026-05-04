@@ -1,6 +1,12 @@
 "use client";
 
-import { Fragment, useCallback, useEffect, useState } from "react";
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 type Tab = "photos" | "users" | "passes" | "editor";
 
@@ -69,6 +75,7 @@ type AdminPass = {
   id: string;
   name: string;
   rideCount: number;
+  adminEditCount: number;
 };
 
 const bg = "#0a0a0a";
@@ -93,6 +100,18 @@ export default function AdminPage() {
   const [editFetchLoading, setEditFetchLoading] = useState(false);
   const [editSaving, setEditSaving] = useState(false);
   const [editSaveFlash, setEditSaveFlash] = useState(false);
+  const [editorPassSearch, setEditorPassSearch] = useState("");
+
+  const filteredEditorPasses = useMemo(() => {
+    const q = editorPassSearch.trim().toLowerCase();
+    if (!q) return passes;
+    return passes.filter(
+      (p) =>
+        (editingPassId !== null && p.id === editingPassId) ||
+        p.name.toLowerCase().includes(q) ||
+        p.id.toLowerCase().includes(q),
+    );
+  }, [passes, editorPassSearch, editingPassId]);
 
   const probeAuth = useCallback(async () => {
     const r = await fetch("/api/admin/photos", { credentials: "include" });
@@ -166,7 +185,12 @@ export default function AdminPage() {
         }
         if (!r.ok) throw new Error(await r.text());
         const j = (await r.json()) as { passes?: AdminPass[] };
-        setPasses(j.passes ?? []);
+        const list = (j.passes ?? []).map((p) => ({
+          ...p,
+          adminEditCount:
+            typeof p.adminEditCount === "number" ? p.adminEditCount : 0,
+        }));
+        setPasses(list);
       }
     } catch (err) {
       setLoadError(
@@ -186,6 +210,7 @@ export default function AdminPage() {
       setEditingPassId(null);
       setEditDraft(null);
       setEditSaveFlash(false);
+      setEditorPassSearch("");
     }
   }, [tab]);
 
@@ -280,7 +305,13 @@ export default function AdminPage() {
         editDraft.name.trim().length > 0 ? editDraft.name.trim() : editingPassId;
       setPasses((prev) =>
         prev.map((p) =>
-          p.id === editingPassId ? { ...p, name: displayName } : p,
+          p.id === editingPassId
+            ? {
+                ...p,
+                name: displayName,
+                adminEditCount: (p.adminEditCount ?? 0) + 1,
+              }
+            : p,
         ),
       );
       setEditSaveFlash(true);
@@ -613,18 +644,36 @@ export default function AdminPage() {
         ) : null}
 
         {tab === "editor" ? (
-          <div className="overflow-x-auto rounded-2xl border border-zinc-800 bg-zinc-950/40">
-            <table className="w-full min-w-[640px] text-left text-sm">
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="editor-pass-search" className="sr-only">
+                Pässe durchsuchen
+              </label>
+              <input
+                id="editor-pass-search"
+                type="search"
+                value={editorPassSearch}
+                onChange={(e) => setEditorPassSearch(e.target.value)}
+                placeholder="Suche nach Name oder ID…"
+                className="w-full max-w-md rounded-xl border border-zinc-700 bg-zinc-900/80 px-4 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none focus:border-[#E8B800]/50 focus:ring-1 focus:ring-[#E8B800]/25"
+                autoComplete="off"
+              />
+            </div>
+            <div className="overflow-x-auto rounded-2xl border border-zinc-800 bg-zinc-950/40">
+            <table className="w-full min-w-[720px] text-left text-sm">
               <thead>
                 <tr className="border-b border-zinc-800 text-zinc-500">
                   <th className="px-4 py-3 font-medium">Name</th>
                   <th className="px-4 py-3 font-medium">ID</th>
                   <th className="px-4 py-3 font-medium">Fahrer</th>
+                  <th className="px-4 py-3 font-medium tabular-nums">
+                    Bearbeitungen
+                  </th>
                   <th className="px-4 py-3 font-medium w-[120px]" />
                 </tr>
               </thead>
               <tbody>
-                {passes.map((p) => (
+                {filteredEditorPasses.map((p) => (
                   <Fragment key={p.id}>
                     <tr className="border-b border-zinc-800/80 hover:bg-zinc-900/40">
                       <td
@@ -638,6 +687,9 @@ export default function AdminPage() {
                       </td>
                       <td className="px-4 py-3 tabular-nums text-zinc-200">
                         {p.rideCount}
+                      </td>
+                      <td className="px-4 py-3 tabular-nums text-zinc-300">
+                        {p.adminEditCount ?? 0}
                       </td>
                       <td className="px-4 py-3">
                         <button
@@ -658,7 +710,7 @@ export default function AdminPage() {
                     </tr>
                     {editingPassId === p.id ? (
                       <tr className="border-b border-zinc-800 bg-zinc-950/80">
-                        <td colSpan={4} className="px-4 py-4">
+                        <td colSpan={5} className="px-4 py-4">
                           {editSaveFlash ? (
                             <div className="flex items-center justify-center py-12 text-lg font-semibold text-emerald-400">
                               Gespeichert ✓
@@ -850,6 +902,7 @@ export default function AdminPage() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         ) : null}
       </main>

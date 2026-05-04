@@ -48,13 +48,23 @@ export async function GET() {
     });
 
     const passesSnap = await db.collection("passes").get();
-    const rows: Array<{ id: string; name: string; rideCount: number }> = [];
+    const rows: Array<{
+      id: string;
+      name: string;
+      rideCount: number;
+      adminEditCount: number;
+    }> = [];
 
     passesSnap.docs.forEach((doc) => {
+      const d = doc.data();
+      const ac = d.adminEditCount;
+      const adminEditCount =
+        typeof ac === "number" && Number.isFinite(ac) ? Math.max(0, Math.floor(ac)) : 0;
       rows.push({
         id: doc.id,
-        name: passNameFromDoc(doc.id, doc.data()),
+        name: passNameFromDoc(doc.id, d),
         rideCount: rideCountByPassId.get(doc.id) ?? 0,
+        adminEditCount,
       });
     });
 
@@ -64,6 +74,7 @@ export async function GET() {
         id: passId,
         name: passId,
         rideCount: count,
+        adminEditCount: 0,
       });
     });
 

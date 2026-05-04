@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Timestamp, GeoPoint } from "firebase-admin/firestore";
+import {
+  Timestamp,
+  GeoPoint,
+  FieldValue,
+} from "firebase-admin/firestore";
 import { isAdminAuthenticated } from "@/lib/adminAuth";
 import { getDb } from "@/lib/firebaseAdmin";
 
@@ -73,7 +77,14 @@ export async function GET(
     for (const [k, v] of Object.entries(raw)) {
       data[k] = serializeFirestoreValue(v);
     }
-    return NextResponse.json({ id: snap.id, ...data });
+    return NextResponse.json({
+      id: snap.id,
+      ...data,
+      adminEditCount:
+        typeof data.adminEditCount === "number" ? data.adminEditCount : 0,
+      adminLastEditedAt:
+        (data.adminLastEditedAt as string | null | undefined) ?? null,
+    });
   } catch (e) {
     const message = e instanceof Error ? e.message : "Firestore error";
     return NextResponse.json({ error: message }, { status: 500 });
@@ -122,7 +133,20 @@ export async function PUT(
       return NextResponse.json({ error: "No valid fields" }, { status: 400 });
     }
     const db = getDb();
-    await db.collection("passes").doc(id).set(payload, { merge: true });
+    const ref = db.collection("passes").doc(id);
+    const nowIso = new Date().toISOString();
+    await db.runTransaction(async (tx) => {
+      await tx.get(ref);
+      tx.set(
+        ref,
+        {
+          ...payload,
+          adminEditCount: FieldValue.increment(1),
+          adminLastEditedAt: nowIso,
+        },
+        { merge: true },
+      );
+    });
     return NextResponse.json({ success: true });
   } catch (e) {
     const message = e instanceof Error ? e.message : "Firestore error";
