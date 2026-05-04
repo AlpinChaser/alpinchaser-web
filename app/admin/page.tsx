@@ -1,8 +1,50 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 
-type Tab = "photos" | "users" | "passes";
+type Tab = "photos" | "users" | "passes" | "editor";
+
+type EditDraft = {
+  name: string;
+  description: string;
+  mustRide: string;
+  besteSite: string;
+  highlights: string;
+  gefahren: string;
+  difficulty: string;
+  elevation: string;
+  length: string;
+  region: string;
+  country: string;
+};
+
+function fieldToDraftString(key: string, data: Record<string, unknown>): string {
+  const v = data[key];
+  if (v === null || v === undefined) return "";
+  if (typeof v === "string") return v;
+  if (typeof v === "number" || typeof v === "boolean") return String(v);
+  try {
+    return JSON.stringify(v);
+  } catch {
+    return "";
+  }
+}
+
+function passResponseToDraft(data: Record<string, unknown>): EditDraft {
+  return {
+    name: fieldToDraftString("name", data),
+    description: fieldToDraftString("description", data),
+    mustRide: fieldToDraftString("mustRide", data),
+    besteSite: fieldToDraftString("besteSite", data),
+    highlights: fieldToDraftString("highlights", data),
+    gefahren: fieldToDraftString("gefahren", data),
+    difficulty: fieldToDraftString("difficulty", data),
+    elevation: fieldToDraftString("elevation", data),
+    length: fieldToDraftString("length", data),
+    region: fieldToDraftString("region", data),
+    country: fieldToDraftString("country", data),
+  };
+}
 
 type AdminPhoto = {
   passId: string;
@@ -45,6 +87,12 @@ export default function AdminPage() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [actionId, setActionId] = useState<string | null>(null);
+
+  const [editingPassId, setEditingPassId] = useState<string | null>(null);
+  const [editDraft, setEditDraft] = useState<EditDraft | null>(null);
+  const [editFetchLoading, setEditFetchLoading] = useState(false);
+  const [editSaving, setEditSaving] = useState(false);
+  const [editSaveFlash, setEditSaveFlash] = useState(false);
 
   const probeAuth = useCallback(async () => {
     const r = await fetch("/api/admin/photos", { credentials: "include" });
@@ -110,7 +158,7 @@ export default function AdminPage() {
         if (!r.ok) throw new Error(await r.text());
         const j = (await r.json()) as { users?: AdminUser[] };
         setUsers(j.users ?? []);
-      } else {
+      } else if (t === "passes" || t === "editor") {
         const r = await fetch("/api/admin/passes", { credentials: "include" });
         if (r.status === 401) {
           setAuthenticated(false);
@@ -132,6 +180,129 @@ export default function AdminPage() {
     if (!authenticated) return;
     void loadTab(tab);
   }, [authenticated, tab, loadTab]);
+
+  useEffect(() => {
+    if (tab !== "editor") {
+      setEditingPassId(null);
+      setEditDraft(null);
+      setEditSaveFlash(false);
+    }
+  }, [tab]);
+
+  useEffect(() => {
+    if (!editSaveFlash) return;
+    const t = window.setTimeout(() => {
+      setEditSaveFlash(false);
+      setEditingPassId(null);
+      setEditDraft(null);
+    }, 2000);
+    return () => window.clearTimeout(t);
+  }, [editSaveFlash]);
+
+  const openPassEditor = useCallback(async (passId: string) => {
+    setEditingPassId(passId);
+    setEditDraft(null);
+    setEditFetchLoading(true);
+    setEditSaveFlash(false);
+    try {
+      const r = await fetch(`/api/admin/passes/${encodeURIComponent(passId)}`, {
+        credentials: "include",
+      });
+      if (r.status === 401) {
+        setAuthenticated(false);
+        return;
+      }
+      if (!r.ok) {
+        const t = await r.text();
+        alert(t || "Pass konnte nicht geladen werden.");
+        setEditingPassId(null);
+        return;
+      }
+      const j = (await r.json()) as Record<string, unknown>;
+      setEditDraft(passResponseToDraft(j));
+    } catch {
+      alert("Pass konnte nicht geladen werden.");
+      setEditingPassId(null);
+    } finally {
+      setEditFetchLoading(false);
+    }
+  }, []);
+
+  const closePassEditor = useCallback(() => {
+    setEditingPassId(null);
+    setEditDraft(null);
+    setEditSaveFlash(false);
+  }, []);
+
+  const savePassEditor = async () => {
+    if (!editingPassId || !editDraft) return;
+    setEditSaving(true);
+    try {
+      const d = difficultyNum(editDraft.difficulty);
+      const elevationNum = nullableNumber(editDraft.elevation);
+      const lengthNum = nullableNumber(editDraft.length);
+      const r = await fetch(
+        `/api/admin/passes/${encodeURIComponent(editingPassId)}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            name: editDraft.name,
+            description: editDraft.description,
+            mustRide: editDraft.mustRide,
+            besteSite: editDraft.besteSite,
+            highlights: editDraft.highlights,
+            gefahren: editDraft.gefahren,
+            difficulty: d,
+            elevation: elevationNum,
+            length: lengthNum,
+            region: editDraft.region,
+            country: editDraft.country,
+          }),
+        },
+      );
+      if (r.status === 401) {
+        setAuthenticated(false);
+        return;
+      }
+      if (!r.ok) {
+        const t = await r.text();
+        alert(t || "Speichern fehlgeschlagen.");
+        return;
+      }
+      const body = (await r.json()) as { success?: boolean };
+      if (!body.success) {
+        alert("Speichern fehlgeschlagen.");
+        return;
+      }
+      const displayName =
+        editDraft.name.trim().length > 0 ? editDraft.name.trim() : editingPassId;
+      setPasses((prev) =>
+        prev.map((p) =>
+          p.id === editingPassId ? { ...p, name: displayName } : p,
+        ),
+      );
+      setEditSaveFlash(true);
+    } finally {
+      setEditSaving(false);
+    }
+  };
+
+  function nullableNumber(raw: string): number | null {
+    const t = raw.trim();
+    if (t === "") return null;
+    const n = Number(t.replace(",", "."));
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function difficultyNum(raw: string): number | null {
+    const t = raw.trim();
+    if (t === "") return null;
+    const n = Number(t.replace(",", "."));
+    if (!Number.isFinite(n)) return null;
+    return Math.min(5, Math.max(1, Math.round(n)));
+  }
 
   const photoAction = async (
     storagePath: string,
@@ -261,6 +432,7 @@ export default function AdminPage() {
             {tabBtn("photos", "Neue Fotos")}
             {tabBtn("users", "User")}
             {tabBtn("passes", "Pässe")}
+            {tabBtn("editor", "Pässe bearbeiten")}
           </nav>
         </div>
       </header>
@@ -434,6 +606,247 @@ export default function AdminPage() {
                       {p.rideCount}
                     </td>
                   </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : null}
+
+        {tab === "editor" ? (
+          <div className="overflow-x-auto rounded-2xl border border-zinc-800 bg-zinc-950/40">
+            <table className="w-full min-w-[640px] text-left text-sm">
+              <thead>
+                <tr className="border-b border-zinc-800 text-zinc-500">
+                  <th className="px-4 py-3 font-medium">Name</th>
+                  <th className="px-4 py-3 font-medium">ID</th>
+                  <th className="px-4 py-3 font-medium">Fahrer</th>
+                  <th className="px-4 py-3 font-medium w-[120px]" />
+                </tr>
+              </thead>
+              <tbody>
+                {passes.map((p) => (
+                  <Fragment key={p.id}>
+                    <tr className="border-b border-zinc-800/80 hover:bg-zinc-900/40">
+                      <td
+                        className="px-4 py-3 font-medium"
+                        style={{ color: gold }}
+                      >
+                        {p.name}
+                      </td>
+                      <td className="px-4 py-3 font-mono text-xs text-zinc-500">
+                        {p.id}
+                      </td>
+                      <td className="px-4 py-3 tabular-nums text-zinc-200">
+                        {p.rideCount}
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          type="button"
+                          disabled={
+                            editingPassId === p.id ||
+                            editFetchLoading ||
+                            (editingPassId !== null &&
+                              editingPassId !== p.id)
+                          }
+                          onClick={() => void openPassEditor(p.id)}
+                          className="rounded-lg px-3 py-1.5 text-xs font-semibold text-zinc-950 transition enabled:hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
+                          style={{ backgroundColor: gold }}
+                        >
+                          Bearbeiten
+                        </button>
+                      </td>
+                    </tr>
+                    {editingPassId === p.id ? (
+                      <tr className="border-b border-zinc-800 bg-zinc-950/80">
+                        <td colSpan={4} className="px-4 py-4">
+                          {editSaveFlash ? (
+                            <div className="flex items-center justify-center py-12 text-lg font-semibold text-emerald-400">
+                              Gespeichert ✓
+                            </div>
+                          ) : editFetchLoading || !editDraft ? (
+                            <p className="text-sm text-zinc-500 py-8 text-center">
+                              Laden…
+                            </p>
+                          ) : (
+                            <div className="max-w-3xl space-y-4">
+                              <div className="grid gap-2">
+                                <label className="text-xs font-medium text-zinc-500">
+                                  Name
+                                </label>
+                                <input
+                                  type="text"
+                                  value={editDraft.name}
+                                  onChange={(e) =>
+                                    setEditDraft((d) =>
+                                      d ? { ...d, name: e.target.value } : d,
+                                    )
+                                  }
+                                  className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-[#E8B800]/50"
+                                />
+                              </div>
+                              <div className="grid gap-2">
+                                <label className="text-xs font-medium text-zinc-500">
+                                  Beschreibung
+                                </label>
+                                <textarea
+                                  value={editDraft.description}
+                                  onChange={(e) =>
+                                    setEditDraft((d) =>
+                                      d
+                                        ? { ...d, description: e.target.value }
+                                        : d,
+                                    )
+                                  }
+                                  rows={4}
+                                  className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-[#E8B800]/50 resize-y min-h-[80px]"
+                                />
+                              </div>
+                              <div className="grid gap-2">
+                                <label className="text-xs font-medium text-zinc-500">
+                                  Must ride
+                                </label>
+                                <textarea
+                                  value={editDraft.mustRide}
+                                  onChange={(e) =>
+                                    setEditDraft((d) =>
+                                      d ? { ...d, mustRide: e.target.value } : d,
+                                    )
+                                  }
+                                  rows={3}
+                                  className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-[#E8B800]/50 resize-y min-h-[72px]"
+                                />
+                              </div>
+                              <div className="grid gap-2">
+                                <label className="text-xs font-medium text-zinc-500">
+                                  Beste Site
+                                </label>
+                                <textarea
+                                  value={editDraft.besteSite}
+                                  onChange={(e) =>
+                                    setEditDraft((d) =>
+                                      d
+                                        ? { ...d, besteSite: e.target.value }
+                                        : d,
+                                    )
+                                  }
+                                  rows={3}
+                                  className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-[#E8B800]/50 resize-y min-h-[72px]"
+                                />
+                              </div>
+                              <div className="grid gap-2">
+                                <label className="text-xs font-medium text-zinc-500">
+                                  Highlights
+                                </label>
+                                <textarea
+                                  value={editDraft.highlights}
+                                  onChange={(e) =>
+                                    setEditDraft((d) =>
+                                      d
+                                        ? { ...d, highlights: e.target.value }
+                                        : d,
+                                    )
+                                  }
+                                  rows={3}
+                                  className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-[#E8B800]/50 resize-y min-h-[72px]"
+                                />
+                              </div>
+                              <div className="grid gap-2">
+                                <label className="text-xs font-medium text-zinc-500">
+                                  Gefahren
+                                </label>
+                                <textarea
+                                  value={editDraft.gefahren}
+                                  onChange={(e) =>
+                                    setEditDraft((d) =>
+                                      d ? { ...d, gefahren: e.target.value } : d,
+                                    )
+                                  }
+                                  rows={3}
+                                  className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-[#E8B800]/50 resize-y min-h-[72px]"
+                                />
+                              </div>
+                              <div className="grid gap-4 sm:grid-cols-3">
+                                <div className="grid gap-2">
+                                  <label className="text-xs font-medium text-zinc-500">
+                                    Schwierigkeit (1–5)
+                                  </label>
+                                  <input
+                                    type="number"
+                                    min={1}
+                                    max={5}
+                                    step={1}
+                                    value={editDraft.difficulty}
+                                    onChange={(e) =>
+                                      setEditDraft((d) =>
+                                        d
+                                          ? {
+                                              ...d,
+                                              difficulty: e.target.value,
+                                            }
+                                          : d,
+                                      )
+                                    }
+                                    className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-[#E8B800]/50"
+                                  />
+                                </div>
+                                <div className="grid gap-2">
+                                  <label className="text-xs font-medium text-zinc-500">
+                                    Höhe (m)
+                                  </label>
+                                  <input
+                                    type="number"
+                                    value={editDraft.elevation}
+                                    onChange={(e) =>
+                                      setEditDraft((d) =>
+                                        d
+                                          ? { ...d, elevation: e.target.value }
+                                          : d,
+                                      )
+                                    }
+                                    className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-[#E8B800]/50"
+                                  />
+                                </div>
+                                <div className="grid gap-2">
+                                  <label className="text-xs font-medium text-zinc-500">
+                                    Länge (km)
+                                  </label>
+                                  <input
+                                    type="number"
+                                    value={editDraft.length}
+                                    onChange={(e) =>
+                                      setEditDraft((d) =>
+                                        d ? { ...d, length: e.target.value } : d,
+                                      )
+                                    }
+                                    className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-[#E8B800]/50"
+                                  />
+                                </div>
+                              </div>
+                              <div className="flex flex-wrap gap-2 pt-2">
+                                <button
+                                  type="button"
+                                  disabled={editSaving}
+                                  onClick={() => void savePassEditor()}
+                                  className="rounded-lg px-4 py-2 text-sm font-semibold text-zinc-950 disabled:opacity-50"
+                                  style={{ backgroundColor: gold }}
+                                >
+                                  {editSaving ? "…" : "Speichern"}
+                                </button>
+                                <button
+                                  type="button"
+                                  disabled={editSaving}
+                                  onClick={closePassEditor}
+                                  className="rounded-lg border border-zinc-600 px-4 py-2 text-sm font-medium text-zinc-300 hover:bg-zinc-800"
+                                >
+                                  Abbrechen
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    ) : null}
+                  </Fragment>
                 ))}
               </tbody>
             </table>
