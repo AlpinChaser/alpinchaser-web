@@ -8,7 +8,18 @@ import {
   useState,
 } from "react";
 
-type Tab = "photos" | "users" | "passes" | "editor";
+type Tab = "photos" | "analytics" | "users" | "passes" | "editor";
+
+type AnalyticsData = {
+  totalUsers: number;
+  newToday: number;
+  newThisWeek: number;
+  activeToday: number;
+  activeThisWeek: number;
+  premiumUsers: number;
+  conversionRate: number;
+  avgPassesPerUser: number;
+};
 
 type EditDraft = {
   name: string;
@@ -89,6 +100,7 @@ export default function AdminPage() {
   const [tab, setTab] = useState<Tab>("photos");
 
   const [photos, setPhotos] = useState<AdminPhoto[]>([]);
+  const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [passes, setPasses] = useState<AdminPass[]>([]);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -168,6 +180,17 @@ export default function AdminPage() {
         if (!r.ok) throw new Error(await r.text());
         const j = (await r.json()) as { photos?: AdminPhoto[] };
         setPhotos(j.photos ?? []);
+      } else if (t === "analytics") {
+        const r = await fetch("/api/admin/analytics", {
+          credentials: "include",
+        });
+        if (r.status === 401) {
+          setAuthenticated(false);
+          return;
+        }
+        if (!r.ok) throw new Error(await r.text());
+        const j = (await r.json()) as AnalyticsData;
+        setAnalytics(j);
       } else if (t === "users") {
         const r = await fetch("/api/admin/users", { credentials: "include" });
         if (r.status === 401) {
@@ -461,6 +484,7 @@ export default function AdminPage() {
           </div>
           <nav className="flex flex-wrap gap-1 rounded-xl bg-zinc-900/60 p-1 border border-zinc-800">
             {tabBtn("photos", "Neue Fotos")}
+            {tabBtn("analytics", "Analytics")}
             {tabBtn("users", "User")}
             {tabBtn("passes", "Pässe")}
             {tabBtn("editor", "Pässe bearbeiten")}
@@ -548,6 +572,134 @@ export default function AdminPage() {
                 </article>
               );
             })}
+          </div>
+        ) : null}
+
+        {tab === "analytics" ? (
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {!analytics ? (
+              <p className="col-span-full text-sm text-zinc-500">
+                Keine Analytics-Daten.
+              </p>
+            ) : (
+              <>
+                <div className="flex flex-col items-center rounded-2xl border border-zinc-800 bg-zinc-900/50 px-4 py-6 shadow-xl">
+                  <span className="mb-2 text-2xl leading-none" aria-hidden>
+                    👥
+                  </span>
+                  <p
+                    className="text-3xl font-black tabular-nums tracking-tight"
+                    style={{ color: gold }}
+                  >
+                    {analytics.totalUsers}
+                  </p>
+                  <p className="mt-2 text-center text-sm font-medium text-zinc-400">
+                    Gesamt-User
+                  </p>
+                </div>
+                <div className="flex flex-col items-center rounded-2xl border border-zinc-800 bg-zinc-900/50 px-4 py-6 shadow-xl">
+                  <span className="mb-2 text-2xl leading-none" aria-hidden>
+                    🆕
+                  </span>
+                  <p
+                    className="text-3xl font-black tabular-nums tracking-tight"
+                    style={{ color: gold }}
+                  >
+                    {analytics.newToday}
+                  </p>
+                  <p className="mt-2 text-center text-sm font-medium text-zinc-400">
+                    Neu heute
+                  </p>
+                </div>
+                <div className="flex flex-col items-center rounded-2xl border border-zinc-800 bg-zinc-900/50 px-4 py-6 shadow-xl">
+                  <span className="mb-2 text-2xl leading-none" aria-hidden>
+                    📅
+                  </span>
+                  <p
+                    className="text-3xl font-black tabular-nums tracking-tight"
+                    style={{ color: gold }}
+                  >
+                    {analytics.newThisWeek}
+                  </p>
+                  <p className="mt-2 text-center text-sm font-medium text-zinc-400">
+                    Neu diese Woche
+                  </p>
+                </div>
+                <div className="flex flex-col items-center rounded-2xl border border-zinc-800 bg-zinc-900/50 px-4 py-6 shadow-xl">
+                  <span className="mb-2 text-2xl leading-none" aria-hidden>
+                    ✅
+                  </span>
+                  <p
+                    className="text-3xl font-black tabular-nums tracking-tight"
+                    style={{ color: gold }}
+                  >
+                    {analytics.activeToday}
+                  </p>
+                  <p className="mt-2 text-center text-sm font-medium text-zinc-400">
+                    Aktiv heute
+                  </p>
+                </div>
+                <div className="flex flex-col items-center rounded-2xl border border-zinc-800 bg-zinc-900/50 px-4 py-6 shadow-xl">
+                  <span className="mb-2 text-2xl leading-none" aria-hidden>
+                    📈
+                  </span>
+                  <p
+                    className="text-3xl font-black tabular-nums tracking-tight"
+                    style={{ color: gold }}
+                  >
+                    {analytics.activeThisWeek}
+                  </p>
+                  <p className="mt-2 text-center text-sm font-medium text-zinc-400">
+                    Aktiv diese Woche
+                  </p>
+                </div>
+                <div className="flex flex-col items-center rounded-2xl border border-zinc-800 bg-zinc-900/50 px-4 py-6 shadow-xl">
+                  <span className="mb-2 text-2xl leading-none" aria-hidden>
+                    ⭐
+                  </span>
+                  <p
+                    className="text-3xl font-black tabular-nums tracking-tight"
+                    style={{ color: gold }}
+                  >
+                    {analytics.premiumUsers}
+                  </p>
+                  <p className="mt-2 text-center text-sm font-medium text-zinc-400">
+                    Premium-User
+                  </p>
+                </div>
+                <div className="flex flex-col items-center rounded-2xl border border-zinc-800 bg-zinc-900/50 px-4 py-6 shadow-xl">
+                  <span className="mb-2 text-2xl leading-none" aria-hidden>
+                    💰
+                  </span>
+                  <p
+                    className="text-3xl font-black tabular-nums tracking-tight"
+                    style={{ color: gold }}
+                  >
+                    {analytics.conversionRate}%
+                  </p>
+                  <p className="mt-2 text-center text-sm font-medium text-zinc-400">
+                    Conversion-Rate
+                  </p>
+                </div>
+                <div className="flex flex-col items-center rounded-2xl border border-zinc-800 bg-zinc-900/50 px-4 py-6 shadow-xl">
+                  <span className="mb-2 text-2xl leading-none" aria-hidden>
+                    🏔️
+                  </span>
+                  <p
+                    className="text-3xl font-black tabular-nums tracking-tight"
+                    style={{ color: gold }}
+                  >
+                    {analytics.avgPassesPerUser.toLocaleString("de-DE", {
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 2,
+                    })}
+                  </p>
+                  <p className="mt-2 text-center text-sm font-medium text-zinc-400">
+                    Ø Pässe pro User
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         ) : null}
 
