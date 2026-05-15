@@ -37,6 +37,7 @@ export default function LanguageSwitcher({ locale }: { locale: string }) {
       <button
         onClick={() => setOpen((v) => !v)}
         className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-1.5 text-xs text-neutral-300 transition-all hover:border-[rgba(212,175,55,0.35)] hover:text-[#D4AF37]"
+        style={{ touchAction: "manipulation" }}
         aria-label="Switch language"
       >
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -47,7 +48,7 @@ export default function LanguageSwitcher({ locale }: { locale: string }) {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-36 overflow-hidden rounded-xl border border-white/10 bg-[#111113] shadow-[0_8px_32px_rgba(0,0,0,0.6)] z-50">
+        <div className="absolute right-0 top-full mt-2 w-36 overflow-hidden rounded-xl border border-white/10 bg-[#111113] shadow-[0_8px_32px_rgba(0,0,0,0.6)] z-[200]">
           {LANGUAGES.map((lang) => (
             <button
               key={lang.code}
