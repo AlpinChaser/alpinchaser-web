@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createPortal } from "react-dom";
 import { useEffect, useRef, useState } from "react";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import MapView from "@/components/MapView";
 import ProductStepsSection from "@/components/ProductStepsSection";
 import ScreenshotShowcaseSection from "@/components/ScreenshotShowcaseSection";
@@ -265,14 +266,17 @@ export default function HeroSection({ passes, messages, locale }: Props) {
             <NavLink href="#stats">Community</NavLink>
           </nav>
 
-          <a
-            href={APP_STORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden shrink-0 items-center justify-center rounded-lg border border-[rgba(212,175,55,0.42)] bg-white/[0.03] px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#D4AF37] shadow-[0_2px_16px_rgba(0,0,0,0.35)] transition-all duration-200 hover:border-[rgba(212,175,55,0.58)] hover:bg-[rgba(212,175,55,0.1)] hover:shadow-[0_4px_22px_rgba(0,0,0,0.4)] md:inline-flex md:text-[13px]"
-          >
-            App downloaden
-          </a>
+          <div className="flex shrink-0 items-center gap-2">
+            <LanguageSwitcher locale={locale} />
+            <a
+              href={APP_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden shrink-0 items-center justify-center rounded-lg border border-[rgba(212,175,55,0.42)] bg-white/[0.03] px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#D4AF37] shadow-[0_2px_16px_rgba(0,0,0,0.35)] transition-all duration-200 hover:border-[rgba(212,175,55,0.58)] hover:bg-[rgba(212,175,55,0.1)] hover:shadow-[0_4px_22px_rgba(0,0,0,0.4)] md:inline-flex md:text-[13px]"
+            >
+              App downloaden
+            </a>
+          </div>
         </div>
       </header>
 
