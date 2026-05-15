@@ -253,19 +253,19 @@ export default function HeroSection({ passes, messages, locale }: Props) {
           </Link>
 
           <nav className="hidden flex-1 flex-nowrap items-center justify-center gap-x-3 py-0 text-sm md:flex md:w-auto md:gap-x-5 md:py-0">
-            <NavLink href="#map">Pässe</NavLink>
+            <NavLink href="#map">{clientMessages.nav.passes}</NavLink>
             <span className="text-[#D4AF37]/50" aria-hidden>
               ·
             </span>
-            <NavLink href="#map">Karte</NavLink>
+            <NavLink href="#map">{clientMessages.nav.map}</NavLink>
             <span className="text-[#D4AF37]/50" aria-hidden>
               ·
             </span>
-            <NavLink href="#features">Missionen</NavLink>
+            <NavLink href="#features">{clientMessages.nav.missions}</NavLink>
             <span className="text-[#D4AF37]/50" aria-hidden>
               ·
             </span>
-            <NavLink href="#stats">Community</NavLink>
+            <NavLink href="#stats">{clientMessages.nav.community}</NavLink>
           </nav>
 
           <div className="flex shrink-0 items-center gap-2">
@@ -276,7 +276,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
               rel="noopener noreferrer"
               className="hidden shrink-0 items-center justify-center rounded-lg border border-[rgba(212,175,55,0.42)] bg-white/[0.03] px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#D4AF37] shadow-[0_2px_16px_rgba(0,0,0,0.35)] transition-all duration-200 hover:border-[rgba(212,175,55,0.58)] hover:bg-[rgba(212,175,55,0.1)] hover:shadow-[0_4px_22px_rgba(0,0,0,0.4)] md:inline-flex md:text-[13px]"
             >
-              App downloaden
+              {clientMessages.nav.download}
             </a>
           </div>
         </div>
@@ -379,7 +379,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
           <div className="relative isolate mx-auto w-full max-w-[430px] pb-2 max-md:pb-1 md:mx-0 md:max-w-xl md:pb-0">
             <Reveal show={heroMounted} delayMs={0}>
               <p className="mb-2.5 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-[#39FF14] [text-shadow:0_1px_14px_rgba(0,0,0,0.55)] max-md:mb-3 md:mb-6 md:text-sm md:tracking-[0.35em]">
-                — ALPEN-PASSBUCH —
+                — {clientMessages.hero.badge} —
               </p>
             </Reveal>
 
@@ -387,19 +387,16 @@ export default function HeroSection({ passes, messages, locale }: Props) {
               <h1
                 className="mb-0 font-black text-white [text-shadow:0_4px_48px_rgba(0,0,0,0.75),0_1px_0_rgba(0,0,0,0.4)] max-md:leading-[0.94] max-md:tracking-[-0.02em] max-md:text-[clamp(1.58rem,5.35vw,2.2rem)] md:mb-2 md:leading-[0.95] md:text-[clamp(2.75rem,9vw,6.25rem)] md:tracking-normal"
               >
-                <span className="block md:hidden">Wie viele Pässe hast du?</span>
-                <span className="hidden md:contents">
-                  <span>Wie viele </span>
-                  <span className="whitespace-nowrap">Pässe hast du?</span>
-                </span>
+                <span className="block md:hidden">{clientMessages.hero.headline1}</span>
+                <span className="hidden md:block">{clientMessages.hero.headline1}</span>
               </h1>
             </Reveal>
             <Reveal show={heroMounted} delayMs={240}>
               <h1
                 className="mt-1 mb-3 font-black text-[#D4AF37] [text-shadow:0_0_1px_rgba(0,0,0,0.45),0_1px_0_rgba(0,0,0,0.4),0_3px_14px_rgba(0,0,0,0.42)] max-md:mb-2 max-md:font-extrabold max-md:leading-[0.96] max-md:tracking-[-0.02em] max-md:text-[clamp(1.5rem,5.1vw,2.06rem)] md:mb-6 md:mt-0 md:font-black md:leading-[0.95] md:text-[clamp(2.75rem,9vw,6.25rem)] md:tracking-normal"
               >
-                <span className="block md:hidden">Sammle deine Alpen.</span>
-                <span className="hidden md:inline">Sammle deine Alpen.</span>
+                <span className="block md:hidden">{clientMessages.hero.headline2}</span>
+                <span className="hidden md:inline">{clientMessages.hero.headline2}</span>
               </h1>
             </Reveal>
 
@@ -408,9 +405,9 @@ export default function HeroSection({ passes, messages, locale }: Props) {
                 className="mb-6 max-w-lg text-[0.9375rem] leading-relaxed [text-shadow:0_2px_20px_rgba(0,0,0,0.45)] max-md:mb-6 max-md:leading-snug md:mb-8 md:text-lg"
                 style={{ color: "rgba(255,255,255,0.6)" }}
               >
-                650+ Alpenpässe in 7 Ländern. Sieh, was du gefahren bist.{" "}
+                {clientMessages.hero.subtext}{" "}
                 <span className="text-[1.07em] font-medium text-[rgba(255,255,255,0.82)]">
-                  Und was dir noch fehlt.
+                  {clientMessages.hero.subtext_bold}
                 </span>
               </p>
             </Reveal>
@@ -435,7 +432,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
                               aria-label="App herunterladen"
                             >
                               <p className="border-b border-[rgba(255,255,255,0.06)] px-4 pb-2.5 pt-3.5 text-[0.625rem] font-semibold uppercase tracking-[0.2em] text-[rgba(196,164,74,0.72)] max-md:px-3.5 max-md:pb-1.5 max-md:pt-2">
-                                Download wählen
+                                {clientMessages.hero.download_label}
                               </p>
                               <a
                                 href={APP_STORE_URL}
@@ -535,15 +532,15 @@ export default function HeroSection({ passes, messages, locale }: Props) {
                             <path d={ANDROID_ICON_PATH} />
                           </svg>
                         </span>
-                        APP DOWNLOADEN
+                        {clientMessages.hero.cta_primary}
                       </button>
                     </div>
                   </div>
                   <p className="mt-1.5 max-w-none text-[11px] font-medium leading-snug tracking-wide text-[rgba(255,255,255,0.72)] max-md:mt-3.5 max-md:text-[10px] max-md:text-[rgba(255,255,255,0.48)] md:mt-3 md:max-w-[240px] md:hidden">
-                    Du fährst sie sowieso. Jetzt zählen sie.
+                    {clientMessages.hero.subcopy1}
                   </p>
                   <p className="mt-0.5 max-w-none text-[11px] font-medium leading-snug tracking-wide text-[rgba(255,255,255,0.34)] max-md:mt-1 max-md:mb-2 max-md:text-[10px] max-md:text-[rgba(255,255,255,0.28)] md:mb-0 md:mt-1.5 md:max-w-[240px] md:text-left">
-                    Sammle deine ersten Pässe.
+                    {clientMessages.hero.subcopy2}
                   </p>
                 </div>
                 <a
@@ -551,7 +548,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
                   onClick={scrollToMap}
                   className="ac-hero-cta-secondary ac-hero-cta-secondary--desktop-only md:mt-0.5 md:inline-flex md:w-auto md:max-w-none md:shrink-0"
                 >
-                  Karte erkunden
+                  {clientMessages.hero.cta_secondary}
                 </a>
               </div>
             </Reveal>
@@ -563,7 +560,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
                     650+
                   </p>
                   <p className="text-xs uppercase tracking-wider text-[rgba(255,255,255,0.6)] max-md:text-[0.58rem] max-md:tracking-wide">
-                    Pässe
+                    {clientMessages.hero.stat_passes}
                   </p>
                 </div>
                 <span className="select-none text-base text-[#D4AF37]/25 md:text-lg max-md:text-xs" aria-hidden>
@@ -574,7 +571,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
                     7
                   </p>
                   <p className="text-xs uppercase tracking-wider text-[rgba(255,255,255,0.6)] max-md:text-[0.58rem] max-md:tracking-wide">
-                    Länder
+                    {clientMessages.hero.stat_countries}
                   </p>
                 </div>
                 <span className="select-none text-base text-[#D4AF37]/25 md:text-lg max-md:text-xs" aria-hidden>
@@ -582,7 +579,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
                 </span>
                 <div>
                   <p className="text-lg font-semibold leading-none text-[#D4AF37] max-md:tracking-tight md:text-3xl md:font-bold md:tracking-normal">
-                    Sammlung
+                    {clientMessages.hero.stat_collection}
                   </p>
                   <p
                     className="text-[0.65rem] font-medium tracking-wide text-[rgba(255,255,255,0)] md:text-xs"
@@ -606,11 +603,11 @@ export default function HeroSection({ passes, messages, locale }: Props) {
               97%
             </span>
             <span className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-[rgba(255,255,255,0.58)]">
-              Österreich
+              {clientMessages.hero.proof_country}
             </span>
           </div>
           <p className="mt-2 text-[0.7rem] leading-snug text-[rgba(255,255,255,0.58)]">
-            Noch 1 Pass bis zum Meister.
+            {clientMessages.hero.proof_text}
           </p>
           <div
             className="mt-2.5 h-[3px] w-full overflow-hidden rounded-full"
@@ -647,14 +644,13 @@ export default function HeroSection({ passes, messages, locale }: Props) {
           }`}
         >
           <h2 className="mb-4 text-2xl font-black uppercase tracking-[0.18em] text-[#D4AF37] md:text-3xl">
-            650+ Pässe. Eine Karte.
+            {clientMessages.map_section.title}
           </h2>
           <p
             className="mx-auto max-w-2xl text-base md:text-lg"
             style={{ color: "rgba(255,255,255,0.6)" }}
           >
-            Alle Alpenpässe auf einen Blick — zoom rein und entdecke deinen
-            nächsten Pass.
+            {clientMessages.map_section.subtitle}
           </p>
         </div>
         <div className="relative h-screen w-full">
@@ -683,7 +679,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
               650+
             </p>
             <p className="mt-3 text-sm uppercase tracking-widest text-[#F0F0F5] max-md:mt-2 md:text-base">
-              Pässe
+              {clientMessages.stats.passes}
             </p>
           </div>
           <div
@@ -705,7 +701,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
               {countryCount}
             </p>
             <p className="mt-3 text-sm uppercase tracking-widest text-[#F0F0F5] max-md:mt-2 md:text-base">
-              Länder
+              {clientMessages.stats.countries}
             </p>
           </div>
           <div
@@ -724,10 +720,10 @@ export default function HeroSection({ passes, messages, locale }: Props) {
               className="font-black leading-none text-[#D4AF37]"
               style={{ fontSize: "clamp(2.25rem, 7vw, 5rem)" }}
             >
-              Passbuch
+              {clientMessages.stats.passbuch}
             </p>
             <p className="mt-3 text-sm uppercase tracking-widest text-[#F0F0F5] max-md:mt-2 md:text-base">
-              Digital
+              {clientMessages.stats.digital}
             </p>
           </div>
         </div>

@@ -3,7 +3,67 @@
     "tagline": "658+ Alpine passes. Your collection.",
     "cta_ios": "App Store",
     "cta_android": "Google Play",
-    "cta_android_soon": "Coming soon"
+    "cta_android_soon": "Coming soon",
+    "badge": "ALPINE PASS BOOK",
+    "headline1": "How many passes have you done?",
+    "headline2": "Collect your Alps.",
+    "subtext": "650+ alpine passes in 7 countries. See what you've ridden.",
+    "subtext_bold": "And what's still missing.",
+    "cta_primary": "DOWNLOAD APP",
+    "cta_secondary": "Explore map",
+    "subcopy1": "You ride them anyway. Now they count.",
+    "subcopy2": "Start collecting your passes.",
+    "download_label": "Choose download",
+    "stat_passes": "Passes",
+    "stat_countries": "Countries",
+    "stat_collection": "Collection",
+    "proof_country": "Austria",
+    "proof_text": "1 pass away from Master."
+  },
+  "nav": {
+    "passes": "Passes",
+    "map": "Map",
+    "missions": "Missions",
+    "community": "Community",
+    "download": "Download app"
+  },
+  "map_section": {
+    "title": "650+ Passes. One Map.",
+    "subtitle": "All alpine passes at a glance — zoom in and discover your next pass."
+  },
+  "stats": {
+    "passes": "Passes",
+    "countries": "Countries",
+    "passbuch": "Pass Book",
+    "digital": "Digital"
+  },
+  "steps": {
+    "heading": "How many have you done?",
+    "subheading": "You ride them anyway. Now they count.",
+    "step1_title": "Find your pass",
+    "step1_text": "650+ directly on one map.",
+    "step2_title": "Ride it",
+    "step2_text": "Discover new routes and highlights.",
+    "step3_title": "Check it off",
+    "step3_text": "Your progress grows with every ride."
+  },
+  "cards": {
+    "card1_title": "235 passes ridden. How many have you?",
+    "card1_text": "Your progress becomes visible. Pass by pass.",
+    "card2_title": "Ride the best side.",
+    "card2_text": "Not every ascent is equal. AlpinChaser shows you which side is really worth it.",
+    "card3_title": "Flow, technical or panorama?",
+    "card3_text": "Find passes that match your riding style. Not just any pass — your next one.",
+    "card4_title": "Gravel in the hairpin?",
+    "card4_text": "Share tips and warnings with other riders before it gets uncomfortable.",
+    "card5_title": "Plan your perfect tour.",
+    "card5_text": "Combine passes and launch directly in Google Maps.",
+    "card6_title": "Who really knows the Alps?",
+    "card6_text": "Compare yourself with friends. Numbers don't lie.",
+    "card7_title": "650+ Passes. One Map.",
+    "card7_text": "See at a glance what you've ridden and what's still missing.",
+    "card8_title": "97% Austria.",
+    "card8_text": "One pass away from Master. Exactly this feeling is addictive."
   },
   "footer": {
     "tagline": "658+ Alpine passes. Your collection.",

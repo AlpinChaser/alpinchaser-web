@@ -3,7 +3,67 @@
     "tagline": "658+ Alpenpässe. Deine Sammlung.",
     "cta_ios": "App Store",
     "cta_android": "Google Play",
-    "cta_android_soon": "Bald verfügbar"
+    "cta_android_soon": "Bald verfügbar",
+    "badge": "ALPEN-PASSBUCH",
+    "headline1": "Wie viele Pässe hast du?",
+    "headline2": "Sammle deine Alpen.",
+    "subtext": "650+ Alpenpässe in 7 Ländern. Sieh, was du gefahren bist.",
+    "subtext_bold": "Und was dir noch fehlt.",
+    "cta_primary": "APP DOWNLOADEN",
+    "cta_secondary": "Karte erkunden",
+    "subcopy1": "Du fährst sie sowieso. Jetzt zählen sie.",
+    "subcopy2": "Sammle deine ersten Pässe.",
+    "download_label": "Download wählen",
+    "stat_passes": "Pässe",
+    "stat_countries": "Länder",
+    "stat_collection": "Sammlung",
+    "proof_country": "Österreich",
+    "proof_text": "Noch 1 Pass bis zum Meister."
+  },
+  "nav": {
+    "passes": "Pässe",
+    "map": "Karte",
+    "missions": "Missionen",
+    "community": "Community",
+    "download": "App downloaden"
+  },
+  "map_section": {
+    "title": "650+ Pässe. Eine Karte.",
+    "subtitle": "Alle Alpenpässe auf einen Blick — zoom rein und entdecke deinen nächsten Pass."
+  },
+  "stats": {
+    "passes": "Pässe",
+    "countries": "Länder",
+    "passbuch": "Passbuch",
+    "digital": "Digital"
+  },
+  "steps": {
+    "heading": "Wie viele hast du schon?",
+    "subheading": "Du fährst sie sowieso. Jetzt zählen sie.",
+    "step1_title": "Finde deinen Pass",
+    "step1_text": "Über 650 direkt auf einer Karte.",
+    "step2_title": "Fahr ihn",
+    "step2_text": "Entdecke neue Strecken und Highlights.",
+    "step3_title": "Hak ihn ab",
+    "step3_text": "Dein Fortschritt wächst mit jeder Fahrt."
+  },
+  "cards": {
+    "card1_title": "235 Pässe gefahren. Wie viele hast du?",
+    "card1_text": "Dein Fortschritt wird sichtbar. Pass für Pass.",
+    "card2_title": "Fahr die beste Seite.",
+    "card2_text": "Nicht jede Auffahrt ist gleich. AlpinChaser zeigt dir, welche Seite sich wirklich lohnt.",
+    "card3_title": "Flow, Technik oder Panorama?",
+    "card3_text": "Finde Pässe nach deinem Fahrstil. Nicht irgendeinen Pass, sondern deinen nächsten.",
+    "card4_title": "Kies in der Kehre?",
+    "card4_text": "Teile Tipps und Warnungen mit anderen Bikern, bevor es unangenehm wird.",
+    "card5_title": "Plane deine perfekte Tour.",
+    "card5_text": "Kombiniere Pässe und starte direkt in Google Maps.",
+    "card6_title": "Wer kennt die Alpen wirklich?",
+    "card6_text": "Vergleiche dich mit Freunden. Zahlen lügen nicht.",
+    "card7_title": "650+ Pässe. Eine Karte.",
+    "card7_text": "Sieh auf einen Blick, was du gefahren bist und was dir noch fehlt.",
+    "card8_title": "97% Österreich.",
+    "card8_text": "Noch ein Pass bis zum Meister. Genau dieses Gefühl macht süchtig."
   },
   "footer": {
     "tagline": "658+ Alpenpässe. Deine Sammlung.",
