@@ -384,11 +384,8 @@ export default function HeroSection({ passes, messages, locale }: Props) {
             </Reveal>
 
             <Reveal show={heroMounted} delayMs={120}>
-              <h1
-                className="mb-0 font-black text-white [text-shadow:0_4px_48px_rgba(0,0,0,0.75),0_1px_0_rgba(0,0,0,0.4)] max-md:leading-[0.94] max-md:tracking-[-0.02em] max-md:text-[clamp(1.58rem,5.35vw,2.2rem)] md:mb-2 md:leading-[0.95] md:text-[clamp(2.75rem,9vw,6.25rem)] md:tracking-normal"
-              >
-                <span className="block md:hidden">{clientMessages.hero.headline1}</span>
-                <span className="hidden md:block">{clientMessages.hero.headline1}</span>
+              <h1 className="mb-0 font-black text-white [text-shadow:0_4px_48px_rgba(0,0,0,0.75),0_1px_0_rgba(0,0,0,0.4)] max-md:leading-[0.94] max-md:tracking-[-0.02em] max-md:text-[clamp(1.35rem,4.5vw,2.2rem)] md:mb-2 md:leading-[0.95] md:text-[clamp(2.75rem,9vw,6.25rem)] md:tracking-normal">
+                {clientMessages.hero.headline1}
               </h1>
             </Reveal>
             <Reveal show={heroMounted} delayMs={240}>
@@ -406,7 +403,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
                 style={{ color: "rgba(255,255,255,0.6)" }}
               >
                 {clientMessages.hero.subtext}{" "}
-                <span className="text-[1.07em] font-medium text-[rgba(255,255,255,0.82)]">
+                <span className="text-[1.07em]">
                   {clientMessages.hero.subtext_bold}
                 </span>
               </p>
