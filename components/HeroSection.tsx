@@ -229,7 +229,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
         className="fixed inset-x-0 top-0 z-50 border-b border-[rgba(212,175,55,0.22)] bg-[rgba(5,5,7,0.58)] pt-[env(safe-area-inset-top,0px)] backdrop-blur-xl backdrop-saturate-150"
         style={{ WebkitBackdropFilter: "blur(18px) saturate(1.12)" }}
       >
-        <div className="mx-auto flex h-[52px] max-w-7xl flex-nowrap items-center justify-between gap-y-0 overflow-hidden px-4 md:h-[58px] md:gap-x-2 md:overflow-visible md:px-8">
+        <div className="mx-auto flex h-[52px] max-w-7xl flex-nowrap items-center justify-between gap-y-0 overflow-visible px-4 md:h-[58px] md:gap-x-2 md:px-8">
           <Link href="/" className="flex shrink-0 items-center gap-1.5 md:gap-3">
             <span
               className="inline-flex shrink-0 rounded-md ring-1 ring-white/[0.06]"
