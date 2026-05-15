@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import "./globals.css";
 import { getMessages, getLocale } from "@/lib/i18n";
+import { LocaleProvider } from "@/components/LocaleProvider";
 
 export const metadata: Metadata = {
   title: "AlpinChaser — Alpine Pass Map",
@@ -20,8 +21,9 @@ export default async function RootLayout({
   return (
     <html lang={locale} className="scroll-smooth">
       <body className="antialiased overflow-x-hidden">
-        {children}
-        <footer className="border-t border-[#D4AF37]/20 bg-[#050506] text-neutral-300">
+        <LocaleProvider>
+          {children}
+          <footer className="border-t border-[#D4AF37]/20 bg-[#050506] text-neutral-300">
           <div className="mx-auto max-w-6xl px-5 py-11 md:py-16">
             <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-10 lg:gap-14">
               <div className="space-y-3.5 md:space-y-3">
@@ -125,6 +127,7 @@ export default async function RootLayout({
             </p>
           </div>
         </footer>
+        </LocaleProvider>
       </body>
     </html>
   );

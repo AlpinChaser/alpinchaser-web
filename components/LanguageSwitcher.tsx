@@ -8,7 +8,13 @@ const LANGUAGES = [
 
 export default function LanguageSwitcher({ locale }: { locale: string }) {
   const [open, setOpen] = useState(false);
+  const [current, setCurrent] = useState(locale);
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("locale");
+    if (stored === "en" || stored === "de") setCurrent(stored);
+  }, []);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -19,11 +25,12 @@ export default function LanguageSwitcher({ locale }: { locale: string }) {
   }, []);
 
   function switchLocale(code: string) {
-    document.cookie = `locale=${code};path=/;max-age=31536000`;
-    window.location.reload();
+    localStorage.setItem("locale", code);
+    document.cookie = `locale=${code};path=/;max-age=31536000;SameSite=Lax`;
+    window.location.href = window.location.href;
   }
 
-  const current = LANGUAGES.find((l) => l.code === locale) ?? LANGUAGES[0];
+  const currentLang = LANGUAGES.find((l) => l.code === current) ?? LANGUAGES[0];
 
   return (
     <div ref={ref} className="relative">
@@ -35,23 +42,23 @@ export default function LanguageSwitcher({ locale }: { locale: string }) {
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
         </svg>
-        <span>{current.flag} {current.code.toUpperCase()}</span>
+        <span>{currentLang.flag} {currentLang.code.toUpperCase()}</span>
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 9l6 6 6-6"/></svg>
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-36 overflow-hidden rounded-xl border border-white/10 bg-[#111113] shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
+        <div className="absolute right-0 top-full mt-2 w-36 overflow-hidden rounded-xl border border-white/10 bg-[#111113] shadow-[0_8px_32px_rgba(0,0,0,0.6)] z-50">
           {LANGUAGES.map((lang) => (
             <button
               key={lang.code}
               onClick={() => { switchLocale(lang.code); setOpen(false); }}
               className={`flex w-full items-center gap-2.5 px-3.5 py-2.5 text-sm transition-colors hover:bg-white/[0.06] ${
-                lang.code === locale ? "text-[#D4AF37]" : "text-neutral-300"
+                lang.code === current ? "text-[#D4AF37]" : "text-neutral-300"
               }`}
             >
               <span className="text-base">{lang.flag}</span>
               <span>{lang.label}</span>
-              {lang.code === locale && (
+              {lang.code === current && (
                 <svg className="ml-auto" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
               )}
             </button>

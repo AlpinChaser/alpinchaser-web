@@ -5,6 +5,7 @@ import Link from "next/link";
 import { createPortal } from "react-dom";
 import { useEffect, useRef, useState } from "react";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useLocale } from "@/components/LocaleProvider";
 import MapView from "@/components/MapView";
 import ProductStepsSection from "@/components/ProductStepsSection";
 import ScreenshotShowcaseSection from "@/components/ScreenshotShowcaseSection";
@@ -187,6 +188,7 @@ export function AndroidWaitlistModal({
 }
 
 export default function HeroSection({ passes, messages, locale }: Props) {
+  const { locale: clientLocale, messages: clientMessages } = useLocale();
   const countryCount = 7;
 
   const [heroMounted, setHeroMounted] = useState(false);
@@ -221,7 +223,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
   };
 
   return (
-    <div lang={locale} className="min-h-screen bg-[#0A0A0B] text-[#F0F0F5]">
+    <div lang={clientLocale} className="min-h-screen bg-[#0A0A0B] text-[#F0F0F5]">
       {/* —— Navbar —— */}
       <header
         className="fixed inset-x-0 top-0 z-50 border-b border-[rgba(212,175,55,0.22)] bg-[rgba(5,5,7,0.58)] pt-[env(safe-area-inset-top,0px)] backdrop-blur-xl backdrop-saturate-150"
@@ -267,7 +269,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
           </nav>
 
           <div className="flex shrink-0 items-center gap-2">
-            <LanguageSwitcher locale={locale} />
+            <LanguageSwitcher locale={clientLocale} />
             <a
               href={APP_STORE_URL}
               target="_blank"
@@ -456,7 +458,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
                                   </svg>
                                 </span>
                                 <span className="min-w-0 flex-1 text-[0.9375rem] font-semibold leading-snug tracking-tight text-[#F2F2F8] max-md:text-[0.875rem]">
-                                  iOS – {messages.hero.cta_ios}
+                                  iOS – {clientMessages.hero.cta_ios}
                                 </span>
                               </a>
                               <div
@@ -486,7 +488,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
                                   </svg>
                                 </span>
                                 <span className="min-w-0 flex-1 text-[0.9375rem] font-semibold leading-snug tracking-tight text-[#F2F2F8] max-md:text-[0.875rem]">
-                                  Android – {messages.hero.cta_android}
+                                  Android – {clientMessages.hero.cta_android}
                                 </span>
                               </a>
                             </div>
@@ -733,7 +735,7 @@ export default function HeroSection({ passes, messages, locale }: Props) {
       <AndroidWaitlistModal
         isOpen={showAndroidModal}
         onClose={() => setShowAndroidModal(false)}
-        messages={messages}
+        messages={clientMessages}
       />
     </div>
   );
