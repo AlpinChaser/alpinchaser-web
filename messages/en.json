@@ -1,0 +1,17 @@
+{
+  "hero": {
+    "tagline": "658+ Alpine passes. Your collection.",
+    "cta_ios": "App Store",
+    "cta_android": "Google Play",
+    "cta_android_soon": "Coming soon"
+  },
+  "footer": {
+    "tagline": "658+ Alpine passes. Your collection.",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "imprint": "Imprint",
+    "app": "App",
+    "rights": "© 2026 AlpinChaser – Christoph Larcher. All rights reserved."
+  }
+}

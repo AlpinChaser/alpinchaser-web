@@ -7,7 +7,9 @@ import { useEffect, useRef, useState } from "react";
 import MapView from "@/components/MapView";
 import ProductStepsSection from "@/components/ProductStepsSection";
 import ScreenshotShowcaseSection from "@/components/ScreenshotShowcaseSection";
+import type { AppMessages, Locale } from "@/lib/i18n";
 import type { Pass } from "@/types/pass";
+import de from "@/messages/de.json";
 
 const APP_STORE_URL =
   "https://apps.apple.com/at/app/alpinchaser/id6761077147";
@@ -21,6 +23,8 @@ const ANDROID_ICON_PATH =
 
 interface Props {
   passes: Pass[];
+  messages: AppMessages;
+  locale: Locale;
 }
 
 function useIntersectionReveal<T extends HTMLElement>(options?: {
@@ -91,9 +95,11 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
 export function AndroidWaitlistModal({
   isOpen,
   onClose,
+  messages = de,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  messages?: AppMessages;
 }) {
   const [email, setEmail] = useState("");
   const [mounted, setMounted] = useState(false);
@@ -149,7 +155,7 @@ export function AndroidWaitlistModal({
           id="android-waitlist-title"
           className="mb-3 text-center text-lg font-bold text-white"
         >
-          Android – Bald verfügbar 🤖
+          Android – {messages.hero.cta_android_soon} 🤖
         </h2>
         <p className="mb-6 text-center text-sm leading-relaxed text-[rgba(255,255,255,0.55)]">
           AlpinChaser für Android ist fast fertig. Trag deine E-Mail ein – wir
@@ -179,7 +185,7 @@ export function AndroidWaitlistModal({
   return createPortal(modal, document.body);
 }
 
-export default function HeroSection({ passes }: Props) {
+export default function HeroSection({ passes, messages, locale }: Props) {
   const countryCount = 7;
 
   const [heroMounted, setHeroMounted] = useState(false);
@@ -214,7 +220,7 @@ export default function HeroSection({ passes }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0B] text-[#F0F0F5]">
+    <div lang={locale} className="min-h-screen bg-[#0A0A0B] text-[#F0F0F5]">
       {/* —— Navbar —— */}
       <header
         className="fixed inset-x-0 top-0 z-50 border-b border-[rgba(212,175,55,0.22)] bg-[rgba(5,5,7,0.58)] pt-[env(safe-area-inset-top,0px)] backdrop-blur-xl backdrop-saturate-150"
@@ -446,7 +452,7 @@ export default function HeroSection({ passes }: Props) {
                                   </svg>
                                 </span>
                                 <span className="min-w-0 flex-1 text-[0.9375rem] font-semibold leading-snug tracking-tight text-[#F2F2F8] max-md:text-[0.875rem]">
-                                  iOS – App Store
+                                  iOS – {messages.hero.cta_ios}
                                 </span>
                               </a>
                               <div
@@ -476,7 +482,7 @@ export default function HeroSection({ passes }: Props) {
                                   </svg>
                                 </span>
                                 <span className="min-w-0 flex-1 text-[0.9375rem] font-semibold leading-snug tracking-tight text-[#F2F2F8] max-md:text-[0.875rem]">
-                                  Android – Google Play
+                                  Android – {messages.hero.cta_android}
                                 </span>
                               </a>
                             </div>
@@ -723,6 +729,7 @@ export default function HeroSection({ passes }: Props) {
       <AndroidWaitlistModal
         isOpen={showAndroidModal}
         onClose={() => setShowAndroidModal(false)}
+        messages={messages}
       />
     </div>
   );

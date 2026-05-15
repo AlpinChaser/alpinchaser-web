@@ -2,19 +2,23 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import "./globals.css";
+import { getMessages, getLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "AlpinChaser — Alpine Pass Map",
   description: "Interactive map of alpine motorcycle passes across the Alps.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const messages = getMessages();
+  const locale = getLocale();
+
   return (
-    <html lang="de" className="scroll-smooth">
+    <html lang={locale} className="scroll-smooth">
       <body className="antialiased overflow-x-hidden">
         {children}
         <footer className="border-t border-[#D4AF37]/20 bg-[#050506] text-neutral-300">
@@ -42,31 +46,31 @@ export default function RootLayout({
                   </p>
                 </div>
                 <p className="max-w-xs text-sm leading-relaxed text-neutral-400">
-                  658+ Alpenpässe. Deine Sammlung.
+                  {messages.footer.tagline}
                 </p>
               </div>
 
               <div className="space-y-5">
                 <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-neutral-500">
-                  Rechtliches
+                  {messages.footer.legal}
                 </p>
                 <nav className="flex flex-col gap-2.5 text-sm">
                   <Link
                     href="/privacy"
                     className="w-fit text-neutral-300 transition-colors hover:text-[#D4AF37]"
                   >
-                    Datenschutz
+                    {messages.footer.privacy}
                   </Link>
                   <Link
                     href="/terms"
                     className="w-fit text-neutral-300 transition-colors hover:text-[#D4AF37]"
                   >
-                    Nutzungsbedingungen
+                    {messages.footer.terms}
                   </Link>
                 </nav>
                 <div className="border-t border-white/[0.06] pt-5">
                   <p className="mb-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-neutral-500">
-                    Impressum
+                    {messages.footer.imprint}
                   </p>
                   <p className="text-sm leading-relaxed text-neutral-400">
                     Christoph Larcher
@@ -85,7 +89,7 @@ export default function RootLayout({
 
               <div className="space-y-5">
                 <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-neutral-500">
-                  App
+                  {messages.footer.app}
                 </p>
                 <nav className="flex flex-col gap-2.5 text-sm">
                   <a
@@ -117,7 +121,7 @@ export default function RootLayout({
 
           <div className="border-t border-white/[0.06] bg-black/50">
             <p className="mx-auto max-w-6xl px-5 py-4 text-center text-xs text-neutral-500 md:text-left">
-              © 2026 AlpinChaser – Christoph Larcher. Alle Rechte vorbehalten.
+              {messages.footer.rights}
             </p>
           </div>
         </footer>
