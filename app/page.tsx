@@ -2,7 +2,9 @@ import { getAllPasses } from "@/lib/passes";
 import { getMessages, getLocale } from "@/lib/i18n";
 import HeroSection from "@/components/HeroSection";
 
-export default function Home() {
+export const dynamic = 'force-dynamic';
+
+export default async function Home() {
   const passes = getAllPasses();
   const messages = getMessages();
   const locale = getLocale();
